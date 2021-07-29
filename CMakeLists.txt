@@ -1,0 +1,42 @@
+# Configure with [fxsdk build-fx] or [fxsdk build-cg], which provide the
+# toolchain file and module path of the fxSDK
+
+cmake_minimum_required(VERSION 3.15)
+project(MyAddin)
+
+include(GenerateG1A)
+include(GenerateG3A)
+include(Fxconv)
+include_directories(include)
+find_package(Gint 2.1 REQUIRED)
+fxconv_declare_converters(assets-cg/converters.py)
+
+add_custom_command(
+	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.csv"
+	COMMENT "Convert tmx map to csv"
+	COMMAND tiled --export-map csv testCarte.tmx testCarte.csv
+	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
+	DEPENDS assets-cg/maps/testCarte.tmx assets-cg/tileset.png assets-cg/converters.py)
+	
+set(SOURCES
+	src/main.c
+	src/game.c
+	src/engine.c
+)
+
+set(ASSETS_cg
+	assets-cg/tileset.png
+	assets-cg/maps/testCarte.csv
+	assets-cg/spritesheet.png
+)
+
+fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)
+
+add_executable(myaddin ${SOURCES} ${ASSETS} ${ASSETS_${FXSDK_PLATFORM}})
+target_compile_options(myaddin PRIVATE -Wall -Wextra -Os)
+target_link_libraries(myaddin Gint::Gint)
+
+if("${FXSDK_PLATFORM_LONG}" STREQUAL fxCG50)
+	generate_g3a(TARGET myaddin OUTPUT "MyAddin.g3a"
+		NAME "MyAddin" ICONS assets-cg/icon-uns.png assets-cg/icon-sel.png)
+endif()

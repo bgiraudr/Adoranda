@@ -1,0 +1,3 @@
+testCarte.csv:
+  custom-type: map
+  name: map_1
