@@ -12,9 +12,9 @@ find_package(Gint 2.1 REQUIRED)
 fxconv_declare_converters(assets-cg/converters.py)
 
 add_custom_command(
-	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.csv"
-	COMMENT "Convert tmx map to csv"
-	COMMAND tiled --export-map csv testCarte.tmx testCarte.csv
+	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.json"
+	COMMENT "Convert tmx map to json"
+	COMMAND tiled --export-map json testCarte.tmx testCarte.json
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
 	DEPENDS assets-cg/maps/testCarte.tmx assets-cg/tileset.png assets-cg/converters.py)
 	
@@ -26,7 +26,7 @@ set(SOURCES
 
 set(ASSETS_cg
 	assets-cg/tileset.png
-	assets-cg/maps/testCarte.csv
+	assets-cg/maps/testCarte.json
 	assets-cg/spritesheet.png
 )
 
@@ -35,6 +35,7 @@ fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)
 add_executable(myaddin ${SOURCES} ${ASSETS} ${ASSETS_${FXSDK_PLATFORM}})
 target_compile_options(myaddin PRIVATE -Wall -Wextra -Os)
 target_link_libraries(myaddin Gint::Gint)
+target_link_options(myaddin PRIVATE -Wl,-Map=map)
 
 if("${FXSDK_PLATFORM_LONG}" STREQUAL fxCG50)
 	generate_g3a(TARGET myaddin OUTPUT "MyAddin.g3a"

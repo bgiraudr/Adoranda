@@ -13,8 +13,8 @@ struct map *maps[] = {
 
 void play() {
 	struct player player = {
-		.x = 2,
-		.y = 3,
+		.x = 16,
+		.y = 7,
 		.direction = 0
 	};
 
