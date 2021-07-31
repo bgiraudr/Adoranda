@@ -4,6 +4,7 @@
 #include "game.h"
 #include "map.h"
 #include "player.h"
+#include "animation.h"
 
 #define TILESET_WIDTH 29
 #define HEIGHT_VISIBLE 14
@@ -109,8 +110,7 @@ void engine_draw(struct game const *game) {
 }
 
 void engine_draw_player(struct player const *player) {
-	extern bopti_image_t img_spritesheet;
-	dsubimage(12 * 16, 7 * 16 - 5, &img_spritesheet, player->direction * 16, 0, 16, 21, DIMAGE_NONE);
+	dframe(12 * 16, 7 * 16 - 5, player->anim.img);
 	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
 }
 
@@ -122,9 +122,22 @@ void engine_move(struct game *game, int direction) {
 		if(map_walkable(game->map, game->player->x + dx, game->player->y + dy)) {
 			game->player->x += dx;
 			game->player->y += dy;
+		} else {
+			game->player->idle = !anim_player_idle(&game->player->anim, 1);
 		}
 	} else {
 		game->player->direction = direction;
+		game->player->anim.dir = direction;
+	}
+}
+
+void engine_tick(struct game *game, int dt)
+{
+    game->player->anim.duration -= dt;
+
+    /* Call the animation function to generate the next frame */
+    if(game->player->anim.duration <= 0) {
+    	game->player->idle = !game->player->anim.function(&game->player->anim, 0);
 	}
 }
 

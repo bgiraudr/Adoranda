@@ -23,6 +23,7 @@ set(SOURCES
 	src/main.c
 	src/game.c
 	src/engine.c
+	src/animation.c
 )
 
 set(ASSETS_cg

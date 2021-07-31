@@ -1,10 +1,13 @@
 #pragma once
 
+#include "animation.h"
+
 struct player {
 	int x, y;
 	int direction;
 	int frame;
-	//struct animation const *anim;
+	int idle;
+	struct anim_data anim;
 };
 
 enum direction {

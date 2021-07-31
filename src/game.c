@@ -4,6 +4,7 @@
 #include "map.h"
 #include "engine.h"
 #include "player.h"
+#include "animation.h"
 
 #include <gint/timer.h>
 #include <gint/clock.h>
@@ -24,8 +25,11 @@ void play() {
 	struct player player = {
 		.x = 16,
 		.y = 7,
-		.direction = 0
+		.direction = DIR_DOWN,
+		.anim.function = anim_player_idle,
+		.anim.dir = DIR_DOWN
 	};
+	player.idle = !anim_player_idle(&player.anim, 1);
 
 	struct game game = {
 		.map = maps[0],
@@ -48,6 +52,7 @@ void play() {
 		int dir = get_inputs();
 		if(dir >= 0) 
 			engine_move(&game, dir);
+		engine_tick(&game, ENGINE_TICK);
 	}
 	if(t >= 0) timer_stop(t);
 }
