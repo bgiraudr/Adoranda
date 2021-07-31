@@ -9,36 +9,60 @@ def convert(input, output, params, target):
 		return 1
 
 def convert_map(input, output, params, target):
-	"""with open(input, "r") as csvData:
-		tiles = []
-		csvReader = csv.reader(csvData)
-		for row in csvReader:
-			tiles.append(row)
-
-	w = max(len(i) for i in tiles)
-	h = len(tiles)
-
-	encoded_tiles = bytearray()
-	for(y, i) in enumerate(tiles):
-		for(x, j) in enumerate(i):
-			encoded_tiles += bytearray(fxconv.u16((int)(j)+1))"""
+	TILE_AIR = 0
+	TILE_SOLID = 1
+	TILE_DOOR = 2
 
 	with open(input, "r") as jsonData:
 		data = json.load(jsonData)
 
-		w = data["layers"][0]["width"]
-		h = data["layers"][0]["height"]
+	tileset = open(input.replace(input.split("/")[-1], "tileset.json"), "r")
+	data_tileset = json.load(tileset)
+	tileset.close()
 
-		o = fxconv.ObjectData()
-		o += fxconv.u32(w) + fxconv.u32(h)
-		o += fxconv.ref("img_tileset")
+	tile_value = {}
+	info_map = bytearray()
 
-		for i in range(len(data["layers"])):
+	for i in data_tileset["tiles"]:
+		try:
+			id = i["id"]+1
+			type = i["type"]
+
+			if type == "air":
+				value = TILE_AIR
+			elif type == "solid":
+				value = TILE_SOLID
+			elif type == "door":
+				value = TILE_DOOR
+			else:
+				value = TILE_AIR
+
+			tile_value[id] = value
+		except KeyError:
+			pass
+
+	w = data["layers"][0]["width"]
+	h = data["layers"][0]["height"]
+	nblayer = len(data["layers"])
+
+	o = fxconv.ObjectData()
+	o += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nblayer)
+	o += fxconv.ref("img_tileset")
+
+	if(nblayer <= 2):
+		for i in range(nblayer):
 			tiles = data["layers"][i]["data"]
 
 			byte_tiles = bytearray()
 			for j in tiles:
+				if i == nblayer-1: 
+					value = tile_value.get(j)
+					if value == None: value = TILE_AIR
+					info_map += bytearray(fxconv.u16(value))
 				byte_tiles += bytearray(fxconv.u16(j))
 			o += fxconv.ref(byte_tiles)
+		o += fxconv.ref(info_map)
+	else:
+		raise fxconv.FxconvError(f"There is too much layer ! {nblayer} found for a max of 2")
 
 	fxconv.elf(o, output, "_" + params["name"], **target)

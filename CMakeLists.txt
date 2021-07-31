@@ -14,9 +14,10 @@ fxconv_declare_converters(assets-cg/converters.py)
 add_custom_command(
 	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.json"
 	COMMENT "Convert tmx map to json"
+	COMMAND tiled --export-tileset json tileset.tsx tileset.json
 	COMMAND tiled --export-map json testCarte.tmx testCarte.json
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
-	DEPENDS assets-cg/maps/testCarte.tmx assets-cg/tileset.png assets-cg/converters.py)
+	DEPENDS assets-cg/maps/testCarte.tmx assets-cg/tileset.png assets-cg/maps/tileset.tsx assets-cg/converters.py)
 	
 set(SOURCES
 	src/main.c

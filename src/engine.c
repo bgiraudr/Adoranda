@@ -86,7 +86,7 @@ void engine_draw(struct game const *game) {
 	for(int i = beginmap; i <= endmap; i++) {
 		int y = j + (7-ycentre);
 		
-		for(int layer = 0; layer < 2; layer++) {
+		for(int layer = 0; layer < game->map->nb_layer; layer++) {
 			int tile;
 			tile = layer == 0 ? game->map->tiles_layer1[i] - 1 : game->map->tiles_layer2[i] - 1;
 			if(tile != -1) {
@@ -114,14 +114,22 @@ void engine_draw_player(struct player const *player) {
 	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
 }
 
-void engine_move(struct player *player, int direction) {
+void engine_move(struct game *game, int direction) {
 	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
 
-	if(player->direction == direction) {
-		player->x += dx;
-		player->y += dy;
+	if(game->player->direction == direction) {
+		if(map_walkable(game->map, game->player->x + dx, game->player->y + dy)) {
+			game->player->x += dx;
+			game->player->y += dy;
+		}
 	} else {
-		player->direction = direction;
+		game->player->direction = direction;
 	}
+}
+
+int map_walkable(struct map const *map, int x, int y)
+{
+    int tile = map->info_map[y * map->w + x];
+    return (tile != TILE_SOLID);
 }
