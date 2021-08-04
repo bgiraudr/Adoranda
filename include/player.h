@@ -6,6 +6,7 @@ struct player {
 	int x, y;
 	int direction;
 	int frame;
+	int show_x, show_y;
 	int idle;
 	struct anim_data anim;
 };

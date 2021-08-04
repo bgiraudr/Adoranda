@@ -17,8 +17,7 @@ struct sheet const anim_player = {
     .frame_h = 21,
 };
 
-static struct anim_frame anim_frame(struct sheet const *sheet, int col, int row)
-{
+static struct anim_frame anim_frame(struct sheet const *sheet, int col, int row) {
     struct anim_frame f = {
         .source = sheet->img,
         .left   = sheet->frame_w * col,
@@ -29,22 +28,17 @@ static struct anim_frame anim_frame(struct sheet const *sheet, int col, int row)
     return f;
 }
 
-void dframe(int x, int y, struct anim_frame const frame)
-{
+void dframe(int x, int y, struct anim_frame const frame) {
     dsubimage(x, y, frame.source, frame.left, frame.top, frame.w, frame.h,
         DIMAGE_NONE);
 }
 
-int anim_player_idle(struct anim_data *data, int init)
-{
-    if(init)
-    {
+int anim_player_idle(struct anim_data *data, int init) {
+    if(init) {
         data->function = anim_player_idle;
         data->frame = 0;
         data->duration = 100;
-    }
-    else
-    {
+    } else {
         data->frame = (data->frame + 1) % 2;
         data->duration += 100;
     }

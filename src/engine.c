@@ -5,87 +5,68 @@
 #include "map.h"
 #include "player.h"
 #include "animation.h"
+#include "define.h"
 
 #define TILESET_WIDTH 29
-#define HEIGHT_VISIBLE 14
-#define WIDTH_VISIBLE 24
-
-/*void engine_draw(struct game const *game) {
-	dclear(C_BLACK);
-	for(int y = 0; y < HEIGHT_VISIBLE; y++) {
-		for(int x = 0; x < WIDTH_VISIBLE; x++) {
-			int tile = game->map->tiles[y * game->map->w + x] - 1;
-			if(tile != -1) {
-				int tile_x = tile % TILESET_WIDTH;
-				int tile_y = tile / TILESET_WIDTH;
-				//dprint(x * 55, y * 16, C_BLACK,"%d(%d:%d)",tile, tile_x, tile_y);
-
-				dsubimage(x * 16, y * 16, game->map->tileset, tile_x * 16, tile_y * 16, 16, 16, DIMAGE_NONE);
-			}
-		}
-	}
-	engine_draw_player(game->player);
-}*/
 
 void engine_draw(struct game const *game) {
 	dclear(C_WHITE);
-	int j = 0;
-	int x = 0;
+	engine_draw_map_around_player(game);
+	engine_draw_player(game->player);
+}
 
-	int level_width = game->map->w;
-	int taillemap = game->map->h*game->map->w;
-	int player_view = 12;
+void engine_draw_map_around_player(struct game const *game) {
+	const int level_width = game->map->w;
+	const int taillemap = game->map->w * game->map->h;
+	const int posx = game->player->show_x;
+	const int posy = game->player->show_y;
+	
+	const int coo_player_map = game->player->x + game->player->y*level_width; //the index of the player on the map
+	int beginmap = coo_player_map - PLAYER_VIEW_X - level_width*PLAYER_VIEW_Y; //compute the theorical top left corner
+	int beginline = coo_player_map - PLAYER_VIEW_Y*level_width - coo_player_map%level_width; //index of the tile wich begin the row
 
-	int coomap = game->player->x + game->player->y*level_width;
-	int beginmap = coomap - player_view - level_width*player_view;
-
-	int beginline = coomap - player_view * level_width - coomap%level_width; 
-
+	//anti begin oob
 	if(beginmap < 0) {
-		beginmap = game->player->x - player_view;
+		beginmap = game->player->x - PLAYER_VIEW_X;
 		if(beginmap < 0) beginmap = 0;
 	}
 
-	if((coomap - player_view)%level_width > coomap%level_width) {
-		if(beginline > 0) {
-			beginmap = beginline;
-		} else {
-			beginmap = 0;
-		}
+	//anti horizontal oob
+	if((coo_player_map - PLAYER_VIEW_X)%level_width > coo_player_map%level_width) {
+		beginmap = beginline > 0 ? beginline : 0;
 	}
 
-	int next = game->player->x + player_view + beginmap/level_width * level_width;
-	int endline = beginmap+level_width-beginmap%level_width-1;
+	int next = game->player->x + PLAYER_VIEW_X + beginmap/level_width * level_width; //index of the top right corner
+	int endline = beginmap+level_width-beginmap%level_width-1; //index of the tile wich end the row
 
 	if(next > endline) next = endline;
+	if(next < 0) next = game->player->x + PLAYER_VIEW_X;
 
-	if(next < 0) {
-		next = game->player->x + player_view;
-	}
+	int indypro = game->player->y + PLAYER_VIEW_Y; //y value of the bottom row
+	//anti bottom oob
+	if(indypro > taillemap/level_width-1) indypro = taillemap/level_width-1;
 
-	int indypro = game->player->y + player_view;
-	if(indypro > taillemap/level_width-1) {
-		indypro = taillemap/level_width-1;
-	}
-	int endmap = next%level_width + level_width*indypro;
+	int endmap = next%level_width + level_width*indypro; //index of the bottom right corner
+	int ecart = next - beginmap; //number of column to draw
 
-	int ecart = next - beginmap;
+	//player x, y on the compute map
 	int xcentre = 0, ycentre = 0;
 
-	for(int i = beginmap; i <= endmap; i++) {
-		x++;
-		if(i == coomap) {xcentre = x-1; ycentre = j; break;}
-		if(i == beginmap + ecart + j * level_width) {
-			j++;
-			x=0;
-			i = beginmap + j*level_width-1;
+	//calculate the player position in the generated map
+	for(int i = beginmap; i < coo_player_map; i++) {
+		xcentre++;
+
+		if(i == next + ycentre * level_width) {
+			ycentre++;
+			xcentre=0;
+			i = beginmap + ycentre*level_width-1;
 		}
 	}
 
-	j=0;
-	x=12-xcentre;
+	int j = 0;
+	int x = posx-xcentre;
 	for(int i = beginmap; i <= endmap; i++) {
-		int y = j + (7-ycentre);
+		int y = j + (posy-ycentre);
 		
 		for(int layer = 0; layer < game->map->nb_layer; layer++) {
 			int tile;
@@ -93,8 +74,6 @@ void engine_draw(struct game const *game) {
 			if(tile != -1) {
 				int tile_x = tile % TILESET_WIDTH;
 				int tile_y = tile / TILESET_WIDTH;
-				//dprint(x * 55, y * 16, C_BLACK,"%d(%d:%d)",tile, tile_x, tile_y);
-
 				dsubimage(x * 16, y * 16, game->map->tileset, tile_x * 16, tile_y * 16, 16, 16, DIMAGE_NONE);
 			}
 		}
@@ -102,15 +81,14 @@ void engine_draw(struct game const *game) {
 		x++;
 		if(i==beginmap+ecart+j*level_width) {
 			j++;
-			x=12-xcentre;
+			x=posx-xcentre;
 			i = beginmap + j*level_width-1;
 		}
 	}
-	engine_draw_player(game->player);
 }
 
 void engine_draw_player(struct player const *player) {
-	dframe(12 * 16, 7 * 16 - 5, player->anim.img);
+	dframe(player->show_x * 16, player->show_y * 16 - 5, player->anim.img); //draw the player 5 pixel up
 	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
 }
 
@@ -131,18 +109,15 @@ void engine_move(struct game *game, int direction) {
 	}
 }
 
-void engine_tick(struct game *game, int dt)
-{
-    game->player->anim.duration -= dt;
+void engine_tick(struct game *game, int dt) {
+	game->player->anim.duration -= dt;
 
-    /* Call the animation function to generate the next frame */
-    if(game->player->anim.duration <= 0) {
-    	game->player->idle = !game->player->anim.function(&game->player->anim, 0);
+	if(game->player->anim.duration <= 0) {
+		game->player->idle = !game->player->anim.function(&game->player->anim, 0);
 	}
 }
 
-int map_walkable(struct map const *map, int x, int y)
-{
-    int tile = map->info_map[y * map->w + x];
-    return (tile != TILE_SOLID);
+int map_walkable(struct map const *map, int x, int y) {
+	int tile = map->info_map[y * map->w + x];
+	return (tile != TILE_SOLID);
 }
