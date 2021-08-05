@@ -4,6 +4,7 @@
 struct anim_data;
 
 typedef int (anim_function_t)(struct anim_data *data, int init);
+anim_function_t anim_player_walking;
 anim_function_t anim_player_idle;
 
 struct anim_frame
@@ -24,4 +25,5 @@ struct anim_data
 };
 
 void dframe(int x, int y, struct anim_frame const frame);
+int anim_player_walking(struct anim_data *data, int init);
 int anim_player_idle(struct anim_data *data, int init);

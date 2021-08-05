@@ -1,2 +1,2 @@
-#define PLAYER_VIEW_X 12
-#define PLAYER_VIEW_Y 7
+#define PLAYER_VIEW_X 13
+#define PLAYER_VIEW_Y 8

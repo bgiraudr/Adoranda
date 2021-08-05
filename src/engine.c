@@ -10,7 +10,7 @@
 #define TILESET_WIDTH 29
 
 void engine_draw(struct game const *game) {
-	dclear(C_WHITE);
+	dclear(game->background);
 	engine_draw_map_around_player(game);
 	engine_draw_player(game->player);
 }
@@ -74,7 +74,8 @@ void engine_draw_map_around_player(struct game const *game) {
 			if(tile != -1) {
 				int tile_x = tile % TILESET_WIDTH;
 				int tile_y = tile / TILESET_WIDTH;
-				dsubimage(x * 16, y * 16, game->map->tileset, tile_x * 16, tile_y * 16, 16, 16, DIMAGE_NONE);
+				dsubimage(x * 16 - game->player->anim.dx * 3, y * 16 - game->player->anim.dy * 3,
+				 game->map->tileset, tile_x * 16, tile_y * 16, 16, 16, DIMAGE_NONE);
 			}
 		}
 
@@ -92,14 +93,17 @@ void engine_draw_player(struct player const *player) {
 	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
 }
 
-void engine_move(struct game *game, int direction) {
+int engine_move(struct game *game, int direction) {
 	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
+
+	if(!game->player->idle) return 0;
 
 	if(game->player->direction == direction) {
 		if(map_walkable(game->map, game->player->x + dx, game->player->y + dy)) {
 			game->player->x += dx;
 			game->player->y += dy;
+			game->player->idle = !anim_player_walking(&game->player->anim, 1);
 		} else {
 			game->player->idle = !anim_player_idle(&game->player->anim, 1);
 		}
@@ -107,6 +111,7 @@ void engine_move(struct game *game, int direction) {
 		game->player->direction = direction;
 		game->player->anim.dir = direction;
 	}
+	return 1;
 }
 
 void engine_tick(struct game *game, int dt) {
@@ -118,6 +123,11 @@ void engine_tick(struct game *game, int dt) {
 }
 
 int map_walkable(struct map const *map, int x, int y) {
-	int tile = map->info_map[y * map->w + x];
+	int tile = map->info_map[x + map->w * y];
+	if(x < 0 || x > map->w-1 || y < 0 || y > map->h) return 0;
 	return (tile != TILE_SOLID);
+}
+
+void engine_set_background(struct game *game, int color) {
+	game->background = color;
 }

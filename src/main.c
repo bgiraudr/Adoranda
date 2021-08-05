@@ -22,8 +22,8 @@ static int callback_tick(volatile int *tick) {
 
 int main(void) {
 	struct player player = {
-		.x = 16,
-		.y = 7,
+		.x = 35,
+		.y = 31,
 		.show_x = 12,
 		.show_y = 7,
 		.direction = DIR_DOWN,
@@ -34,7 +34,8 @@ int main(void) {
 
 	struct game game = {
 		.map = maps[0],
-		.player = &player
+		.player = &player,
+		.background = C_WHITE
 	};
 
 	static volatile int tick = 1;
@@ -43,7 +44,7 @@ int main(void) {
 		GINT_CALL(callback_tick, &tick));
 	if(t >= 0) timer_start(t);
 
-	while(!keydown(KEY_7)) {
+	while(!keydown(KEY_MENU)) {
 		while(!tick) sleep();
 		tick = 0;
 

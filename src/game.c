@@ -4,7 +4,7 @@
 #include "player.h"
 
 int get_inputs(void) {
-	int opt = GETKEY_DEFAULT & ~GETKEY_REP_ARROWS;
+	int opt = GETKEY_DEFAULT & GETKEY_REP_ARROWS;
 	int timeout = 1;
 
     while(1) {
