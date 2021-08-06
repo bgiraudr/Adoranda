@@ -3,7 +3,7 @@
 /build-cg
 /*.g1a
 /*.g3a
-/*.json
+*.json
 
 # Python bytecode
  __pycache__/
