@@ -11,5 +11,6 @@ struct map {
 enum map_state {
 	TILE_AIR = 0,
 	TILE_SOLID = 1,
-	TILE_DOOR = 2
+	TILE_DOOR = 2,
+	TILE_CHARACTER = 3,
 };

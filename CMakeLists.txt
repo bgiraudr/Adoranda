@@ -24,12 +24,14 @@ set(SOURCES
 	src/game.c
 	src/engine.c
 	src/animation.c
+	src/character.c
 )
 
 set(ASSETS_cg
 	assets-cg/tileset.png
 	assets-cg/maps/testCarte.json
 	assets-cg/spritesheet.png
+	assets-cg/characters/Tituya.char
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

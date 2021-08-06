@@ -124,8 +124,8 @@ void engine_tick(struct game *game, int dt) {
 
 int map_walkable(struct map const *map, int x, int y) {
 	int tile = map->info_map[x + map->w * y];
-	if(x < 0 || x > map->w-1 || y < 0 || y > map->h) return 0;
-	return (tile != TILE_SOLID);
+	if(x < 0 || x > map->w-1 || y < 0 || y > map->h-1) return 0;
+	return (tile != TILE_SOLID && tile != TILE_CHARACTER);
 }
 
 void engine_set_background(struct game *game, int color) {

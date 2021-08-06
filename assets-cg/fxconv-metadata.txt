@@ -1,8 +1,12 @@
 tileset.png:
   type: bopti-image
   name: img_tileset
-  profile:p8
+  profile:p4
   
 spritesheet.png:
   type: bopti-image
   name: img_spritesheet
+  
+dialog.txt:
+  custom-type: dialog
+  name: dialog_1

@@ -5,6 +5,7 @@
 #include "engine.h"
 #include "player.h"
 #include "animation.h"
+#include "character.h"
 
 #include <gint/timer.h>
 #include <gint/clock.h>
@@ -13,6 +14,20 @@ extern struct map map_1;
 
 struct map *maps[] = {
 	&map_1,
+};
+
+extern struct character character_Tituya;
+
+struct character character_default = {
+	.x = 0,
+	.y = 0,
+	.name = "default name",
+	.dialog = "default dialog"
+};
+
+struct character *characters[] = {
+	&character_Tituya,
+	&character_default,
 };
 
 static int callback_tick(volatile int *tick) {
@@ -49,6 +64,7 @@ int main(void) {
 		tick = 0;
 
 		engine_draw(&game);
+		draw_dialog(get_character_xy(characters, 39, 30));
 		dupdate();
 
 		int dir = get_inputs();

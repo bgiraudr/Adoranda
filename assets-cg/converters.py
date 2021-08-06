@@ -5,6 +5,9 @@ def convert(input, output, params, target):
 	if params["custom-type"] == "map":
 		convert_map(input, output, params, target)
 		return 0
+	elif params["custom-type"] == "character":
+		convert_character(input, output, params, target)
+		return 0
 	else:
 		return 1
 
@@ -12,6 +15,7 @@ def convert_map(input, output, params, target):
 	TILE_AIR = 0
 	TILE_SOLID = 1
 	TILE_DOOR = 2
+	TILE_CHARACTER = 3
 
 	with open(input, "r") as jsonData:
 		data = json.load(jsonData)
@@ -34,6 +38,8 @@ def convert_map(input, output, params, target):
 				value = TILE_SOLID
 			elif type == "door":
 				value = TILE_DOOR
+			elif type == "character":
+				value = TILE_CHARACTER
 			else:
 				value = TILE_AIR
 
@@ -64,5 +70,17 @@ def convert_map(input, output, params, target):
 		o += fxconv.ref(info_map)
 	else:
 		raise fxconv.FxconvError(f"There is too much layer ! {nblayer} found for a max of 2")
+
+	fxconv.elf(o, output, "_" + params["name"], **target)
+
+def convert_character(input, output, params, target):
+	with open(input,"r") as dialog:
+		file = dialog.read().splitlines()
+
+	o = fxconv.ObjectData()
+	o += fxconv.u32((int)(file[0])) + fxconv.u32((int)(file[1]))
+	o += fxconv.ref(bytes(file[2], 'utf-8') + bytes(1))
+	o += fxconv.ref(bytes(file[3], 'utf-8') + bytes(1))
+	
 
 	fxconv.elf(o, output, "_" + params["name"], **target)
