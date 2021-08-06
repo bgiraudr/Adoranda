@@ -1,7 +1,6 @@
 tileset.png:
   type: bopti-image
   name: img_tileset
-  profile:p4
   
 spritesheet.png:
   type: bopti-image

@@ -56,6 +56,7 @@
  <tile id="245" type="solid"/>
  <tile id="246" type="solid"/>
  <tile id="252" type="character"/>
+ <tile id="253" type="character"/>
  <tile id="261" type="solid"/>
  <tile id="262" type="solid"/>
  <tile id="263" type="solid"/>
