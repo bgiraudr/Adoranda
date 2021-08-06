@@ -17,5 +17,6 @@ int get_inputs(void) {
         if(key == KEY_RIGHT) return DIR_RIGHT;
         if(key == KEY_UP)    return DIR_UP;
         if(key == KEY_LEFT)  return DIR_LEFT;
+        if(key == KEY_SHIFT)  return ACTION_SHIFT;
     }
 }

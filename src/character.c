@@ -4,9 +4,12 @@
 #include "character.h"
 
 void draw_dialog(struct character *character) {
+	dclear(C_WHITE);
 	dprint(1,20, C_BLACK, "(%d,%d)", character->x, character->y);
 	dprint(1,40, C_BLACK, "%s", character->name);
 	dprint(1,60, C_BLACK, "%s", character->dialog);
+	dupdate();
+	getkey();
 }
 
 struct character* get_character_xy(struct character *characters[], int x, int y) {

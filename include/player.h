@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animation.h"
+#include "engine.h"
 
 struct player {
 	int x, y;
@@ -11,9 +12,4 @@ struct player {
 	struct anim_data anim;
 };
 
-enum direction {
-	DIR_DOWN = 0,
-	DIR_LEFT = 1,
-	DIR_UP = 2,
-	DIR_RIGHT = 3
-};
+int player_facing(struct game const *game);

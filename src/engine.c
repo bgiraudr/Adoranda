@@ -6,6 +6,7 @@
 #include "player.h"
 #include "animation.h"
 #include "define.h"
+#include "character.h"
 
 #define TILESET_WIDTH 29
 
@@ -130,4 +131,15 @@ int map_walkable(struct map const *map, int x, int y) {
 
 void engine_set_background(struct game *game, int color) {
 	game->background = color;
+}
+
+void engine_action(struct game const *game, int action) {
+	if(action == ACTION_SHIFT) {
+		if(player_facing(game) == TILE_CHARACTER) {
+			int direction = game->player->direction;
+			int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
+			int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
+			draw_dialog(get_character_xy(game->characters, game->player->x + dx, game->player->y + dy));
+		}
+	}
 }

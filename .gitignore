@@ -4,9 +4,10 @@
 /*.g1a
 /*.g3a
 *.json
+*~
 
 # Python bytecode
- __pycache__/
+__pycache__/
 
 # Common IDE files
 *.sublime-project

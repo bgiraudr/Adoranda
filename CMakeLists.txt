@@ -25,6 +25,7 @@ set(SOURCES
 	src/engine.c
 	src/animation.c
 	src/character.c
+	src/player.c
 )
 
 set(ASSETS_cg
@@ -32,6 +33,7 @@ set(ASSETS_cg
 	assets-cg/maps/testCarte.json
 	assets-cg/spritesheet.png
 	assets-cg/characters/Tituya.char
+	assets-cg/characters/Lephenixnoir.char
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

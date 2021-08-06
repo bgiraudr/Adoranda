@@ -17,6 +17,7 @@ struct map *maps[] = {
 };
 
 extern struct character character_Tituya;
+extern struct character character_Lephenixnoir;
 
 struct character character_default = {
 	.x = 0,
@@ -27,6 +28,7 @@ struct character character_default = {
 
 struct character *characters[] = {
 	&character_Tituya,
+	&character_Lephenixnoir,
 	&character_default,
 };
 
@@ -50,6 +52,7 @@ int main(void) {
 	struct game game = {
 		.map = maps[0],
 		.player = &player,
+		.characters = characters,
 		.background = C_WHITE
 	};
 
@@ -64,12 +67,15 @@ int main(void) {
 		tick = 0;
 
 		engine_draw(&game);
-		draw_dialog(get_character_xy(characters, 39, 30));
+		dprint(1,20,C_BLACK, "%d", player_facing(&game));
 		dupdate();
 
-		int dir = get_inputs();
-		if(dir >= 0) 
-			engine_move(&game, dir);
+		int action = get_inputs();
+		if(action >= 0 && action <= 3) 
+			engine_move(&game, action);
+		else if(action >= 4) {
+			engine_action(&game, action);
+		}
 		engine_tick(&game, ENGINE_TICK);
 	}
 

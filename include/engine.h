@@ -5,6 +5,7 @@
 struct game {
 	struct map *map;
 	struct player *player;
+	struct character **characters;
 	int background;
 };
 
@@ -15,3 +16,4 @@ int engine_move(struct game *game, int direction);
 int map_walkable(struct map const *map, int x, int y);
 void engine_tick(struct game *game, int dt);
 void engine_set_background(struct game *game, int color);
+void engine_action(struct game const *game, int action);

@@ -2,7 +2,7 @@
 #include <gint/defs/util.h>
 #include "animation.h"
 #include "engine.h"
-#include "player.h"
+#include "game.h"
 
 struct sheet
 {
