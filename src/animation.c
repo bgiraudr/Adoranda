@@ -6,8 +6,11 @@
 
 struct sheet
 {
+    /*the sheet image of the animation*/
     bopti_image_t *img;
+    /*the frame width*/
     int frame_w;
+    /*the frame height*/
     int frame_h;
 };
 
@@ -29,11 +32,13 @@ static struct anim_frame anim_frame(struct sheet const *sheet, int col, int row)
     return f;
 }
 
+/*draw the frame*/
 void dframe(int x, int y, struct anim_frame const frame) {
     dsubimage(x, y, frame.source, frame.left, frame.top, frame.w, frame.h,
         DIMAGE_NONE);
 }
 
+/*animation for player walking*/
 int anim_player_walking(struct anim_data *data, int init) {
     if(init) {
         data->function = anim_player_walking;
@@ -60,6 +65,7 @@ int anim_player_walking(struct anim_data *data, int init) {
     return 1;
 }
 
+/*animation for player doing nothing*/
 int anim_player_idle(struct anim_data *data, int init) {
     if(init) {
         data->function = anim_player_idle;

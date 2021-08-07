@@ -3,9 +3,13 @@
 #define ENGINE_TICK 35
 
 struct game {
+	/*the current map to display*/
 	struct map *map;
+	/*the player*/
 	struct player *player;
+	/*list of all the characters on the map*/
 	struct character **characters;
+	/*the background color*/
 	int background;
 };
 

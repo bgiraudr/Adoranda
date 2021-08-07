@@ -1,6 +1,5 @@
 #pragma once
 
-void play();
 int get_inputs(void);
 
 enum direction {
@@ -8,5 +7,6 @@ enum direction {
 	DIR_LEFT = 1,
 	DIR_UP = 2,
 	DIR_RIGHT = 3,
-	ACTION_SHIFT = 4
+	ACTION_SHIFT = 4,
+	ACTION_ALPHA = 5
 };

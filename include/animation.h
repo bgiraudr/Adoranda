@@ -9,18 +9,27 @@ anim_function_t anim_player_idle;
 
 struct anim_frame
 {
+   /*the image*/
    bopti_image_t *source;
+   /*the left and top pixels to know where to start drawing*/
    int left, top;
+   /*the width and height of one frame*/
    int w, h;
 };
 
 struct anim_data
 {
+   /*the function to call to update the frame*/
     anim_function_t *function;
+    /*the anim frame*/
     struct anim_frame img;
+    /*if the animation needs to move*/
     int dx, dy;
+    /*the direction*/
     int dir;
+    /*the current frame*/
     int frame;
+    /*the duration of one frame*/
     int duration;
 };
 

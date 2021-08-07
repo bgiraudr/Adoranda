@@ -1,2 +1,4 @@
-#define PLAYER_VIEW_X 5
-#define PLAYER_VIEW_Y 5
+/*the x radius the player is able to see*/
+#define PLAYER_VIEW_X 13
+/*the y radius the player is able to see*/
+#define PLAYER_VIEW_Y 7

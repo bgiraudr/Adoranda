@@ -1,6 +1,11 @@
+#pragma once
+
 struct character {
+	/*the position of the character*/
 	int x, y;
+	/*the name*/
 	char *name;
+	/*the text to say*/
 	char *dialog;
 };
 

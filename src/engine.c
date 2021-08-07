@@ -10,12 +10,14 @@
 
 #define TILESET_WIDTH 29
 
+/*draw the current state of the game*/
 void engine_draw(struct game const *game) {
 	dclear(game->background);
 	engine_draw_map_around_player(game);
 	engine_draw_player(game->player);
 }
 
+/*draw the map around the player*/
 void engine_draw_map_around_player(struct game const *game) {
 	const int level_width = game->map->w;
 	const int taillemap = game->map->w * game->map->h;
@@ -89,11 +91,13 @@ void engine_draw_map_around_player(struct game const *game) {
 	}
 }
 
+/*draw the player*/
 void engine_draw_player(struct player const *player) {
 	dframe(player->show_x * 16, player->show_y * 16 - 5, player->anim.img); //draw the player 5 pixel up
 	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
 }
 
+/*move the player to the direction*/
 int engine_move(struct game *game, int direction) {
 	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
@@ -115,6 +119,7 @@ int engine_move(struct game *game, int direction) {
 	return 1;
 }
 
+/*update the player animation*/
 void engine_tick(struct game *game, int dt) {
 	game->player->anim.duration -= dt;
 
@@ -123,16 +128,19 @@ void engine_tick(struct game *game, int dt) {
 	}
 }
 
+/*check if a tile is walkable*/
 int map_walkable(struct map const *map, int x, int y) {
 	int tile = map->info_map[x + map->w * y];
 	if(x < 0 || x > map->w-1 || y < 0 || y > map->h-1) return 0;
 	return (tile != TILE_SOLID && tile != TILE_CHARACTER);
 }
 
+/*set the background color*/
 void engine_set_background(struct game *game, int color) {
 	game->background = color;
 }
 
+/*make an interaction with something*/
 void engine_action(struct game const *game, int action) {
 	if(action == ACTION_SHIFT) {
 		if(player_facing(game) == TILE_CHARACTER) {
