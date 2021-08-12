@@ -17,6 +17,8 @@ def convert_map(input, output, params, target):
 	TILE_DOOR = 2
 	TILE_CHARACTER = 3
 
+	TILE_BRIDGE = -1 #only for bridge detection to avoid solid behind
+
 	with open(input, "r") as jsonData:
 		data = json.load(jsonData)
 
@@ -40,6 +42,8 @@ def convert_map(input, output, params, target):
 				value = TILE_DOOR
 			elif type == "character":
 				value = TILE_CHARACTER
+			elif type == "bridge":
+				value = TILE_BRIDGE
 			else:
 				value = TILE_AIR
 
@@ -61,13 +65,23 @@ def convert_map(input, output, params, target):
 
 			byte_tiles = bytearray()
 			for j in tiles:
-				if i == nblayer-1: 
-					value = tile_value.get(j)
-					if value == None: value = TILE_AIR
-					info_map += bytearray(fxconv.u16(value))
 				byte_tiles += bytearray(fxconv.u16(j))
 			o += fxconv.ref(byte_tiles)
+
+		#generation of the collision map (take the maximum of the layer except for bridges)
+		for x in range(w*h):
+			value1 = tile_value.get(data["layers"][0]["data"][x])
+			if(nblayer >= 2):
+				value2 = tile_value.get(data["layers"][1]["data"][x])
+				if value1 == None: value1 = TILE_AIR
+				if value2 == None: value2 = TILE_AIR
+				if value2 == TILE_BRIDGE: value1 = value2 = TILE_AIR
+				info_map += bytearray(fxconv.u16(max(value1, value2)))
+			else:
+				if value1 == TILE_BRIDGE: value1 = TILE_AIR
+				info_map += bytearray(fxconv.u16(value1))
 		o += fxconv.ref(info_map)
+
 	else:
 		raise fxconv.FxconvError(f"There is too much layer ! {nblayer} found for a max of 2")
 

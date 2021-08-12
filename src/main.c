@@ -18,6 +18,11 @@ struct map *maps[] = {
 
 extern struct character character_Tituya;
 extern struct character character_Lephenixnoir;
+extern struct character character_Tituya2;
+extern struct character character_KikooDX;
+extern struct character character_Massena;
+extern struct character character_PancarteVille;
+
 
 struct character character_default = {
 	.x = 0,
@@ -29,6 +34,10 @@ struct character character_default = {
 struct character *characters[] = {
 	&character_Tituya,
 	&character_Lephenixnoir,
+	&character_Massena,
+	&character_Tituya2,
+	&character_KikooDX,
+	&character_PancarteVille,
 	&character_default,
 };
 
@@ -39,8 +48,8 @@ static int callback_tick(volatile int *tick) {
 
 int main(void) {
 	struct player player = {
-		.x = 35,
-		.y = 31,
+		.x = 32,
+		.y = 30,
 		.show_x = 12,
 		.show_y = 7,
 		.direction = DIR_DOWN,
