@@ -23,5 +23,7 @@ enum map_state {
 	TILE_CHARACTER = 3,
 };
 
+/*check if a tile is walkable*/
 int map_walkable(struct map const *map, int x, int y);
+/*get the tile under the player*/
 int map_get_player_tile(struct game const *game);

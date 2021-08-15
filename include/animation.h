@@ -33,6 +33,9 @@ struct anim_data
     int duration;
 };
 
+/*draw the frame*/
 void dframe(int x, int y, struct anim_frame const frame);
+/*animation for player walking*/
 int anim_player_walking(struct anim_data *data, int init);
+/*animation for player doing nothing*/
 int anim_player_idle(struct anim_data *data, int init);

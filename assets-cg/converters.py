@@ -22,6 +22,7 @@ def convert_map(input, output, params, target):
 	with open(input, "r") as jsonData:
 		data = json.load(jsonData)
 
+	#find the tileset using the location of the input
 	tileset = open(input.replace(input.split("/")[-1], "tileset.json"), "r")
 	data_tileset = json.load(tileset)
 	tileset.close()
@@ -29,6 +30,7 @@ def convert_map(input, output, params, target):
 	tile_value = {}
 	info_map = bytearray()
 
+	#create a dictionnary between tile-type
 	for i in data_tileset["tiles"]:
 		try:
 			id = i["id"]+1
@@ -51,6 +53,7 @@ def convert_map(input, output, params, target):
 		except KeyError:
 			pass
 
+	#Extract from the json the width, height and layers of the map
 	w = data["layers"][0]["width"]
 	h = data["layers"][0]["height"]
 	nblayer = len(data["layers"])
@@ -59,7 +62,9 @@ def convert_map(input, output, params, target):
 	o += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nblayer)
 	o += fxconv.ref("img_tileset")
 
+	#To preserve performance, max 2 layers
 	if(nblayer <= 2):
+		#generate the array of tiles from the layer
 		for i in range(nblayer):
 			tiles = data["layers"][i]["data"]
 
@@ -69,6 +74,7 @@ def convert_map(input, output, params, target):
 			o += fxconv.ref(byte_tiles)
 
 		#generation of the collision map (take the maximum of the layer except for bridges)
+		#bridges is always walkable
 		for x in range(w*h):
 			value1 = tile_value.get(data["layers"][0]["data"][x])
 			if(nblayer >= 2):
@@ -81,10 +87,10 @@ def convert_map(input, output, params, target):
 				if value1 == TILE_BRIDGE: value1 = TILE_AIR
 				info_map += bytearray(fxconv.u16(value1))
 		o += fxconv.ref(info_map)
-
 	else:
 		raise fxconv.FxconvError(f"There is too much layer ! {nblayer} found for a max of 2")
 
+	#generate !
 	fxconv.elf(o, output, "_" + params["name"], **target)
 
 def convert_character(input, output, params, target):
@@ -93,8 +99,7 @@ def convert_character(input, output, params, target):
 
 	o = fxconv.ObjectData()
 	o += fxconv.u32((int)(file[0])) + fxconv.u32((int)(file[1]))
-	o += fxconv.ref(bytes(file[2], 'utf-8') + bytes(1))
+	o += fxconv.ref(bytes(file[2], 'utf-8') + bytes(1)) #bytes(1) is necessary to end a char
 	o += fxconv.ref(bytes(file[3], 'utf-8') + bytes(1))
 	
-
 	fxconv.elf(o, output, "_" + params["name"], **target)

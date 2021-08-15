@@ -1,5 +1,6 @@
 #pragma once
 
+/*get the input with a timeout*/
 int get_inputs(void);
 
 enum direction {

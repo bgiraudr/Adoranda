@@ -9,6 +9,7 @@ int map_walkable(struct map const *map, int x, int y) {
 	return (tile != TILE_SOLID && tile != TILE_CHARACTER);
 }
 
+/*get the tile under the player*/
 int map_get_player_tile(struct game const *game) {
 	return game->map->info_map[game->player->x + game->map->w * game->player->y];
 }

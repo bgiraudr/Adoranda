@@ -40,6 +40,7 @@ struct character* get_character_xy(struct character *characters[], int x, int y)
 	return &character_default;
 }
 
+/*get the characters for a specified map*/
 struct character** get_map_characters(int id) {
 	if(id == 1) {
 		extern struct character character_Tituya;

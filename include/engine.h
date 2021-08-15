@@ -13,11 +13,19 @@ struct game {
 	int background;
 };
 
+/*draw the current state of the game*/
 void engine_draw(struct game const *game);
+/*draw the map around the player*/
 void engine_draw_map_around_player(struct game const *game);
+/*draw the player*/
 void engine_draw_player(struct player const *player);
+/*move the player to the direction*/
 int engine_move(struct game *game, int direction);
+/*update the player animation*/
 void engine_tick(struct game *game, int dt);
+/*set the background color*/
 void engine_set_background(struct game *game, int color);
+/*make an interaction with something*/
 void engine_action(struct game const *game, int action);
+/*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct game *game);

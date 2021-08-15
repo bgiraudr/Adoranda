@@ -144,6 +144,7 @@ void engine_action(struct game const *game, int action) {
 	}
 }
 
+/*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct game *game) {
 	int player_curr_tile = map_get_player_tile(game);
 	if(player_curr_tile == TILE_DOOR) {
