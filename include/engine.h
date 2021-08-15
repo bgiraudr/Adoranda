@@ -2,30 +2,30 @@
 
 #define ENGINE_TICK 35
 
-struct game {
+struct Game {
 	/*the current map to display*/
-	struct map *map;
+	struct Map *map;
 	/*the player*/
-	struct player *player;
+	struct Player *player;
 	/*list of all the characters on the map*/
-	struct character **characters;
+	struct Character **characters;
 	/*the background color*/
 	int background;
 };
 
 /*draw the current state of the game*/
-void engine_draw(struct game const *game);
+void engine_draw(struct Game const *game);
 /*draw the map around the player*/
-void engine_draw_map_around_player(struct game const *game);
+void engine_draw_map_around_player(struct Game const *game);
 /*draw the player*/
-void engine_draw_player(struct player const *player);
+void engine_draw_player(struct Player const *player);
 /*move the player to the direction*/
-int engine_move(struct game *game, int direction);
+int engine_move(struct Game *game, int direction);
 /*update the player animation*/
-void engine_tick(struct game *game, int dt);
+void engine_tick(struct Game *game, int dt);
 /*set the background color*/
-void engine_set_background(struct game *game, int color);
+void engine_set_background(struct Game *game, int color);
 /*make an interaction with something*/
-void engine_action(struct game const *game, int action);
+void engine_action(struct Game const *game, int action);
 /*check the current position of the player. To perform action depends of his location*/
-void engine_check_position(struct game *game);
+void engine_check_position(struct Game *game);

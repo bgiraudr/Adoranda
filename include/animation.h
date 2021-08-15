@@ -1,13 +1,13 @@
 #pragma once
 #include <gint/display.h>
 
-struct anim_data;
+struct AnimData;
 
-typedef int (anim_function_t)(struct anim_data *data, int init);
+typedef int (anim_function_t)(struct AnimData *data, int init);
 anim_function_t anim_player_walking;
 anim_function_t anim_player_idle;
 
-struct anim_frame
+struct AnimFrame
 {
    /*the image*/
    bopti_image_t *source;
@@ -17,12 +17,12 @@ struct anim_frame
    int w, h;
 };
 
-struct anim_data
+struct AnimData
 {
    /*the function to call to update the frame*/
     anim_function_t *function;
     /*the anim frame*/
-    struct anim_frame img;
+    struct AnimFrame img;
     /*if the animation needs to move*/
     int dx, dy;
     /*the direction*/
@@ -34,8 +34,8 @@ struct anim_data
 };
 
 /*draw the frame*/
-void dframe(int x, int y, struct anim_frame const frame);
+void dframe(int x, int y, struct AnimFrame const frame);
 /*animation for player walking*/
-int anim_player_walking(struct anim_data *data, int init);
+int anim_player_walking(struct AnimData *data, int init);
 /*animation for player doing nothing*/
-int anim_player_idle(struct anim_data *data, int init);
+int anim_player_idle(struct AnimData *data, int init);
