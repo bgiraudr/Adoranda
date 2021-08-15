@@ -1,5 +1,8 @@
 #pragma once
 
+#include <gint/display.h>
+#include "engine.h"
+
 struct map {
 	/*width, height and the number of layer of the map (max 2)*/
 	int w, h, nb_layer;
@@ -19,3 +22,6 @@ enum map_state {
 	TILE_DOOR = 2,
 	TILE_CHARACTER = 3,
 };
+
+int map_walkable(struct map const *map, int x, int y);
+int map_get_player_tile(struct game const *game);

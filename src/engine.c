@@ -8,8 +8,6 @@
 #include "define.h"
 #include "character.h"
 
-#define TILESET_WIDTH 29
-
 /*draw the current state of the game*/
 void engine_draw(struct game const *game) {
 	dclear(game->background);
@@ -109,6 +107,7 @@ int engine_move(struct game *game, int direction) {
 			game->player->x += dx;
 			game->player->y += dy;
 			game->player->idle = !anim_player_walking(&game->player->anim, 1);
+			engine_check_position(game);
 		} else {
 			game->player->idle = !anim_player_idle(&game->player->anim, 1);
 		}
@@ -128,13 +127,6 @@ void engine_tick(struct game *game, int dt) {
 	}
 }
 
-/*check if a tile is walkable*/
-int map_walkable(struct map const *map, int x, int y) {
-	int tile = map->info_map[x + map->w * y];
-	if(x < 0 || x > map->w-1 || y < 0 || y > map->h-1) return 0;
-	return (tile != TILE_SOLID && tile != TILE_CHARACTER);
-}
-
 /*set the background color*/
 void engine_set_background(struct game *game, int color) {
 	game->background = color;
@@ -149,5 +141,14 @@ void engine_action(struct game const *game, int action) {
 			int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
 			draw_dialog(get_character_xy(game->characters, game->player->x + dx, game->player->y + dy));
 		}
+	}
+}
+
+void engine_check_position(struct game *game) {
+	int player_curr_tile = map_get_player_tile(game);
+	if(player_curr_tile == TILE_DOOR) {
+		engine_set_background(game, C_BLACK);
+	} else {
+		engine_set_background(game, C_WHITE);
 	}
 }

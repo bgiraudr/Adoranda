@@ -16,37 +16,13 @@ struct map *maps[] = {
 	&map_1,
 };
 
-extern struct character character_Tituya;
-extern struct character character_Lephenixnoir;
-extern struct character character_Tituya2;
-extern struct character character_KikooDX;
-extern struct character character_Massena;
-extern struct character character_PancarteVille;
-
-
-struct character character_default = {
-	.x = 0,
-	.y = 0,
-	.name = "default name",
-	.dialog = "default dialog"
-};
-
-struct character *characters[] = {
-	&character_Tituya,
-	&character_Lephenixnoir,
-	&character_Massena,
-	&character_Tituya2,
-	&character_KikooDX,
-	&character_PancarteVille,
-	&character_default,
-};
-
 static int callback_tick(volatile int *tick) {
     *tick = 1;
     return TIMER_CONTINUE;
 }
 
 int main(void) {
+	/*Structure definition*/
 	struct player player = {
 		.x = 32,
 		.y = 30,
@@ -61,22 +37,23 @@ int main(void) {
 	struct game game = {
 		.map = maps[0],
 		.player = &player,
-		.characters = characters,
 		.background = C_WHITE
 	};
+	game.characters = get_map_characters(1);
 
+	/*Timer*/
 	static volatile int tick = 1;
 
 	int t = timer_configure(TIMER_ANY, ENGINE_TICK*1000,
 		GINT_CALL(callback_tick, &tick));
 	if(t >= 0) timer_start(t);
 
+	/*Main loop*/
 	while(!keydown(KEY_MENU)) {
 		while(!tick) sleep();
 		tick = 0;
 
 		engine_draw(&game);
-		dprint(1,20,C_BLACK, "%d", player_facing(&game));
 		dupdate();
 
 		int action = get_inputs();

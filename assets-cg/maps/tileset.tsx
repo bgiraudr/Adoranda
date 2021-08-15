@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.1" name="tileset" tilewidth="16" tileheight="16" tilecount="754" columns="29">
+<tileset version="1.5" tiledversion="1.7.2" name="tileset" tilewidth="16" tileheight="16" tilecount="754" columns="29">
  <editorsettings>
   <export target="tileset.json" format="json"/>
  </editorsettings>
@@ -178,15 +178,15 @@
  <tile id="723" type="solid"/>
  <tile id="724" type="solid"/>
  <tile id="742" type="solid"/>
- <tile id="743" type="solid"/>
+ <tile id="743" type="door"/>
  <tile id="744" type="solid"/>
  <tile id="745" type="solid"/>
  <tile id="746" type="solid"/>
- <tile id="747" type="solid"/>
+ <tile id="747" type="door"/>
  <tile id="748" type="solid"/>
  <tile id="749" type="solid"/>
  <tile id="750" type="solid"/>
- <tile id="751" type="solid"/>
+ <tile id="751" type="door"/>
  <tile id="752" type="solid"/>
  <tile id="753" type="solid"/>
  <wangsets>
