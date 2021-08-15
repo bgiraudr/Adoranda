@@ -1,6 +1,6 @@
 #pragma once
 
-struct character {
+struct Character {
 	/*the position of the character*/
 	int x, y;
 	/*the name*/
@@ -10,8 +10,8 @@ struct character {
 };
 
 /*draw the dialog of a specified character*/
-void draw_dialog(struct character *character);
+void draw_dialog(struct Character *character);
 /*find the character using the player's position*/
-struct character* get_character_xy(struct character *characters[], int x, int y);
+struct Character* get_character_xy(struct Character *characters[], int x, int y);
 /*get the characters for a specified map*/
-struct character** get_map_characters(int id);
+struct Character** get_map_characters(int id);

@@ -10,9 +10,9 @@
 #include <gint/timer.h>
 #include <gint/clock.h>
 
-extern struct map map_1;
+extern struct Map map_1;
 
-struct map *maps[] = {
+struct Map *maps[] = {
 	&map_1,
 };
 
@@ -23,7 +23,7 @@ static int callback_tick(volatile int *tick) {
 
 int main(void) {
 	/*Structure definition*/
-	struct player player = {
+	struct Player player = {
 		.x = 32,
 		.y = 30,
 		.show_x = 12,
@@ -34,7 +34,7 @@ int main(void) {
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
 
-	struct game game = {
+	struct Game game = {
 		.map = maps[0],
 		.player = &player,
 		.background = C_WHITE

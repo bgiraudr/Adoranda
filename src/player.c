@@ -7,7 +7,7 @@
 return the info tile value the player is facing to
 TILE_SOLID by default (out of bound)
 */
-int player_facing(struct game const *game) {
+int player_facing(struct Game const *game) {
 	int direction = game->player->direction;
 	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);

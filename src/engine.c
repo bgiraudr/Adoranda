@@ -9,14 +9,14 @@
 #include "character.h"
 
 /*draw the current state of the game*/
-void engine_draw(struct game const *game) {
+void engine_draw(struct Game const *game) {
 	dclear(game->background);
 	engine_draw_map_around_player(game);
 	engine_draw_player(game->player);
 }
 
 /*draw the map around the player*/
-void engine_draw_map_around_player(struct game const *game) {
+void engine_draw_map_around_player(struct Game const *game) {
 	const int level_width = game->map->w;
 	const int taillemap = game->map->w * game->map->h;
 	const int posx = game->player->show_x;
@@ -90,13 +90,13 @@ void engine_draw_map_around_player(struct game const *game) {
 }
 
 /*draw the player*/
-void engine_draw_player(struct player const *player) {
+void engine_draw_player(struct Player const *player) {
 	dframe(player->show_x * 16, player->show_y * 16 - 5, player->anim.img); //draw the player 5 pixel up
 	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
 }
 
 /*move the player to the direction*/
-int engine_move(struct game *game, int direction) {
+int engine_move(struct Game *game, int direction) {
 	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
 
@@ -119,7 +119,7 @@ int engine_move(struct game *game, int direction) {
 }
 
 /*update the player animation*/
-void engine_tick(struct game *game, int dt) {
+void engine_tick(struct Game *game, int dt) {
 	game->player->anim.duration -= dt;
 
 	if(game->player->anim.duration <= 0) {
@@ -128,12 +128,12 @@ void engine_tick(struct game *game, int dt) {
 }
 
 /*set the background color*/
-void engine_set_background(struct game *game, int color) {
+void engine_set_background(struct Game *game, int color) {
 	game->background = color;
 }
 
 /*make an interaction with something*/
-void engine_action(struct game const *game, int action) {
+void engine_action(struct Game const *game, int action) {
 	if(action == ACTION_SHIFT) {
 		if(player_facing(game) == TILE_CHARACTER) {
 			int direction = game->player->direction;
@@ -145,7 +145,7 @@ void engine_action(struct game const *game, int action) {
 }
 
 /*check the current position of the player. To perform action depends of his location*/
-void engine_check_position(struct game *game) {
+void engine_check_position(struct Game *game) {
 	int player_curr_tile = map_get_player_tile(game);
 	if(player_curr_tile == TILE_DOOR) {
 		engine_set_background(game, C_BLACK);

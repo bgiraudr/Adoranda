@@ -3,7 +3,7 @@
 #include <gint/display.h>
 #include "engine.h"
 
-struct map {
+struct Map {
 	/*width, height and the number of layer of the map (max 2)*/
 	int w, h, nb_layer;
 	/*the tileset to use*/
@@ -24,6 +24,6 @@ enum map_state {
 };
 
 /*check if a tile is walkable*/
-int map_walkable(struct map const *map, int x, int y);
+int map_walkable(struct Map const *map, int x, int y);
 /*get the tile under the player*/
-int map_get_player_tile(struct game const *game);
+int map_get_player_tile(struct Game const *game);

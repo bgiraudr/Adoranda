@@ -4,7 +4,7 @@
 #include "engine.h"
 #include "game.h"
 
-struct sheet
+struct Sheet
 {
     /*the sheet image of the animation*/
     bopti_image_t *img;
@@ -15,14 +15,14 @@ struct sheet
 };
 
 extern bopti_image_t img_spritesheet;
-struct sheet const anim_player = {
+struct Sheet const anim_player = {
     .img = &img_spritesheet,
     .frame_w = 16,
     .frame_h = 21,
 };
 
-static struct anim_frame anim_frame(struct sheet const *sheet, int col, int row) {
-    struct anim_frame f = {
+static struct AnimFrame anim_frame(struct Sheet const *sheet, int col, int row) {
+    struct AnimFrame f = {
         .source = sheet->img,
         .left   = sheet->frame_w * col,
         .top    = sheet->frame_h * row,
@@ -33,13 +33,13 @@ static struct anim_frame anim_frame(struct sheet const *sheet, int col, int row)
 }
 
 /*draw the frame*/
-void dframe(int x, int y, struct anim_frame const frame) {
+void dframe(int x, int y, struct AnimFrame const frame) {
     dsubimage(x, y, frame.source, frame.left, frame.top, frame.w, frame.h,
         DIMAGE_NONE);
 }
 
 /*animation for player walking*/
-int anim_player_walking(struct anim_data *data, int init) {
+int anim_player_walking(struct AnimData *data, int init) {
     if(init) {
         data->function = anim_player_walking;
         data->frame = 0;
@@ -66,7 +66,7 @@ int anim_player_walking(struct anim_data *data, int init) {
 }
 
 /*animation for player doing nothing*/
-int anim_player_idle(struct anim_data *data, int init) {
+int anim_player_idle(struct AnimData *data, int init) {
     if(init) {
         data->function = anim_player_idle;
         data->frame = 0;

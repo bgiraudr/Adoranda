@@ -3,7 +3,7 @@
 #include "animation.h"
 #include "engine.h"
 
-struct player {
+struct Player {
 	/*current position of the player on the map*/
 	int x, y;
 	/*the direction the player facing to*/
@@ -14,8 +14,8 @@ struct player {
 	int show_x, show_y;
 	/*the current animation*/
 	int idle;
-	struct anim_data anim;
+	struct AnimData anim;
 };
 
 /*return the info tile value the player is facing to*/
-int player_facing(struct game const *game);
+int player_facing(struct Game const *game);
