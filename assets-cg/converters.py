@@ -54,8 +54,7 @@ def convert_map(input, output, params, target):
 			pass
 
 	#Extract from the json the width, height and layers of the map
-	w = data["layers"][0]["width"]
-	h = data["layers"][0]["height"]
+	w, h = data["width"], data["height"]
 	nblayer = len(data["layers"])
 
 	o = fxconv.ObjectData()

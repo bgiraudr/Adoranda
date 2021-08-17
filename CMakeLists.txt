@@ -27,6 +27,7 @@ set(SOURCES
 	src/character.c
 	src/player.c
 	src/map.c
+	src/util.c
 )
 
 set(ASSETS_cg

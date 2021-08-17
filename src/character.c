@@ -4,6 +4,7 @@
 #include "character.h"
 #include "engine.h"
 #include "map.h"
+#include "util.h"
 
 struct Character character_default = {
 	.x = 0,
@@ -14,19 +15,18 @@ struct Character character_default = {
 
 /*draw the dialog of a specified character*/
 void draw_dialog(struct Character *character) {
-	drect(20,10,370,80,C_WHITE);
-	dprint(25,20, C_BLACK, "(%d,%d)", character->x, character->y);
-	dprint(25,40, C_BLACK, "%s", character->name);
-	dprint(25,60, C_BLACK, "%s", character->dialog);
-	dupdate();
-	int buffer = 1;
-	while(1) {
-		clearevents();
-		if(keydown(KEY_SHIFT)) {
-			if(buffer) buffer = 0;
-			else break;
-		}
-		while(keydown(KEY_SHIFT)) clearevents();
+	const char *delim = ";";
+
+	char *str = strdup(character->dialog);
+	char *curr_line = strtok(str, delim);
+
+	while(curr_line != NULL) {
+		drect(20,10,370,80,C_WHITE);
+		dprint(25,20, C_BLACK, "%s", character->name);
+		dprint(25,40, C_BLACK, "%s", curr_line);
+		dupdate();
+		curr_line = strtok(NULL, delim);
+		wait_for_input(KEY_SHIFT);
 	}
 }
 
