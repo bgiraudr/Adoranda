@@ -70,8 +70,7 @@ void engine_draw_map_around_player(struct Game const *game) {
 		int y = j + (posy-ycentre);
 		
 		for(int layer = 0; layer < game->map->nb_layer; layer++) {
-			int tile;
-			tile = layer == 0 ? game->map->tiles_layer1[i] - 1 : game->map->tiles_layer2[i] - 1;
+			int tile = game->map->layers[layer][i]-1;
 			if(tile != -1) {
 				int tile_x = tile % TILESET_WIDTH;
 				int tile_y = tile / TILESET_WIDTH;

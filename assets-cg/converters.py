@@ -28,9 +28,8 @@ def convert_map(input, output, params, target):
 	tileset.close()
 
 	tile_value = {}
-	info_map = bytearray()
 
-	#create a dictionnary between tile-type
+	#create a dictionnary between tile id-type
 	for i in data_tileset["tiles"]:
 		try:
 			id = i["id"]+1
@@ -61,33 +60,36 @@ def convert_map(input, output, params, target):
 	o += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nblayer)
 	o += fxconv.ref("img_tileset")
 
-	#To preserve performance, max 2 layers
-	if(nblayer <= 2):
-		#generate the array of tiles from the layer
+	#generation of the collision map (take the maximum of the layer except for bridges)
+	#bridges are always walkable
+	info_map = bytes()
+
+	maxValue = 0
+	bridge = False
+	for x in range(w*h):
 		for i in range(nblayer):
-			tiles = data["layers"][i]["data"]
+			value = tile_value.get(data["layers"][i]["data"][x])
+			if value == None: value = TILE_AIR
+			if value > maxValue: maxValue = value
+			if value == TILE_BRIDGE:
+				maxValue = TILE_AIR
+				bridge = True
+			if bridge:
+				if value != TILE_AIR:
+					maxValue = value
+		info_map += fxconv.u16(maxValue)
+		maxValue = 0
+		bridge = False
+	o += fxconv.ref(info_map)
 
-			byte_tiles = bytearray()
-			for j in tiles:
-				byte_tiles += bytearray(fxconv.u16(j))
-			o += fxconv.ref(byte_tiles)
+	#generate the array of tiles from the layer
+	for layer in data["layers"]:
+		layer_data = bytes()
 
-		#generation of the collision map (take the maximum of the layer except for bridges)
-		#bridges is always walkable
-		for x in range(w*h):
-			value1 = tile_value.get(data["layers"][0]["data"][x])
-			if(nblayer >= 2):
-				value2 = tile_value.get(data["layers"][1]["data"][x])
-				if value1 == None: value1 = TILE_AIR
-				if value2 == None: value2 = TILE_AIR
-				if value2 == TILE_BRIDGE: value1 = value2 = TILE_AIR
-				info_map += bytearray(fxconv.u16(max(value1, value2)))
-			else:
-				if value1 == TILE_BRIDGE: value1 = TILE_AIR
-				info_map += bytearray(fxconv.u16(value1))
-		o += fxconv.ref(info_map)
-	else:
-		raise fxconv.FxconvError(f"There is too much layer ! {nblayer} found for a max of 2")
+		for tile in layer["data"]:
+			layer_data += fxconv.u16(tile)
+		
+		o += fxconv.ref(layer_data)
 
 	#generate !
 	fxconv.elf(o, output, "_" + params["name"], **target)

@@ -8,12 +8,10 @@ struct Map {
 	int w, h, nb_layer;
 	/*the tileset to use*/
 	bopti_image_t *tileset;
-	/*list of all background tiles (layer 1)*/
-	short *tiles_layer1;
-	/*list of all "physical" tiles (layer 2)*/
-	short *tiles_layer2;
 	/*state of each tile on the map (solid, air ...)*/
 	short *info_map;
+	/*list of all the tiles*/
+	short *layers[];
 };
 
 enum map_state {
