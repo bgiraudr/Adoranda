@@ -9,6 +9,8 @@ struct Game {
 	struct Player *player;
 	/*list of all the characters on the map*/
 	struct Character **characters;
+	/*the camera*/
+	struct Camera *camera;
 	/*the background color*/
 	int background;
 };
@@ -16,7 +18,7 @@ struct Game {
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game);
 /*draw the map around the player*/
-void engine_draw_map_around_player(struct Game const *game);
+void engine_draw_map(struct Game const *game);
 /*draw the player*/
 void engine_draw_player(struct Player const *player);
 /*move the player to the direction*/
@@ -29,3 +31,4 @@ void engine_set_background(struct Game *game, int color);
 void engine_action(struct Game const *game, int action);
 /*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct Game *game);
+void vec_lerp(struct Camera *from, struct Player const *to, float scale);

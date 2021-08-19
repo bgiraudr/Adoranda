@@ -5,7 +5,7 @@
 
 struct Map {
 	/*width, height and the number of layer of the map (max 2)*/
-	int w, h, nb_layer;
+	int w, h, nb_layers;
 	/*the tileset to use*/
 	bopti_image_t *tileset;
 	/*state of each tile on the map (solid, air ...)*/

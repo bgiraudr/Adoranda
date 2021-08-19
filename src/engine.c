@@ -7,11 +7,13 @@
 #include "animation.h"
 #include "define.h"
 #include "character.h"
+#include "camera.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
 	dclear(game->background);
-	engine_draw_map_around_player(game);
+	//engine_draw_map_around_player(game);
+	engine_draw_map(game);
 	engine_draw_player(game->player);
 }
 
@@ -69,7 +71,7 @@ void engine_draw_map_around_player(struct Game const *game) {
 	for(int i = beginmap; i <= endmap; i++) {
 		int y = j + (posy-ycentre);
 		
-		for(int layer = 0; layer < game->map->nb_layer; layer++) {
+		for(int layer = 0; layer < game->map->nb_layers; layer++) {
 			int tile = game->map->layers[layer][i]-1;
 			if(tile != -1) {
 				int tile_x = tile % TILESET_WIDTH;
@@ -86,6 +88,40 @@ void engine_draw_map_around_player(struct Game const *game) {
 			i = beginmap + j*level_width-1;
 		}
 	}
+}
+
+void engine_draw_map(struct Game const *game) {
+	int x_offset = (game->camera->x - DWIDTH/2);
+	int y_offset = (game->camera->y - DHEIGHT/2);
+
+	//currently -1 to avoid white during transition
+	for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
+		for (int y = -1 ; y <= DHEIGHT / TILE_SIZE + 1; y++) {
+			for (int x = -1 ; x <= DWIDTH / TILE_SIZE + 1; x++) {
+				unsigned int tile_id = 0;
+				if(game->map->w > x && game->map->h > y) {
+					//detect if the map is oob
+					int indexY = (y + y_offset / TILE_SIZE);
+					int indexX = (x + x_offset / TILE_SIZE);
+					if(indexX >= 0 && indexX < game->map->w
+						&& indexY >= 0 && indexY < game->map->h) 
+						tile_id = game->map->layers[layer][indexX + indexY * game->map->w];
+				}
+				
+				if (tile_id != 0) {
+					tile_id--;
+					unsigned int tile_x = TILE_SIZE * (tile_id % TILESET_WIDTH);
+					unsigned int tile_y = TILE_SIZE * (tile_id / TILESET_WIDTH);
+
+					//provisoire le temps de trouver une manière propre
+					dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE - game->player->anim.dx * 3, 
+						y * TILE_SIZE - y_offset%TILE_SIZE - game->player->anim.dy * 3, game->map->tileset, 
+						tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
+				}
+			}
+		}
+	}
+
 }
 
 /*draw the player*/
@@ -105,6 +141,10 @@ int engine_move(struct Game *game, int direction) {
 		if(map_walkable(game->map, game->player->x + dx, game->player->y + dy)) {
 			game->player->x += dx;
 			game->player->y += dy;
+
+			game->camera->x += dx*16;
+			game->camera->y += dy*16;
+
 			game->player->idle = !anim_player_walking(&game->player->anim, 1);
 			engine_check_position(game);
 		} else {
@@ -120,7 +160,7 @@ int engine_move(struct Game *game, int direction) {
 /*update the player animation*/
 void engine_tick(struct Game *game, int dt) {
 	game->player->anim.duration -= dt;
-
+	vec_lerp(game->camera, game->player, 0.05);
 	if(game->player->anim.duration <= 0) {
 		game->player->idle = !game->player->anim.function(&game->player->anim, 0);
 	}
@@ -151,4 +191,9 @@ void engine_check_position(struct Game *game) {
 	} else {
 		engine_set_background(game, C_WHITE);
 	}
+}
+
+void vec_lerp(struct Camera *from, struct Player const *to, float scale) {
+	from->x = from->x * (1 - scale) + (to->x*TILE_SIZE + to->x_mid) * scale;
+	from->y = from->y * (1 - scale) + (to->y*TILE_SIZE + to->y_mid) * scale;
 }

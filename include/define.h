@@ -4,3 +4,5 @@
 #define PLAYER_VIEW_Y 8
 /*the width of the tileset*/
 #define TILESET_WIDTH 29
+
+#define TILE_SIZE 16

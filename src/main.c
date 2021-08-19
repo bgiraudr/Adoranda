@@ -6,6 +6,8 @@
 #include "player.h"
 #include "animation.h"
 #include "character.h"
+#include "camera.h"
+#include "define.h"
 
 #include <gint/timer.h>
 #include <gint/clock.h>
@@ -26,6 +28,8 @@ int main(void) {
 	struct Player player = {
 		.x = 32,
 		.y = 30,
+		.x_mid = 7,
+		.y_mid = 2,
 		.show_x = 12,
 		.show_y = 7,
 		.direction = DIR_DOWN,
@@ -34,9 +38,15 @@ int main(void) {
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
 
+	struct Camera camera = {
+		.x = player.x * TILE_SIZE + player.x_mid,
+		.y = player.y * TILE_SIZE + player.y_mid
+	};
+
 	struct Game game = {
 		.map = maps[0],
 		.player = &player,
+		.camera = &camera,
 		.background = C_WHITE
 	};
 	game.characters = get_map_characters(1);

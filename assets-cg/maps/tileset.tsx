@@ -27,6 +27,7 @@
  <tile id="56" type="character"/>
  <tile id="57" type="character"/>
  <tile id="78" type="solid"/>
+ <tile id="79" type="solid"/>
  <tile id="80" type="solid"/>
  <tile id="81" type="solid"/>
  <tile id="82" type="solid"/>
@@ -78,6 +79,8 @@
  <tile id="255" type="bridge"/>
  <tile id="256" type="bridge"/>
  <tile id="257" type="solid"/>
+ <tile id="259" type="bridge"/>
+ <tile id="260" type="bridge"/>
  <tile id="268" type="solid"/>
  <tile id="269" type="solid"/>
  <tile id="270" type="solid"/>
@@ -97,6 +100,8 @@
  <tile id="284" type="bridge"/>
  <tile id="285" type="bridge"/>
  <tile id="286" type="solid"/>
+ <tile id="287" type="bridge"/>
+ <tile id="288" type="bridge"/>
  <tile id="297" type="solid"/>
  <tile id="298" type="solid"/>
  <tile id="299" type="solid"/>

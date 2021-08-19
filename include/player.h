@@ -4,8 +4,10 @@
 #include "engine.h"
 
 struct Player {
-	/*current position of the player on the map*/
+	/*current position of the player on the map - Tile*/
 	int x, y;
+	/*player mid - offset pixels*/
+	int x_mid, y_mid;
 	/*the direction the player facing to*/
 	int direction;
 	/*current frame of the animation*/
