@@ -20,7 +20,7 @@ void engine_draw(struct Game const *game);
 /*draw the map around the player*/
 void engine_draw_map(struct Game const *game);
 /*draw the player*/
-void engine_draw_player(struct Player const *player);
+void engine_draw_player(struct Game const *game);
 /*move the player to the direction*/
 int engine_move(struct Game *game, int direction);
 /*update the player animation*/

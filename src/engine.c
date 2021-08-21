@@ -12,82 +12,10 @@
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
 	dclear(game->background);
-	//engine_draw_map_around_player(game);
 	engine_draw_map(game);
-	engine_draw_player(game->player);
-}
-
-/*draw the map around the player*/
-void engine_draw_map_around_player(struct Game const *game) {
-	const int level_width = game->map->w;
-	const int taillemap = game->map->w * game->map->h;
-	const int posx = game->player->show_x;
-	const int posy = game->player->show_y;
-	
-	const int coo_player_map = game->player->x + game->player->y*level_width; //the index of the player on the map
-	int beginmap = coo_player_map - PLAYER_VIEW_X - level_width*PLAYER_VIEW_Y; //compute the theorical top left corner
-	int beginline = coo_player_map - PLAYER_VIEW_Y*level_width - coo_player_map%level_width; //index of the tile wich begin the row
-
-	//anti begin oob
-	if(beginmap < 0) {
-		beginmap = game->player->x - PLAYER_VIEW_X;
-		if(beginmap < 0) beginmap = 0;
-	}
-
-	//anti horizontal oob
-	if((coo_player_map - PLAYER_VIEW_X)%level_width > coo_player_map%level_width) {
-		beginmap = beginline > 0 ? beginline : 0;
-	}
-
-	int next = game->player->x + PLAYER_VIEW_X + beginmap/level_width * level_width; //index of the top right corner
-	int endline = beginmap+level_width-beginmap%level_width-1; //index of the tile wich end the row
-
-	if(next > endline) next = endline;
-	if(next < 0) next = game->player->x + PLAYER_VIEW_X;
-
-	int indypro = game->player->y + PLAYER_VIEW_Y; //y value of the bottom row
-	//anti bottom oob
-	if(indypro > taillemap/level_width-1) indypro = taillemap/level_width-1;
-
-	int endmap = next%level_width + level_width*indypro; //index of the bottom right corner
-	int ecart = next - beginmap; //number of column to draw
-
-	//player x, y on the compute map
-	int xcentre = 0, ycentre = 0;
-
-	//calculate the player position in the generated map
-	for(int i = beginmap; i < coo_player_map; i++) {
-		xcentre++;
-
-		if(i == next + ycentre * level_width) {
-			ycentre++;
-			xcentre=0;
-			i = beginmap + ycentre*level_width-1;
-		}
-	}
-
-	int j = 0;
-	int x = posx-xcentre;
-	for(int i = beginmap; i <= endmap; i++) {
-		int y = j + (posy-ycentre);
-		
-		for(int layer = 0; layer < game->map->nb_layers; layer++) {
-			int tile = game->map->layers[layer][i]-1;
-			if(tile != -1) {
-				int tile_x = tile % TILESET_WIDTH;
-				int tile_y = tile / TILESET_WIDTH;
-				dsubimage(x * 16 - game->player->anim.dx * 3, y * 16 - game->player->anim.dy * 3,
-				 game->map->tileset, tile_x * 16, tile_y * 16, 16, 16, DIMAGE_NONE);
-			}
-		}
-
-		x++;
-		if(i==beginmap+ecart+j*level_width) {
-			j++;
-			x=posx-xcentre;
-			i = beginmap + j*level_width-1;
-		}
-	}
+	engine_draw_player(game);
+	dprint(1,15,C_BLACK,"%d:%d",game->camera->x, game->camera->y);
+	dprint(1,30,C_BLACK,"%d:%d",game->map->w, game->map->h);
 }
 
 void engine_draw_map(struct Game const *game) {
@@ -99,14 +27,13 @@ void engine_draw_map(struct Game const *game) {
 		for (int y = -1 ; y <= DHEIGHT / TILE_SIZE + 1; y++) {
 			for (int x = -1 ; x <= DWIDTH / TILE_SIZE + 1; x++) {
 				unsigned int tile_id = 0;
-				if(game->map->w > x && game->map->h > y) {
-					//detect if the map is oob
-					int indexY = (y + y_offset / TILE_SIZE);
-					int indexX = (x + x_offset / TILE_SIZE);
-					if(indexX >= 0 && indexX < game->map->w
-						&& indexY >= 0 && indexY < game->map->h) 
-						tile_id = game->map->layers[layer][indexX + indexY * game->map->w];
-				}
+				//detect if the map is oob
+				int indexY = (y + y_offset / TILE_SIZE);
+				int indexX = (x + x_offset / TILE_SIZE);
+				if(indexX >= 0 && indexX < game->map->w
+					&& indexY >= 0 && indexY < game->map->h) 
+					tile_id = game->map->layers[layer][indexX + indexY * game->map->w];
+				//tile_id = game->map->layers[layer][(x + x_offset / TILE_SIZE) + (y + y_offset / TILE_SIZE) * game->map->w];
 				
 				if (tile_id != 0) {
 					tile_id--;
@@ -125,9 +52,17 @@ void engine_draw_map(struct Game const *game) {
 }
 
 /*draw the player*/
-void engine_draw_player(struct Player const *player) {
-	dframe(player->show_x * 16, player->show_y * 16 - 5, player->anim.img); //draw the player 5 pixel up
-	dprint(1,1,C_BLACK,"%d:%d",player->x, player->y);
+void engine_draw_player(struct Game const *game) {
+	if(game->map->w > DWIDTH / TILE_SIZE + 1 &&
+				game->map->h > DHEIGHT / TILE_SIZE + 1) {
+		dframe(game->player->show_x * 16, game->player->show_y * 16 - 5, game->player->anim.img); //draw the player 5 pixel up
+	} else {
+		int offset_map_x = (DWIDTH / TILE_SIZE - game->map->w + 1)/2;
+		int offset_map_y = (DHEIGHT / TILE_SIZE - game->map->h + 1)/2;
+		dframe((game->player->x + offset_map_x) * 16, 
+		(game->player->y + offset_map_y) * 16 - 5, game->player->anim.img); //draw the player 5 pixel up
+	}
+	dprint(1,1,C_BLACK,"%d:%d",game->player->x, game->player->y);
 }
 
 /*move the player to the direction*/
@@ -142,8 +77,11 @@ int engine_move(struct Game *game, int direction) {
 			game->player->x += dx;
 			game->player->y += dy;
 
-			game->camera->x += dx*16;
-			game->camera->y += dy*16;
+			if(game->map->w > DWIDTH / TILE_SIZE + 1 &&
+				game->map->h > DHEIGHT / TILE_SIZE + 1) {
+				game->camera->x += dx*16;
+				game->camera->y += dy*16;
+			}
 
 			game->player->idle = !anim_player_walking(&game->player->anim, 1);
 			engine_check_position(game);
@@ -160,7 +98,6 @@ int engine_move(struct Game *game, int direction) {
 /*update the player animation*/
 void engine_tick(struct Game *game, int dt) {
 	game->player->anim.duration -= dt;
-	vec_lerp(game->camera, game->player, 0.05);
 	if(game->player->anim.duration <= 0) {
 		game->player->idle = !game->player->anim.function(&game->player->anim, 0);
 	}
@@ -188,12 +125,8 @@ void engine_check_position(struct Game *game) {
 	int player_curr_tile = map_get_player_tile(game);
 	if(player_curr_tile == TILE_DOOR) {
 		engine_set_background(game, C_BLACK);
+		generate_interior_map(game);
 	} else {
 		engine_set_background(game, C_WHITE);
 	}
-}
-
-void vec_lerp(struct Camera *from, struct Player const *to, float scale) {
-	from->x = from->x * (1 - scale) + (to->x*TILE_SIZE + to->x_mid) * scale;
-	from->y = from->y * (1 - scale) + (to->y*TILE_SIZE + to->y_mid) * scale;
 }

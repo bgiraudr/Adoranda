@@ -25,3 +25,5 @@ enum map_state {
 int map_walkable(struct Map const *map, int x, int y);
 /*get the tile under the player*/
 int map_get_player_tile(struct Game const *game);
+
+void generate_interior_map(struct Game *game);

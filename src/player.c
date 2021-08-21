@@ -21,3 +21,8 @@ int player_facing(struct Game const *game) {
 	}
 	return TILE_SOLID;
 }
+
+void set_player_xy(struct Player *player, int x, int y) {
+	player->x = x;
+	player->y = y;
+}

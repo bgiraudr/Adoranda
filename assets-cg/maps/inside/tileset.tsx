@@ -3,7 +3,7 @@
  <editorsettings>
   <export target="tileset.json" format="json"/>
  </editorsettings>
- <image source="../tileset.png" width="464" height="416"/>
+ <image source="../../tileset.png" width="464" height="416"/>
  <tile id="15" type="solid"/>
  <tile id="16" type="solid"/>
  <tile id="17" type="solid"/>

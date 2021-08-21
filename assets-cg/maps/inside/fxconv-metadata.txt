@@ -1,0 +1,3 @@
+interior_1.json:
+  custom-type: map
+  name: in_1

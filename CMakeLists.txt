@@ -16,8 +16,9 @@ add_custom_command(
 	COMMENT "Convert tmx map to json"
 	COMMAND tiled --export-tileset json tileset.tsx tileset.json
 	COMMAND tiled --export-map json testCarte.tmx testCarte.json
+	COMMAND tiled --export-map json inside/interior_1.tmx inside/interior_1.json
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
-	DEPENDS assets-cg/maps/testCarte.tmx assets-cg/tileset.png assets-cg/maps/tileset.tsx assets-cg/converters.py)
+	DEPENDS assets-cg/maps/testCarte.tmx assets-cg/tileset.png assets-cg/maps/tileset.tsx assets-cg/converters.py assets-cg/maps/inside/interior_1.tmx)
 	
 set(SOURCES
 	src/main.c
@@ -33,6 +34,7 @@ set(SOURCES
 set(ASSETS_cg
 	assets-cg/tileset.png
 	assets-cg/maps/testCarte.json
+	assets-cg/maps/inside/interior_1.json
 	assets-cg/spritesheet.png
 	assets-cg/characters/Tituya.char
 	assets-cg/characters/Lephenixnoir.char
