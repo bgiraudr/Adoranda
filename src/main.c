@@ -28,8 +28,8 @@ int main(void) {
 	struct Player player = {
 		.x = 32,
 		.y = 30,
-		.x_mid = 7,
-		.y_mid = 2,
+		.x_mid = 6,
+		.y_mid = 1,
 		.show_x = 12,
 		.show_y = 7,
 		.direction = DIR_DOWN,

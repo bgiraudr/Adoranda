@@ -63,6 +63,7 @@
  <tile id="234" type="solid"/>
  <tile id="235" type="solid"/>
  <tile id="236" type="solid"/>
+ <tile id="237" type="door_out"/>
  <tile id="239" type="solid"/>
  <tile id="240" type="solid"/>
  <tile id="241" type="solid"/>
@@ -190,15 +191,15 @@
  <tile id="723" type="solid"/>
  <tile id="724" type="solid"/>
  <tile id="742" type="solid"/>
- <tile id="743" type="door"/>
+ <tile id="743" type="door_in"/>
  <tile id="744" type="solid"/>
  <tile id="745" type="solid"/>
  <tile id="746" type="solid"/>
- <tile id="747" type="door"/>
+ <tile id="747" type="door_in"/>
  <tile id="748" type="solid"/>
  <tile id="749" type="solid"/>
  <tile id="750" type="solid"/>
- <tile id="751" type="door"/>
+ <tile id="751" type="door_in"/>
  <tile id="752" type="solid"/>
  <tile id="753" type="solid"/>
  <wangsets>

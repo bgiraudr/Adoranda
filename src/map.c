@@ -25,3 +25,12 @@ void generate_interior_map(struct Game *game) {
 	game->camera->x = in_1.w/2 * TILE_SIZE + game->player->x_mid;
 	game->camera->y = in_1.h/2 * TILE_SIZE + game->player->y_mid;
 }
+
+/*return true if the map is larger than the screen. false otherwise*/
+bool is_map_larger(struct Map *map) {
+	if(map->w > DWIDTH / TILE_SIZE + 1 && map->h > DHEIGHT / TILE_SIZE + 1) {
+		return true;
+	} else {
+		return false;
+	}
+}

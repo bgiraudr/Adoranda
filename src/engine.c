@@ -41,9 +41,15 @@ void engine_draw_map(struct Game const *game) {
 					unsigned int tile_y = TILE_SIZE * (tile_id / TILESET_WIDTH);
 
 					//provisoire le temps de trouver une manière propre
-					dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE - game->player->anim.dx * 3, 
-						y * TILE_SIZE - y_offset%TILE_SIZE - game->player->anim.dy * 3, game->map->tileset, 
-						tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
+					if(is_map_larger(game->map)) {
+						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE - game->player->anim.dx * 3, 
+							y * TILE_SIZE - y_offset%TILE_SIZE - game->player->anim.dy * 3, game->map->tileset, 
+							tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
+					} else {
+						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
+							y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 
+							tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
+					}
 				}
 			}
 		}
@@ -53,14 +59,19 @@ void engine_draw_map(struct Game const *game) {
 
 /*draw the player*/
 void engine_draw_player(struct Game const *game) {
-	if(game->map->w > DWIDTH / TILE_SIZE + 1 &&
-				game->map->h > DHEIGHT / TILE_SIZE + 1) {
-		dframe(game->player->show_x * 16, game->player->show_y * 16 - 5, game->player->anim.img); //draw the player 5 pixel up
+	if(is_map_larger(game->map)) {
+		dframe(game->player->show_x * TILE_SIZE, 
+		game->player->show_y * TILE_SIZE - 5, 
+		game->player->anim.img); //draw the player 5 pixel up
+
 	} else {
-		int offset_map_x = (DWIDTH / TILE_SIZE - game->map->w + 1)/2;
-		int offset_map_y = (DHEIGHT / TILE_SIZE - game->map->h + 1)/2;
-		dframe((game->player->x + offset_map_x) * 16, 
-		(game->player->y + offset_map_y) * 16 - 5, game->player->anim.img); //draw the player 5 pixel up
+		const int offset_map_x = (DWIDTH / TILE_SIZE - game->map->w + 1)/2;
+		const int offset_map_y = (DHEIGHT / TILE_SIZE - game->map->h + 1)/2;
+
+		dframe(
+			(game->player->x + offset_map_x) * TILE_SIZE + game->player->anim.dx*3,
+			(game->player->y + offset_map_y) * TILE_SIZE - 5 + game->player->anim.dy*3,
+			game->player->anim.img); //draw the player 5 pixel up
 	}
 	dprint(1,1,C_BLACK,"%d:%d",game->player->x, game->player->y);
 }
@@ -77,8 +88,7 @@ int engine_move(struct Game *game, int direction) {
 			game->player->x += dx;
 			game->player->y += dy;
 
-			if(game->map->w > DWIDTH / TILE_SIZE + 1 &&
-				game->map->h > DHEIGHT / TILE_SIZE + 1) {
+			if(is_map_larger(game->map)) {
 				game->camera->x += dx*16;
 				game->camera->y += dy*16;
 			}
@@ -123,10 +133,11 @@ void engine_action(struct Game const *game, int action) {
 /*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct Game *game) {
 	int player_curr_tile = map_get_player_tile(game);
-	if(player_curr_tile == TILE_DOOR) {
+	if(player_curr_tile == TILE_DOOR_IN) {
 		engine_set_background(game, C_BLACK);
 		generate_interior_map(game);
-	} else {
+	}
+	if(player_curr_tile == TILE_DOOR_OUT) {
 		engine_set_background(game, C_WHITE);
 	}
 }

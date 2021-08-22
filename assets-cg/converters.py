@@ -14,16 +14,25 @@ def convert(input, output, params, target):
 def convert_map(input, output, params, target):
 	TILE_AIR = 0
 	TILE_SOLID = 1
-	TILE_DOOR = 2
-	TILE_CHARACTER = 3
+	TILE_DOOR_IN = 2
+	TILE_DOOR_OUT = 3
+	TILE_CHARACTER = 4
 
 	TILE_BRIDGE = -1 #only for bridge detection to avoid solid behind
 
 	with open(input, "r") as jsonData:
 		data = json.load(jsonData)
 
-	#find the tileset using the location of the input
-	tileset = open(input.replace(input.split("/")[-1], "tileset.json"), "r")
+	#find the tileset in use. it's a relative path (like ../tileset.tsx)
+	nameTileset = data["tilesets"][0]["source"].replace(".tsx","")
+	#the name of the tileset without the .something
+	nameTilesetFree = nameTileset.split("/")[-1]
+	#count the number of "back" (cd ..) to locate the tileset on the computer
+	nbRetour = nameTileset.count("..")+1
+	#create the tileset absolute path 
+	tilesetPath = "/".join(input.split("/")[:-nbRetour]) + "/" + nameTileset.split("/")[-1] + ".json"
+
+	tileset = open(tilesetPath, "r")
 	data_tileset = json.load(tileset)
 	tileset.close()
 
@@ -39,8 +48,10 @@ def convert_map(input, output, params, target):
 				value = TILE_AIR
 			elif type == "solid":
 				value = TILE_SOLID
-			elif type == "door":
-				value = TILE_DOOR
+			elif type == "door_in":
+				value = TILE_DOOR_IN
+			elif type == "door_out":
+				value = TILE_DOOR_OUT
 			elif type == "character":
 				value = TILE_CHARACTER
 			elif type == "bridge":
@@ -58,7 +69,7 @@ def convert_map(input, output, params, target):
 
 	o = fxconv.ObjectData()
 	o += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nblayer)
-	o += fxconv.ref("img_tileset")
+	o += fxconv.ref(f"img_{nameTilesetFree}")
 
 	#generation of the collision map (take the maximum of the layer except for bridges)
 	#bridges are always walkable

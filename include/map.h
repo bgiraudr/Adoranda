@@ -2,6 +2,7 @@
 
 #include <gint/display.h>
 #include "engine.h"
+#include <stdbool.h>
 
 struct Map {
 	/*width, height and the number of layer of the map (max 2)*/
@@ -17,8 +18,9 @@ struct Map {
 enum map_state {
 	TILE_AIR = 0,
 	TILE_SOLID = 1,
-	TILE_DOOR = 2,
-	TILE_CHARACTER = 3,
+	TILE_DOOR_IN = 2,
+	TILE_DOOR_OUT = 3,
+	TILE_CHARACTER = 4,
 };
 
 /*check if a tile is walkable*/
@@ -27,3 +29,5 @@ int map_walkable(struct Map const *map, int x, int y);
 int map_get_player_tile(struct Game const *game);
 
 void generate_interior_map(struct Game *game);
+
+bool is_map_larger(struct Map *map);
