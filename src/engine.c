@@ -42,8 +42,8 @@ void engine_draw_map(struct Game const *game) {
 
 					//provisoire le temps de trouver une manière propre
 					if(is_map_larger(game->map)) {
-						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE - game->player->anim.dx * 3, 
-							y * TILE_SIZE - y_offset%TILE_SIZE - game->player->anim.dy * 3, game->map->tileset, 
+						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
+							y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 
 							tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
 					} else {
 						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
