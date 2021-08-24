@@ -24,6 +24,12 @@ vec2_mul(struct Vec2 v, int scale)
 	return VEC2(v.x * scale, v.y * scale);
 }
 
+struct Vec2f
+vec2f_mul(struct Vec2f v, int scale)
+{
+	return VEC2F(v.x * scale, v.y * scale);
+}
+
 struct Vec2
 vec2f_vec2(struct Vec2f v)
 {

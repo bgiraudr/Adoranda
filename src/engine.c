@@ -88,11 +88,6 @@ int engine_move(struct Game *game, int direction) {
 			game->player->pos.x += dx;
 			game->player->pos.y += dy;
 
-			if(is_map_larger(game->map)) {
-				game->camera.offset.x += dx*16;
-				game->camera.offset.y += dy*16;
-			}
-
 			game->player->idle = !anim_player_walking(&game->player->anim, 1);
 			engine_check_position(game);
 		} else {
@@ -105,12 +100,15 @@ int engine_move(struct Game *game, int direction) {
 	return 1;
 }
 
-/*update the player animation*/
-void engine_tick(struct Game *game, int dt) {
-	game->player->anim.duration -= dt;
-	if(game->player->anim.duration <= 0) {
-		game->player->idle = !game->player->anim.function(&game->player->anim, 0);
+void engine_tick(struct Game *g, int dt) {
+	/* update the player animation */
+	g->player->anim.duration -= dt;
+	if(g->player->anim.duration <= 0) {
+		g->player->idle = !g->player->anim.function(&g->player->anim, 0);
 	}
+	/* update camera */
+	g->player->pos_visual = vec2_vec2f(vec2_mul(g->player->pos, TILE_SIZE));
+	camera_update(&g->camera);
 }
 
 /*set the background color*/

@@ -1,4 +1,5 @@
 #include "player.h"
+#include "define.h"
 #include "engine.h"
 #include "map.h"
 #include "game.h"
@@ -23,7 +24,7 @@ int player_facing(struct Game const *game) {
 }
 
 /* lol */
-void set_player_xy(struct Player *player, int x, int y) {
-	player->pos.x = x;
-	player->pos.y = y;
+void set_player_xy(struct Player *p, int x, int y) {
+	p->pos.x = x;
+	p->pos.y = y;
 }

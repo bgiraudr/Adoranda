@@ -11,3 +11,4 @@ struct Camera {
 };
 
 struct Camera camera_new(struct Vec2f *target);
+void camera_update(struct Camera*);

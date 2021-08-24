@@ -32,4 +32,3 @@ void engine_set_background(struct Game *game, int color);
 void engine_action(struct Game const *game, int action);
 /*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct Game *game);
-void vec_lerp(struct Camera *from, struct Player const *to, float scale);
