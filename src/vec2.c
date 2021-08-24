@@ -18,6 +18,12 @@ vec2_sub(struct Vec2 v1, struct Vec2 v2)
 	return VEC2(v1.x - v2.x, v1.y - v2.y);
 }
 
+struct Vec2f
+vec2f_sub(struct Vec2f v1, struct Vec2f v2)
+{
+	return VEC2F(v1.x - v2.x, v1.y - v2.y);
+}
+
 struct Vec2
 vec2_mul(struct Vec2 v, int scale)
 {

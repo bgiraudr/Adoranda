@@ -58,22 +58,25 @@ void engine_draw_map(struct Game const *game) {
 }
 
 /*draw the player*/
-void engine_draw_player(struct Game const *game) {
-	if(is_map_larger(game->map)) {
-		dframe(game->player->show_x * TILE_SIZE, 
-		game->player->show_y * TILE_SIZE - 5, 
-		game->player->anim.img); //draw the player 5 pixel up
+void engine_draw_player(struct Game const *g) {
+	struct Vec2f draw_offset = vec2f_sub(g->player->pos_visual, vec2_vec2f(g->camera.offset));
+	draw_offset.x += g->player->anim.dx * 3;
+	draw_offset.y += g->player->anim.dy * 3;
+	if(is_map_larger(g->map)) {
+		dframe(g->player->show_x * TILE_SIZE + draw_offset.x, 
+		g->player->show_y * TILE_SIZE - 5 + draw_offset.y, 
+		g->player->anim.img); //draw the player 5 pixel up
 
 	} else {
-		const int offset_map_x = (DWIDTH / TILE_SIZE - game->map->w + 1)/2;
-		const int offset_map_y = (DHEIGHT / TILE_SIZE - game->map->h + 1)/2;
+		const int offset_map_x = (DWIDTH / TILE_SIZE - g->map->w + 1)/2;
+		const int offset_map_y = (DHEIGHT / TILE_SIZE - g->map->h + 1)/2;
 
 		dframe(
-			(game->player->pos.x + offset_map_x) * TILE_SIZE + game->player->anim.dx*3,
-			(game->player->pos.y + offset_map_y) * TILE_SIZE - 5 + game->player->anim.dy*3,
-			game->player->anim.img); //draw the player 5 pixel up
+			(g->player->pos.x + offset_map_x) * TILE_SIZE + g->player->anim.dx*3,
+			(g->player->pos.y + offset_map_y) * TILE_SIZE - 5 + g->player->anim.dy*3,
+			g->player->anim.img); //draw the player 5 pixel up
 	}
-	dprint(1,1,C_BLACK,"%d:%d",game->player->pos.x, game->player->pos.y);
+	dprint(1,1,C_BLACK,"%d:%d",g->player->pos.x, g->player->pos.y);
 }
 
 /*move the player to the direction*/
