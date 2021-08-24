@@ -41,3 +41,13 @@ vec2_vec2f(struct Vec2 v)
 {
 	return VEC2F(v.x, v.y);
 }
+
+struct Vec2f
+vec2f_lerp(struct Vec2f from, struct Vec2f to, float scale) {
+	/* Linear interpolation: can be used for camera and animations.
+	 * 'scale' is the transformation speed, 0 slow and 1 fast. */
+	return VEC2F(
+		from.x * (1.0-scale) + to.x * scale,
+		from.y * (1.0-scale) + to.y * scale
+	);
+}

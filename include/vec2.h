@@ -24,3 +24,4 @@ struct Vec2 vec2_mul(struct Vec2, int scale);
 struct Vec2f vec2f_mul(struct Vec2f, int scale);
 struct Vec2 vec2f_vec2(struct Vec2f);
 struct Vec2f vec2_vec2f(struct Vec2);
+struct Vec2f vec2f_lerp(struct Vec2f from, struct Vec2f to, float scale);

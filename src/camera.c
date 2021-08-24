@@ -11,6 +11,6 @@ struct Camera camera_new(struct Vec2f *target) {
 }
 
 void camera_update(struct Camera *c) {
-	c->pos = *c->target;
+	c->pos = vec2f_lerp(c->pos, *c->target, 0.2);
 	c->offset = vec2f_vec2(c->pos);
 }
