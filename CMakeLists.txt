@@ -23,13 +23,15 @@ add_custom_command(
 
 set(SOURCES
 	src/main.c
+	src/character.c
+	src/vec2.c
 	src/game.c
 	src/engine.c
-	src/animation.c
-	src/character.c
-	src/player.c
+	src/camera.c
 	src/map.c
+	src/player.c
 	src/util.c
+	src/animation.c
 )
 
 set(ASSETS_cg

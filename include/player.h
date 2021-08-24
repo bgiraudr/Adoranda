@@ -1,11 +1,13 @@
 #pragma once
-
 #include "animation.h"
 #include "engine.h"
+#include "vec2.h"
 
 struct Player {
 	/*current position of the player on the map - Tile*/
-	int x, y;
+	struct Vec2 pos;
+	/*current position of the player on the map - pixels */
+	struct Vec2f pos_visual;
 	/*player mid - offset pixels*/
 	int x_mid, y_mid;
 	/*the direction the player facing to*/

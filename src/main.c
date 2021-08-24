@@ -26,8 +26,8 @@ static int callback_tick(volatile int *tick) {
 int main(void) {
 	/*Structure definition*/
 	struct Player player = {
-		.x = 32,
-		.y = 30,
+		.pos = VEC2(32, 30),
+		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
 		.x_mid = 6,
 		.y_mid = 1,
 		.show_x = 12,
@@ -38,15 +38,10 @@ int main(void) {
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
 
-	struct Camera camera = {
-		.x = player.x * TILE_SIZE + player.x_mid,
-		.y = player.y * TILE_SIZE + player.y_mid
-	};
-
 	struct Game game = {
 		.map = maps[0],
 		.player = &player,
-		.camera = &camera,
+		.camera = camera_new(&player.pos_visual),
 		.background = C_WHITE
 	};
 	game.characters = get_map_characters(1);
@@ -67,7 +62,7 @@ int main(void) {
 		dupdate();
 
 		int action = get_inputs();
-		if(action >= 0 && action <= 3) 
+		if(action >= 0 && action <= 3)
 			engine_move(&game, action);
 		else if(action >= 4) {
 			engine_action(&game, action);

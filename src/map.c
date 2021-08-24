@@ -14,7 +14,7 @@ int map_walkable(struct Map const *map, int x, int y) {
 
 /*get the tile under the player*/
 int map_get_player_tile(struct Game const *game) {
-	return game->map->info_map[game->player->x + game->map->w * game->player->y];
+	return game->map->info_map[game->player->pos.x + game->map->w * game->player->pos.y];
 	return 0;
 }
 
@@ -22,8 +22,8 @@ void generate_interior_map(struct Game *game) {
 	extern struct Map in_1;
 	game->map = &in_1;
 	set_player_xy(game->player, 3,3);
-	game->camera->x = in_1.w/2 * TILE_SIZE + game->player->x_mid;
-	game->camera->y = in_1.h/2 * TILE_SIZE + game->player->y_mid;
+	game->camera.pos.x = in_1.w/2 * TILE_SIZE + game->player->x_mid;
+	game->camera.pos.y = in_1.h/2 * TILE_SIZE + game->player->y_mid;
 }
 
 /*return true if the map is larger than the screen. false otherwise*/

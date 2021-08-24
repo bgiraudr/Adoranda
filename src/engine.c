@@ -14,13 +14,13 @@ void engine_draw(struct Game const *game) {
 	dclear(game->background);
 	engine_draw_map(game);
 	engine_draw_player(game);
-	dprint(1,15,C_BLACK,"%d:%d",game->camera->x, game->camera->y);
+	dprint(1,15,C_BLACK,"%d:%d",game->camera.offset.x, game->camera.offset.y);
 	dprint(1,30,C_BLACK,"%d:%d",game->map->w, game->map->h);
 }
 
 void engine_draw_map(struct Game const *game) {
-	int x_offset = (game->camera->x - DWIDTH/2);
-	int y_offset = (game->camera->y - DHEIGHT/2);
+	int x_offset = (game->camera.offset.x - DWIDTH/2);
+	int y_offset = (game->camera.offset.y - DHEIGHT/2);
 
 	//currently -1 to avoid white during transition
 	for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
@@ -31,10 +31,10 @@ void engine_draw_map(struct Game const *game) {
 				int indexY = (y + y_offset / TILE_SIZE);
 				int indexX = (x + x_offset / TILE_SIZE);
 				if(indexX >= 0 && indexX < game->map->w
-					&& indexY >= 0 && indexY < game->map->h) 
+					&& indexY >= 0 && indexY < game->map->h)
 					tile_id = game->map->layers[layer][indexX + indexY * game->map->w];
 				//tile_id = game->map->layers[layer][(x + x_offset / TILE_SIZE) + (y + y_offset / TILE_SIZE) * game->map->w];
-				
+
 				if (tile_id != 0) {
 					tile_id--;
 					unsigned int tile_x = TILE_SIZE * (tile_id % TILESET_WIDTH);
@@ -69,11 +69,11 @@ void engine_draw_player(struct Game const *game) {
 		const int offset_map_y = (DHEIGHT / TILE_SIZE - game->map->h + 1)/2;
 
 		dframe(
-			(game->player->x + offset_map_x) * TILE_SIZE + game->player->anim.dx*3,
-			(game->player->y + offset_map_y) * TILE_SIZE - 5 + game->player->anim.dy*3,
+			(game->player->pos.x + offset_map_x) * TILE_SIZE + game->player->anim.dx*3,
+			(game->player->pos.y + offset_map_y) * TILE_SIZE - 5 + game->player->anim.dy*3,
 			game->player->anim.img); //draw the player 5 pixel up
 	}
-	dprint(1,1,C_BLACK,"%d:%d",game->player->x, game->player->y);
+	dprint(1,1,C_BLACK,"%d:%d",game->player->pos.x, game->player->pos.y);
 }
 
 /*move the player to the direction*/
@@ -84,13 +84,13 @@ int engine_move(struct Game *game, int direction) {
 	if(!game->player->idle) return 0;
 
 	if(game->player->direction == direction) {
-		if(map_walkable(game->map, game->player->x + dx, game->player->y + dy)) {
-			game->player->x += dx;
-			game->player->y += dy;
+		if(map_walkable(game->map, game->player->pos.x + dx, game->player->pos.y + dy)) {
+			game->player->pos.x += dx;
+			game->player->pos.y += dy;
 
 			if(is_map_larger(game->map)) {
-				game->camera->x += dx*16;
-				game->camera->y += dy*16;
+				game->camera.offset.x += dx*16;
+				game->camera.offset.y += dy*16;
 			}
 
 			game->player->idle = !anim_player_walking(&game->player->anim, 1);
@@ -125,7 +125,7 @@ void engine_action(struct Game const *game, int action) {
 			int direction = game->player->direction;
 			int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 			int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
-			draw_dialog(get_character_xy(game->characters, game->player->x + dx, game->player->y + dy));
+			draw_dialog(get_character_xy(game->characters, game->player->pos.x + dx, game->player->pos.y + dy));
 		}
 	}
 }

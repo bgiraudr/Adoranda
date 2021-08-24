@@ -1,4 +1,5 @@
 #pragma once
+#include "camera.h"
 
 #define ENGINE_TICK 35
 
@@ -10,7 +11,7 @@ struct Game {
 	/*list of all the characters on the map*/
 	struct Character **characters;
 	/*the camera*/
-	struct Camera *camera;
+	struct Camera camera;
 	/*the background color*/
 	int background;
 };

@@ -1,8 +1,7 @@
 #pragma once
-
 #include <gint/display.h>
-#include "engine.h"
 #include <stdbool.h>
+#include "engine.h"
 
 struct Map {
 	/*width, height and the number of layer of the map (max 2)*/
