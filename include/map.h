@@ -28,5 +28,3 @@ int map_walkable(struct Map const *map, int x, int y);
 int map_get_player_tile(struct Game const *game);
 
 void generate_interior_map(struct Game *game);
-
-bool is_map_larger(struct Map *map);

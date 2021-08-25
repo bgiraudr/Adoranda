@@ -19,8 +19,8 @@ struct Map *maps[] = {
 };
 
 static int callback_tick(volatile int *tick) {
-    *tick = 1;
-    return TIMER_CONTINUE;
+	*tick = 1;
+	return TIMER_CONTINUE;
 }
 
 int main(void) {

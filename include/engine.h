@@ -1,20 +1,7 @@
 #pragma once
-#include "camera.h"
+#include "game.h"
 
 #define ENGINE_TICK 35
-
-struct Game {
-	/*the current map to display*/
-	struct Map *map;
-	/*the player*/
-	struct Player *player;
-	/*list of all the characters on the map*/
-	struct Character **characters;
-	/*the camera*/
-	struct Camera camera;
-	/*the background color*/
-	int background;
-};
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game);

@@ -8,6 +8,7 @@
 #include "define.h"
 #include "character.h"
 #include "camera.h"
+#include "vec2.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
@@ -40,16 +41,9 @@ void engine_draw_map(struct Game const *game) {
 					unsigned int tile_x = TILE_SIZE * (tile_id % TILESET_WIDTH);
 					unsigned int tile_y = TILE_SIZE * (tile_id / TILESET_WIDTH);
 
-					//provisoire le temps de trouver une manière propre
-					if(is_map_larger(game->map)) {
-						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
-							y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 
-							tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
-					} else {
-						dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
-							y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 
-							tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
-					}
+					dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
+						y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 
+						tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
 				}
 			}
 		}
@@ -62,20 +56,11 @@ void engine_draw_player(struct Game const *g) {
 	struct Vec2f draw_offset = vec2f_sub(g->player->pos_visual, vec2_vec2f(g->camera.offset));
 	draw_offset.x += g->player->anim.dx * 3;
 	draw_offset.y += g->player->anim.dy * 3;
-	if(is_map_larger(g->map)) {
-		dframe(g->player->show_x * TILE_SIZE + draw_offset.x, 
-		g->player->show_y * TILE_SIZE - 5 + draw_offset.y, 
-		g->player->anim.img); //draw the player 5 pixel up
 
-	} else {
-		const int offset_map_x = (DWIDTH / TILE_SIZE - g->map->w + 1)/2;
-		const int offset_map_y = (DHEIGHT / TILE_SIZE - g->map->h + 1)/2;
+	dframe(g->player->show_x * TILE_SIZE + draw_offset.x + g->player->x_mid, 
+	g->player->show_y * TILE_SIZE - 5 + draw_offset.y + g->player->y_mid, 
+	g->player->anim.img); //draw the player 5 pixel up
 
-		dframe(
-			(g->player->pos.x + offset_map_x) * TILE_SIZE + g->player->anim.dx*3,
-			(g->player->pos.y + offset_map_y) * TILE_SIZE - 5 + g->player->anim.dy*3,
-			g->player->anim.img); //draw the player 5 pixel up
-	}
 	dprint(1,1,C_BLACK,"%d:%d",g->player->pos.x, g->player->pos.y);
 }
 
