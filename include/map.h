@@ -5,9 +5,11 @@
 
 struct Map {
 	/*width, height and the number of layer of the map (max 2)*/
-	int w, h, nb_layers;
+	int w, h, nb_layers, dialog_count;
 	/*the tileset to use*/
 	bopti_image_t *tileset;
+	/*list of all the dialog*/
+	struct Talkable *dialogs;
 	/*state of each tile on the map (solid, air ...)*/
 	short *info_map;
 	/*list of all the tiles*/
@@ -19,7 +21,7 @@ enum map_state {
 	TILE_SOLID = 1,
 	TILE_DOOR_IN = 2,
 	TILE_DOOR_OUT = 3,
-	TILE_CHARACTER = 4,
+	TILE_TALKABLE = 4,
 };
 
 /*check if a tile is walkable*/

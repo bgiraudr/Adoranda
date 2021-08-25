@@ -5,9 +5,6 @@ def convert(input, output, params, target):
 	if params["custom-type"] == "map":
 		convert_map(input, output, params, target)
 		return 0
-	elif params["custom-type"] == "character":
-		convert_character(input, output, params, target)
-		return 0
 	else:
 		return 1
 
@@ -16,7 +13,7 @@ def convert_map(input, output, params, target):
 	TILE_SOLID = 1
 	TILE_DOOR_IN = 2
 	TILE_DOOR_OUT = 3
-	TILE_CHARACTER = 4
+	TILE_TALKABLE = 4
 
 	TILE_BRIDGE = -1 #only for bridge detection to avoid solid behind
 
@@ -52,8 +49,8 @@ def convert_map(input, output, params, target):
 				value = TILE_DOOR_IN
 			elif type == "door_out":
 				value = TILE_DOOR_OUT
-			elif type == "character":
-				value = TILE_CHARACTER
+			elif type == "talkable":
+				value = TILE_TALKABLE
 			elif type == "bridge":
 				value = TILE_BRIDGE
 			else:
@@ -65,11 +62,40 @@ def convert_map(input, output, params, target):
 
 	#Extract from the json the width, height and layers of the map
 	w, h = data["width"], data["height"]
-	nblayer = len(data["layers"])
+	indexObjectlayer = None
 
-	o = fxconv.ObjectData()
-	o += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nblayer)
-	o += fxconv.ref(f"img_{nameTilesetFree}")
+	nbTilelayer = len(data["layers"])
+	for i in range(nbTilelayer):
+		try:
+			data["layers"][i]["data"]
+			#nbTileLayer is the number of "true" layers (without ObjectsLayer)
+			nbTilelayer = i+1
+		except KeyError:
+			indexObjectlayer = i
+			break
+
+	if indexObjectlayer != None: 
+		nbDialog = len(data["layers"][indexObjectlayer]["objects"])
+	else:
+		nbDialog = 0
+
+	structMap = fxconv.Structure()
+	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog)
+	structMap += fxconv.ref(f"img_{nameTilesetFree}")
+
+	dialogs = fxconv.Structure()
+	if indexObjectlayer != None:
+		#generate all of the dialog
+		for i in data["layers"][indexObjectlayer]["objects"]:
+			dialogs += fxconv.u32(int(i["x"]/i["width"]))
+			#Tiled seem to start at the bottom y of the object
+			#So if tile is 16 px wide, you would start at line y = 1
+			dialogs += fxconv.u32(int(i["y"]/i["width"])-1)
+			for j in i["properties"]:
+				if(j["value"] == ""): j["value"] = " "
+				dialogs += fxconv.string(j["value"])
+
+	structMap += fxconv.ptr(dialogs)
 
 	#generation of the collision map (take the maximum of the layer except for bridges)
 	#bridges are always walkable
@@ -78,7 +104,7 @@ def convert_map(input, output, params, target):
 	maxValue = 0
 	bridge = False
 	for x in range(w*h):
-		for i in range(nblayer):
+		for i in range(nbTilelayer):
 			value = tile_value.get(data["layers"][i]["data"][x])
 			if value == None: value = TILE_AIR
 			if value > maxValue: maxValue = value
@@ -91,27 +117,16 @@ def convert_map(input, output, params, target):
 		info_map += fxconv.u16(maxValue)
 		maxValue = 0
 		bridge = False
-	o += fxconv.ref(info_map)
+	structMap += fxconv.ref(info_map)
 
 	#generate the array of tiles from the layer
-	for layer in data["layers"]:
+	for i in range(nbTilelayer):
 		layer_data = bytes()
-
+		layer = data["layers"][i]
 		for tile in layer["data"]:
 			layer_data += fxconv.u16(tile)
-		
-		o += fxconv.ref(layer_data)
+
+		structMap += fxconv.ref(layer_data)
 
 	#generate !
-	fxconv.elf(o, output, "_" + params["name"], **target)
-
-def convert_character(input, output, params, target):
-	with open(input,"r") as dialog:
-		file = dialog.read().splitlines()
-
-	o = fxconv.ObjectData()
-	o += fxconv.u32((int)(file[0])) + fxconv.u32((int)(file[1]))
-	o += fxconv.ref(bytes(file[2], 'utf-8') + bytes(1)) #bytes(1) is necessary to end a char
-	o += fxconv.ref(bytes(file[3], 'utf-8') + bytes(1))
-	
-	fxconv.elf(o, output, "_" + params["name"], **target)
+	fxconv.elf(structMap, output, "_" + params["name"], **target)

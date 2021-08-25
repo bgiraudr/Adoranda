@@ -19,13 +19,13 @@
  <tile id="45" type="solid"/>
  <tile id="46" type="solid"/>
  <tile id="47" type="solid"/>
- <tile id="48" type="character"/>
- <tile id="49" type="solid"/>
+ <tile id="48" type="talkable"/>
+ <tile id="49" type="talkable"/>
  <tile id="52" type="solid"/>
  <tile id="53" type="solid"/>
  <tile id="54" type="solid"/>
- <tile id="56" type="character"/>
- <tile id="57" type="character"/>
+ <tile id="56" type="talkable"/>
+ <tile id="57" type="talkable"/>
  <tile id="78" type="solid"/>
  <tile id="79" type="solid"/>
  <tile id="80" type="solid"/>
@@ -88,6 +88,12 @@
  <tile id="263" type="solid"/>
  <tile id="264" type="solid"/>
  <tile id="265" type="solid"/>
+ <tile id="266" type="text">
+  <properties>
+   <property name="name" value=""/>
+   <property name="text" value=""/>
+  </properties>
+ </tile>
  <tile id="268" type="solid"/>
  <tile id="269" type="solid"/>
  <tile id="270" type="solid"/>

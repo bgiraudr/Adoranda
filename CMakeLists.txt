@@ -23,7 +23,7 @@ add_custom_command(
 
 set(SOURCES
 	src/main.c
-	src/character.c
+	src/talkable.c
 	src/vec2.c
 	src/game.c
 	src/engine.c
@@ -39,12 +39,6 @@ set(ASSETS_cg
 	assets-cg/maps/testCarte.json
 	assets-cg/maps/inside/interior_1.json
 	assets-cg/spritesheet.png
-	assets-cg/characters/Tituya.char
-	assets-cg/characters/Lephenixnoir.char
-	assets-cg/characters/KikooDX.char
-	assets-cg/characters/Massena.char
-	assets-cg/characters/Tituya2.char
-	assets-cg/characters/PancarteVille.char
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="25">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="38">
  <editorsettings>
   <export target="testCarte.json" format="json"/>
  </editorsettings>
@@ -88,4 +88,36 @@
 294,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,381,382,383,381,382,383,381,382,383,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="10" name="text">
+  <object id="33" gid="267" x="592" y="528" width="16" height="16">
+   <properties>
+    <property name="name" value="Tituya"/>
+    <property name="text" value="J'ai toujours aimé ce pont;Pas toi ?"/>
+   </properties>
+  </object>
+  <object id="34" gid="267" x="704" y="368" width="16" height="16">
+   <properties>
+    <property name="name" value="Pancarte"/>
+    <property name="text" value="Ne vous aventurez pas trop loin !"/>
+   </properties>
+  </object>
+  <object id="35" gid="267" x="720" y="368" width="16" height="16">
+   <properties>
+    <property name="name" value=""/>
+    <property name="text" value="Une belle pancarte &lt;3"/>
+   </properties>
+  </object>
+  <object id="36" gid="267" x="800" y="496" width="16" height="16">
+   <properties>
+    <property name="name" value="Lephenixnoir"/>
+    <property name="text" value="Regarde ! Je n'ai pas de reflet !"/>
+   </properties>
+  </object>
+  <object id="37" gid="267" x="656" y="176" width="16" height="16">
+   <properties>
+    <property name="name" value="KikooDX"/>
+    <property name="text" value="Je te rassure, pas de Pokémon !"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

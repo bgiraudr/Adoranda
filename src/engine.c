@@ -6,7 +6,7 @@
 #include "player.h"
 #include "animation.h"
 #include "define.h"
-#include "character.h"
+#include "talkable.h"
 #include "camera.h"
 #include "vec2.h"
 
@@ -107,11 +107,11 @@ void engine_set_background(struct Game *game, int color) {
 /*make an interaction with something*/
 void engine_action(struct Game const *game, int action) {
 	if(action == ACTION_SHIFT) {
-		if(player_facing(game) == TILE_CHARACTER) {
+		if(player_facing(game) == TILE_TALKABLE) {
 			int direction = game->player->direction;
 			int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 			int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
-			draw_dialog(get_character_xy(game->characters, game->player->pos.x + dx, game->player->pos.y + dy));
+			draw_dialog(get_dialog_xy(game->map, game->player->pos.x + dx, game->player->pos.y + dy));
 		}
 	}
 }

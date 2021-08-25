@@ -5,7 +5,6 @@
 #include "engine.h"
 #include "player.h"
 #include "animation.h"
-#include "character.h"
 #include "camera.h"
 #include "define.h"
 
@@ -44,7 +43,6 @@ int main(void) {
 		.camera = camera_new(&player.pos_visual),
 		.background = C_WHITE
 	};
-	game.characters = get_map_characters(1);
 
 	/*Timer*/
 	static volatile int tick = 1;

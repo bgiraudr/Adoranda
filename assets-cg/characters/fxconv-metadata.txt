@@ -1,3 +1,0 @@
-*.char:
-  custom-type: character
-  name_regex: (.*)\.char character_\1
