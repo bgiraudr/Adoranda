@@ -1,7 +1,22 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
+
 #include "game.h"
 #include "player.h"
+#include "map.h"
+
+struct Game init_game(struct Player *player) {
+
+    extern struct Map *maps[];
+
+    struct Game game = {
+        .map = maps[0],
+        .player = player,
+        .camera = camera_new(&player->pos_visual),
+        .background = C_WHITE
+    };
+    return game;
+}
 
 /*get the input with a timeout*/
 int get_inputs(void) {

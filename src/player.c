@@ -1,8 +1,23 @@
 #include "player.h"
 #include "define.h"
-#include "engine.h"
 #include "map.h"
-#include "game.h"
+
+struct Player init_player(void) {
+	struct Player player = {
+		.pos = VEC2(32, 30),
+		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
+		.x_mid = 6,
+		.y_mid = 1,
+		.show_x = 12,
+		.show_y = 7,
+		.direction = DIR_DOWN,
+		.anim.function = anim_player_idle,
+		.anim.dir = DIR_DOWN
+	};
+	player.idle = !anim_player_idle(&player.anim, 1);
+
+	return player;
+}
 
 /*
 return the info tile value the player is facing to
@@ -23,7 +38,6 @@ int player_facing(struct Game const *game) {
 	return TILE_SOLID;
 }
 
-/* lol */
 void set_player_xy(struct Player *p, int x, int y) {
 	p->pos.x = x;
 	p->pos.y = y;

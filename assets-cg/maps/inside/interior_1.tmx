@@ -50,7 +50,8 @@
   <object id="25" gid="267" x="112" y="112" width="16" height="16">
    <properties>
     <property name="name" value="Tituya"/>
-    <property name="text" value="Salutation !"/>
+    <property name="text">Salutation !
+Ça va ?</property>
    </properties>
   </object>
  </objectgroup>

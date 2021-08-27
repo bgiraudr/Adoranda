@@ -1,21 +1,11 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
-#include "game.h"
-#include "map.h"
-#include "engine.h"
-#include "player.h"
-#include "animation.h"
-#include "camera.h"
-#include "define.h"
-
 #include <gint/timer.h>
 #include <gint/clock.h>
 
-extern struct Map map_1;
-
-struct Map *maps[] = {
-	&map_1,
-};
+#include "game.h"
+#include "engine.h"
+#include "player.h"
 
 static int callback_tick(volatile int *tick) {
 	*tick = 1;
@@ -24,25 +14,8 @@ static int callback_tick(volatile int *tick) {
 
 int main(void) {
 	/*Structure definition*/
-	struct Player player = {
-		.pos = VEC2(32, 30),
-		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
-		.x_mid = 6,
-		.y_mid = 1,
-		.show_x = 12,
-		.show_y = 7,
-		.direction = DIR_DOWN,
-		.anim.function = anim_player_idle,
-		.anim.dir = DIR_DOWN
-	};
-	player.idle = !anim_player_idle(&player.anim, 1);
-
-	struct Game game = {
-		.map = maps[0],
-		.player = &player,
-		.camera = camera_new(&player.pos_visual),
-		.background = C_WHITE
-	};
+	struct Player player = init_player();
+	struct Game game = init_game(&player);
 
 	/*Timer*/
 	static volatile int tick = 1;

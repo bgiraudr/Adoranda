@@ -1,8 +1,8 @@
 #include <gint/display.h>
 #include <gint/defs/util.h>
+
 #include "animation.h"
 #include "engine.h"
-#include "game.h"
 
 struct Sheet
 {

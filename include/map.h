@@ -1,6 +1,5 @@
 #pragma once
 #include <gint/display.h>
-#include <stdbool.h>
 #include "engine.h"
 
 struct Map {

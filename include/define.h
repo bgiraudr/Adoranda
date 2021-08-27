@@ -1,3 +1,4 @@
+#pragma once
 /*the width of the tileset*/
 #define TILESET_WIDTH 29
 /*the size of one tile*/

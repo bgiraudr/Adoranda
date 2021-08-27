@@ -1,9 +1,8 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
 #include <string.h>
+
 #include "talkable.h"
-#include "engine.h"
-#include "map.h"
 #include "util.h"
 
 struct Talkable default_value = {

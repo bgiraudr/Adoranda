@@ -1,5 +1,6 @@
 #pragma once
 #include "map.h"
+
 struct Talkable {
 	/*the position of the tile*/
 	int x, y;

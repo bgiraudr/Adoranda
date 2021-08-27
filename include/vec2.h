@@ -10,10 +10,8 @@ struct Vec2f {
 	float y;
 };
 
-#define VEC2(x, y)                                                             \
-	(struct Vec2) { x, y }
-#define VEC2F(x, y)                                                            \
-	(struct Vec2f) { x, y }
+#define VEC2(x, y) (struct Vec2) { x, y }
+#define VEC2F(x, y) (struct Vec2f) { x, y }
 #define VEC2Z  VEC2(0, 0)
 #define VEC2FZ VEC2F(0.0, 0.0)
 

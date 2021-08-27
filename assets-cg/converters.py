@@ -9,13 +9,12 @@ def convert(input, output, params, target):
 		return 1
 
 def convert_map(input, output, params, target):
+	TILE_BRIDGE = -1 #only for bridge detection to avoid solid behind
 	TILE_AIR = 0
 	TILE_SOLID = 1
 	TILE_DOOR_IN = 2
 	TILE_DOOR_OUT = 3
 	TILE_TALKABLE = 4
-
-	TILE_BRIDGE = -1 #only for bridge detection to avoid solid behind
 
 	with open(input, "r") as jsonData:
 		data = json.load(jsonData)
@@ -34,41 +33,37 @@ def convert_map(input, output, params, target):
 	tileset.close()
 
 	tile_value = {}
-
-	#create a dictionnary between tile id-type
+	#create a dictionnary {tile id:type}
 	for i in data_tileset["tiles"]:
-		try:
-			id = i["id"]+1
-			type = i["type"]
+		id = i["id"]+1
+		type = i["type"]
 
-			if type == "air":
-				value = TILE_AIR
-			elif type == "solid":
-				value = TILE_SOLID
-			elif type == "door_in":
-				value = TILE_DOOR_IN
-			elif type == "door_out":
-				value = TILE_DOOR_OUT
-			elif type == "talkable":
-				value = TILE_TALKABLE
-			elif type == "bridge":
-				value = TILE_BRIDGE
-			else:
-				value = TILE_AIR
+		if type == "air":
+			value = TILE_AIR
+		elif type == "solid":
+			value = TILE_SOLID
+		elif type == "door_in":
+			value = TILE_DOOR_IN
+		elif type == "door_out":
+			value = TILE_DOOR_OUT
+		elif type == "talkable":
+			value = TILE_TALKABLE
+		elif type == "bridge":
+			value = TILE_BRIDGE
+		else:
+			value = TILE_AIR
 
-			tile_value[id] = value
-		except KeyError:
-			pass
+		tile_value[id] = value
 
-	#Extract from the json the width, height and layers of the map
+	#Extract from the json the width, height
 	w, h = data["width"], data["height"]
 	indexObjectlayer = None
 
+	#nbTileLayer is the number of "true" layers (without ObjectsLayer)
 	nbTilelayer = len(data["layers"])
 	for i in range(nbTilelayer):
 		try:
 			data["layers"][i]["data"]
-			#nbTileLayer is the number of "true" layers (without ObjectsLayer)
 			nbTilelayer = i+1
 		except KeyError:
 			indexObjectlayer = i
@@ -117,7 +112,7 @@ def convert_map(input, output, params, target):
 		info_map += fxconv.u16(maxValue)
 		maxValue = 0
 		bridge = False
-	structMap += fxconv.ref(info_map)
+	structMap += fxconv.ptr(info_map)
 
 	#generate the array of tiles from the layer
 	for i in range(nbTilelayer):
@@ -126,7 +121,7 @@ def convert_map(input, output, params, target):
 		for tile in layer["data"]:
 			layer_data += fxconv.u16(tile)
 
-		structMap += fxconv.ref(layer_data)
+		structMap += fxconv.ptr(layer_data)
 
 	#generate !
 	fxconv.elf(structMap, output, "_" + params["name"], **target)
