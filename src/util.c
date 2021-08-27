@@ -1,4 +1,5 @@
 #include <gint/keyboard.h>
+#include <gint/std/stdlib.h>
 
 #include "util.h"
 
@@ -14,3 +15,5 @@ void wait_for_input(int input) {
 		while(keydown(input)) clearevents();
 	}
 }
+
+int rand_range(int low, int high) { return (rand() % (high - low)) + low; }

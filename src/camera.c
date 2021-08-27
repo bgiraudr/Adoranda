@@ -1,5 +1,8 @@
 #include "vec2.h"
 #include "camera.h"
+#include "game.h"
+#include "define.h"
+#include "player.h"
 
 struct Camera camera_new(struct Vec2f *target) {
 	return (struct Camera) {

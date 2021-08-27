@@ -23,5 +23,4 @@ struct Player {
 
 /*return the info tile value the player is facing to*/
 int player_facing(struct Game const *game);
-void set_player_xy(struct Player *player, int x, int y);
 struct Player init_player(void);

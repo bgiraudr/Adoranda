@@ -119,12 +119,27 @@ void engine_action(struct Game const *game, int action) {
 
 /*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct Game *game) {
+	static struct Map *old_map;
+	static struct Vec2 old_pos;
+
 	int player_curr_tile = map_get_player_tile(game);
 	if(player_curr_tile == TILE_DOOR_IN) {
+		old_map = game->map;
+		old_pos = game->player->pos;
+
 		engine_set_background(game, C_BLACK);
 		generate_interior_map(game);
 	}
 	if(player_curr_tile == TILE_DOOR_OUT) {
+		game->map = old_map;
+		game->player->pos = old_pos;
+		engine_center_camera(game);
+
 		engine_set_background(game, C_WHITE);
 	}
+}
+
+void engine_center_camera(struct Game *game) {
+	game->camera.pos.x = game->player->pos.x * TILE_SIZE + game->player->x_mid;
+	game->camera.pos.y = game->player->pos.y * TILE_SIZE + game->player->y_mid;
 }

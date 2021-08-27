@@ -1,6 +1,9 @@
+#include <gint/std/stdlib.h>
+
 #include "map.h"
 #include "player.h"
 #include "define.h"
+#include "util.h"
 
 extern struct Map map_1;
 
@@ -22,10 +25,38 @@ int map_get_player_tile(struct Game const *game) {
 
 /*generate the interior*/
 void generate_interior_map(struct Game *game) {
-	extern struct Map in_1;
+	const int NB_INTERIORS = 2;
 
-	game->map = &in_1;
-	set_player_xy(game->player, 3,3);
-	game->camera.pos.x = in_1.w/2 * TILE_SIZE + game->player->x_mid;
-	game->camera.pos.y = in_1.h/2 * TILE_SIZE + game->player->y_mid;
+	extern struct Map in_1;
+	extern struct Map in_2;
+
+	struct Map *interiors[] = {
+		&in_1,
+		&in_2
+	};
+
+	srand(game->player->pos.x * game->player->pos.y);
+
+	game->map = interiors[rand_range(0,NB_INTERIORS)];
+	game->player->pos = locate_tile(game->map, TILE_DOOR_OUT);
+	engine_center_camera(game);
+}
+
+/*may be useful later*/
+void set_map(struct Game *game, int id) {
+	game->map = maps[id];
+	game->camera.pos = vec2f_lerp(game->camera.pos, *game->camera.target, 1);
+}
+
+/*locate the first occurence of a tile in a specified map*/
+struct Vec2 locate_tile(struct Map const *map, int tile) {
+	for(int x = 0; x < map->w; x++) {
+		for(int y = 0; y < map->h; y++) {
+			int tile_id = map->info_map[x + y * map->w];
+			if(tile_id == tile) {
+				return VEC2(x,y);
+			}
+		}
+	}
+	return VEC2(0,0);
 }

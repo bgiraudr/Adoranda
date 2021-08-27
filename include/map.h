@@ -29,3 +29,7 @@ int map_walkable(struct Map const *map, int x, int y);
 int map_get_player_tile(struct Game const *game);
 
 void generate_interior_map(struct Game *game);
+
+void set_map(struct Game *game, int id);
+
+struct Vec2 locate_tile(struct Map const *map, int tile);
