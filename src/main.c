@@ -3,6 +3,8 @@
 #include <gint/timer.h>
 #include <gint/clock.h>
 
+#include <gint/usb-ff-bulk.h>
+
 #include "game.h"
 #include "engine.h"
 #include "player.h"
@@ -24,6 +26,9 @@ int main(void) {
 		GINT_CALL(callback_tick, &tick));
 	if(t >= 0) timer_start(t);
 
+	usb_interface_t const *interfaces[] = {&usb_ff_bulk, NULL};
+	usb_open(interfaces, GINT_CALL_NULL);
+
 	/*Main loop*/
 	while(!keydown(KEY_MENU)) {
 		while(!tick) sleep();
@@ -31,6 +36,8 @@ int main(void) {
 
 		engine_draw(&game);
 		dupdate();
+		if (keydown(KEY_VARS) && usb_is_open())
+				usb_fxlink_screenshot(1);
 
 		int action = get_inputs();
 		if(action >= 0 && action <= 3)
@@ -42,5 +49,6 @@ int main(void) {
 	}
 
 	if(t >= 0) timer_stop(t);
+	usb_close();
 	return 0;
 }

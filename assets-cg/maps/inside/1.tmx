@@ -1,67 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="32">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="34">
  <editorsettings>
   <export target="interior_1.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" source="../tileset.tsx"/>
  <layer id="5" name="1" width="12" height="10">
   <data encoding="csv">
-2,3,2,1,3,3,2,3,2,1,1,3,
-1,6,6,6,156,157,157,158,2,1,2,2,
-3,6,156,157,159,233,235,160,158,3,1,1,
-1,6,185,233,234,236,237,235,187,1,6,1,
-1,6,185,291,292,265,301,264,187,1,6,1,
-1,6,214,215,188,291,292,293,160,158,6,1,
-2,6,3,1,214,215,215,215,215,216,6,1,
-2,3,2,2,1,5,3,109,2,6,6,3,
-2,3,2,1,3,2,3,2,6,6,6,3,
-1,2,0,1,2,2,2,1,3,3,1,3
+682,683,683,683,683,683,683,683,683,683,683,684,
+711,712,712,712,712,712,712,712,712,712,712,713,
+740,741,741,741,741,741,741,741,741,741,741,742,
+617,617,617,617,617,617,617,617,617,617,617,617,
+617,617,617,617,617,617,617,617,617,617,617,617,
+617,617,617,617,617,617,617,617,617,617,617,617,
+617,617,617,617,617,617,617,617,617,736,736,736,
+617,617,617,617,617,617,617,617,736,736,736,736,
+617,617,617,617,617,617,617,617,736,736,736,736,
+617,617,238,617,617,617,617,617,617,736,736,736
 </data>
  </layer>
  <layer id="1" name="2" width="12" height="10">
   <data encoding="csv">
-248,249,249,249,249,249,249,249,249,249,249,251,
-277,0,0,0,0,0,0,0,0,20,21,280,
-277,0,0,0,0,0,0,0,0,49,50,280,
-277,0,0,0,0,0,0,0,0,0,0,280,
-277,0,0,0,0,0,0,0,0,0,0,280,
-277,0,0,26,0,0,0,0,0,0,0,280,
-277,0,0,55,0,0,0,0,0,0,0,280,
-277,0,0,0,0,0,0,0,0,0,0,280,
-277,0,0,0,0,0,0,0,0,0,0,280,
-306,278,238,279,250,250,250,250,250,250,250,309
-</data>
- </layer>
- <layer id="9" name="3" width="12" height="10">
-  <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,29,0,0,0,0,
-0,0,0,0,0,0,0,58,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,710,710,0,0,0,0,0,
+678,0,701,701,0,739,739,0,0,0,646,647,
+707,0,730,730,0,736,736,0,0,0,675,676,
+0,0,0,0,0,736,736,0,0,0,0,0,
+736,0,702,703,0,0,0,0,248,250,249,250,
+736,0,731,732,0,0,0,0,277,704,705,736,
+0,0,0,0,0,0,0,0,277,733,734,0,
+614,615,615,615,616,0,0,0,0,735,735,678,
+643,644,238,644,645,0,0,0,0,0,0,707
 </data>
  </layer>
  <objectgroup id="10" name="dialog">
-  <object id="25" gid="267" x="112" y="112" width="16" height="16">
+  <object id="32" gid="267" x="144" y="128" width="16" height="16">
    <properties>
-    <property name="name" value="Tituya"/>
-    <property name="text">Salutation !
-Ça va ?</property>
+    <property name="name" value="Television"/>
+    <property name="text" value="La tele diffuse une ancienne;emission : Odyssee"/>
    </properties>
   </object>
-  <object id="30" gid="267" x="144" y="48" width="16" height="16">
+  <object id="33" gid="267" x="160" y="128" width="16" height="16">
    <properties>
-    <property name="text" value="Oui oui c'est un interieur"/>
-   </properties>
-  </object>
-  <object id="31" gid="267" x="160" y="48" width="16" height="16">
-   <properties>
-    <property name="text" value="Planete Casio FTW"/>
+    <property name="name" value="Television"/>
+    <property name="text" value="La tele diffuse une ancienne;emission : Odyssee"/>
    </properties>
   </object>
  </objectgroup>

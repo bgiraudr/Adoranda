@@ -156,10 +156,18 @@
  <tile id="380" type="solid"/>
  <tile id="381" type="solid"/>
  <tile id="382" type="solid"/>
+ <tile id="559" type="solid"/>
+ <tile id="560" type="solid"/>
+ <tile id="588" type="solid"/>
+ <tile id="589" type="solid"/>
+ <tile id="617" type="solid"/>
+ <tile id="618" type="solid"/>
  <tile id="634" type="solid"/>
  <tile id="635" type="solid"/>
  <tile id="636" type="solid"/>
  <tile id="637" type="solid"/>
+ <tile id="645" type="solid"/>
+ <tile id="646" type="solid"/>
  <tile id="655" type="solid"/>
  <tile id="656" type="solid"/>
  <tile id="657" type="solid"/>
@@ -172,6 +180,9 @@
  <tile id="664" type="solid"/>
  <tile id="665" type="solid"/>
  <tile id="666" type="solid"/>
+ <tile id="674" type="solid"/>
+ <tile id="675" type="solid"/>
+ <tile id="677" type="solid"/>
  <tile id="684" type="solid"/>
  <tile id="685" type="solid"/>
  <tile id="686" type="solid"/>
@@ -184,6 +195,14 @@
  <tile id="693" type="solid"/>
  <tile id="694" type="solid"/>
  <tile id="695" type="solid"/>
+ <tile id="700" type="solid"/>
+ <tile id="701" type="solid"/>
+ <tile id="702" type="solid"/>
+ <tile id="703" type="solid"/>
+ <tile id="704" type="solid"/>
+ <tile id="706" type="solid"/>
+ <tile id="707" type="solid"/>
+ <tile id="708" type="solid"/>
  <tile id="713" type="solid"/>
  <tile id="714" type="solid"/>
  <tile id="715" type="solid"/>
@@ -196,6 +215,16 @@
  <tile id="722" type="solid"/>
  <tile id="723" type="solid"/>
  <tile id="724" type="solid"/>
+ <tile id="729" type="solid"/>
+ <tile id="730" type="solid"/>
+ <tile id="731" type="solid"/>
+ <tile id="732" type="talkable"/>
+ <tile id="733" type="talkable"/>
+ <tile id="736" type="solid"/>
+ <tile id="737" type="solid"/>
+ <tile id="739" type="solid"/>
+ <tile id="740" type="solid"/>
+ <tile id="741" type="solid"/>
  <tile id="742" type="solid"/>
  <tile id="743" type="door_in"/>
  <tile id="744" type="solid"/>
