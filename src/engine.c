@@ -23,21 +23,19 @@ void engine_draw(struct Game const *game) {
 }
 
 void engine_draw_map(struct Game const *game) {
-	int x_offset = (game->camera.offset.x - DWIDTH/2);
-	int y_offset = (game->camera.offset.y - DHEIGHT/2);
+	const int x_offset = (game->camera.offset.x - DWIDTH/2);
+	const int y_offset = (game->camera.offset.y - DHEIGHT/2);
 
-	//currently -1 to avoid white during transition
-	for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
-		for (int y = 1 ; y <= DHEIGHT / TILE_SIZE-1; y++) {
-			for (int x = 0 ; x <= DWIDTH / TILE_SIZE+1; x++) {
+	for (int y = 1 ; y <= DHEIGHT / TILE_SIZE-1; y++) {
+		for (int x = 0 ; x <= DWIDTH / TILE_SIZE+1; x++) {
+			for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
 				unsigned int tile_id = 0;
 				//detect if the map is oob
-				int indexY = (y + y_offset / TILE_SIZE);
-				int indexX = (x + x_offset / TILE_SIZE);
+				const int indexY = (y + y_offset / TILE_SIZE);
+				const int indexX = (x + x_offset / TILE_SIZE);
 				if(indexX >= 0 && indexX < game->map->w
 					&& indexY >= 0 && indexY < game->map->h)
 					tile_id = game->map->layers[layer][indexX + indexY * game->map->w];
-				//tile_id = game->map->layers[layer][(x + x_offset / TILE_SIZE) + (y + y_offset / TILE_SIZE) * game->map->w];
 
 				if (tile_id != 0) {
 					tile_id--;
