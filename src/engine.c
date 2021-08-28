@@ -16,8 +16,10 @@ void engine_draw(struct Game const *game) {
 	dclear(game->background);
 	engine_draw_map(game);
 	engine_draw_player(game);
-	dprint(1,15,C_BLACK,"%d:%d",game->camera.offset.x, game->camera.offset.y);
-	dprint(1,30,C_BLACK,"%d:%d",game->map->w, game->map->h);
+	drect(0,0,DWIDTH,20,C_BLACK);
+	drect(0,DHEIGHT-20,DWIDTH,DHEIGHT,C_BLACK);
+	
+	dprint(1,1,C_WHITE,"%d:%d",game->player->pos.x, game->player->pos.y);
 }
 
 void engine_draw_map(struct Game const *game) {
@@ -26,8 +28,8 @@ void engine_draw_map(struct Game const *game) {
 
 	//currently -1 to avoid white during transition
 	for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
-		for (int y = -1 ; y <= DHEIGHT / TILE_SIZE + 1; y++) {
-			for (int x = -1 ; x <= DWIDTH / TILE_SIZE + 1; x++) {
+		for (int y = 1 ; y <= DHEIGHT / TILE_SIZE-1; y++) {
+			for (int x = 0 ; x <= DWIDTH / TILE_SIZE+1; x++) {
 				unsigned int tile_id = 0;
 				//detect if the map is oob
 				int indexY = (y + y_offset / TILE_SIZE);
