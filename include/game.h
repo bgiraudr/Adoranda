@@ -12,13 +12,14 @@ struct Game {
 	int background;
 };
 
-enum direction {
+enum action {
 	DIR_DOWN = 0,
 	DIR_LEFT = 1,
 	DIR_UP = 2,
 	DIR_RIGHT = 3,
 	ACTION_SHIFT = 4,
-	ACTION_ALPHA = 5
+	ACTION_ALPHA = 5,
+	ACTION_F1 = 6
 };
 
 /*get the input with a timeout*/

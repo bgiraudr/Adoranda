@@ -63,7 +63,7 @@
  <tile id="234" type="solid"/>
  <tile id="235" type="solid"/>
  <tile id="236" type="solid"/>
- <tile id="237" type="door_out"/>
+ <tile id="237" type="air"/>
  <tile id="239" type="solid"/>
  <tile id="240" type="solid"/>
  <tile id="241" type="solid"/>
@@ -156,18 +156,25 @@
  <tile id="380" type="solid"/>
  <tile id="381" type="solid"/>
  <tile id="382" type="solid"/>
- <tile id="559" type="solid"/>
- <tile id="560" type="solid"/>
- <tile id="588" type="solid"/>
- <tile id="589" type="solid"/>
- <tile id="617" type="solid"/>
- <tile id="618" type="solid"/>
+ <tile id="559" type="air"/>
+ <tile id="560" type="air"/>
+ <tile id="561" type="solid"/>
+ <tile id="588" type="air"/>
+ <tile id="589" type="air"/>
+ <tile id="590" type="solid"/>
+ <tile id="617" type="air"/>
+ <tile id="618" type="air"/>
+ <tile id="619" type="solid"/>
+ <tile id="624" type="solid"/>
+ <tile id="625" type="solid"/>
  <tile id="634" type="solid"/>
  <tile id="635" type="solid"/>
  <tile id="636" type="solid"/>
  <tile id="637" type="solid"/>
  <tile id="645" type="solid"/>
  <tile id="646" type="solid"/>
+ <tile id="653" type="solid"/>
+ <tile id="654" type="solid"/>
  <tile id="655" type="solid"/>
  <tile id="656" type="solid"/>
  <tile id="657" type="solid"/>
@@ -183,6 +190,9 @@
  <tile id="674" type="solid"/>
  <tile id="675" type="solid"/>
  <tile id="677" type="solid"/>
+ <tile id="681" type="solid"/>
+ <tile id="682" type="solid"/>
+ <tile id="683" type="solid"/>
  <tile id="684" type="solid"/>
  <tile id="685" type="solid"/>
  <tile id="686" type="solid"/>
@@ -203,6 +213,9 @@
  <tile id="706" type="solid"/>
  <tile id="707" type="solid"/>
  <tile id="708" type="solid"/>
+ <tile id="710" type="solid"/>
+ <tile id="711" type="solid"/>
+ <tile id="712" type="solid"/>
  <tile id="713" type="solid"/>
  <tile id="714" type="solid"/>
  <tile id="715" type="solid"/>
@@ -215,6 +228,8 @@
  <tile id="722" type="solid"/>
  <tile id="723" type="solid"/>
  <tile id="724" type="solid"/>
+ <tile id="727" type="door_out"/>
+ <tile id="728" type="door_out"/>
  <tile id="729" type="solid"/>
  <tile id="730" type="solid"/>
  <tile id="731" type="solid"/>

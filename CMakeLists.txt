@@ -15,18 +15,18 @@ add_custom_command(
 	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.json"
 	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/1.json"
 	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/2.json"
+	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/3.json"
 	COMMENT "Convert tmx map to json"
 	COMMAND tiled --export-tileset json tileset.tsx tileset.json
-	COMMAND tiled --export-map json testCarte.tmx testCarte.json
-	COMMAND tiled --export-map json inside/1.tmx inside/1.json
-	COMMAND tiled --export-map json inside/2.tmx inside/2.json
+	COMMAND find | grep .*.tmx | sed 's/.tmx//g' | xargs -l bash -c 'tiled --export-map json $$0.tmx $$0.json'
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
 	DEPENDS assets-cg/maps/testCarte.tmx 
 	assets-cg/tileset.png 
 	assets-cg/maps/tileset.tsx 
 	assets-cg/converters.py 
 	assets-cg/maps/inside/1.tmx
-	assets-cg/maps/inside/2.tmx)
+	assets-cg/maps/inside/2.tmx
+	assets-cg/maps/inside/3.tmx)
 
 set(SOURCES
 	src/main.c
@@ -46,6 +46,7 @@ set(ASSETS_cg
 	assets-cg/maps/testCarte.json
 	assets-cg/maps/inside/1.json
 	assets-cg/maps/inside/2.json
+	assets-cg/maps/inside/3.json
 	assets-cg/spritesheet.png
 )
 
@@ -57,6 +58,6 @@ target_link_libraries(myaddin Gint::Gint)
 target_link_options(myaddin PRIVATE -Wl,-Map=map)
 
 if("${FXSDK_PLATFORM_LONG}" STREQUAL fxCG50)
-	generate_g3a(TARGET myaddin OUTPUT "MyAddin.g3a"
-		NAME "MyAddin" ICONS assets-cg/icon-uns.png assets-cg/icon-sel.png)
+	generate_g3a(TARGET myaddin OUTPUT "Adoranda.g3a"
+		NAME "Adoranda" ICONS assets-cg/icon-uns.png assets-cg/icon-sel.png)
 endif()

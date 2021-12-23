@@ -12,6 +12,8 @@ struct Player {
 	int x_mid, y_mid;
 	/*the direction the player facing to*/
 	int direction;
+	/*if the player is sprinting*/
+	int sprint;
 	/*current frame of the animation*/
 	int frame;
 	/*where to draw the player on the screen*/

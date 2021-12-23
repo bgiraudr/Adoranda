@@ -13,7 +13,7 @@ struct Game init_game(struct Player *player) {
         .map = maps[0],
         .player = player,
         .camera = camera_new(&player->pos_visual),
-        .background = C_WHITE
+        .background = C_BLACK
     };
     return game;
 }
@@ -38,5 +38,6 @@ int get_inputs(void) {
         /*action key*/
         if(key == KEY_SHIFT)  return ACTION_SHIFT;
         if(key == KEY_ALPHA)  return ACTION_ALPHA;
+        if(key == KEY_F1) return ACTION_F1;
     }
 }

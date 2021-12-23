@@ -20,6 +20,7 @@ void engine_draw(struct Game const *game) {
 	drect(0,DHEIGHT-20,DWIDTH,DHEIGHT,C_BLACK);
 	
 	dprint(1,1,C_WHITE,"%d:%d",game->player->pos.x, game->player->pos.y);
+	dprint(1,20,C_WHITE,"%d",game->player->sprint);
 }
 
 void engine_draw_map(struct Game const *game) {
@@ -49,7 +50,6 @@ void engine_draw_map(struct Game const *game) {
 			}
 		}
 	}
-
 }
 
 /*draw the player*/
@@ -115,6 +115,9 @@ void engine_action(struct Game const *game, int action) {
 			draw_dialog(get_dialog_xy(game->map, game->player->pos.x + dx, game->player->pos.y + dy));
 		}
 	}
+	if(action == ACTION_F1) {
+		game->player->sprint = game->player->sprint ? 0 : 1;
+	}
 }
 
 /*check the current position of the player. To perform action depends of his location*/
@@ -126,16 +129,14 @@ void engine_check_position(struct Game *game) {
 	if(player_curr_tile == TILE_DOOR_IN) {
 		old_map = game->map;
 		old_pos = game->player->pos;
-
-		engine_set_background(game, C_BLACK);
 		generate_interior_map(game);
 	}
 	if(player_curr_tile == TILE_DOOR_OUT) {
 		game->map = old_map;
 		game->player->pos = old_pos;
+		game->player->direction = DIR_DOWN;
+		game->player->anim.dir = DIR_DOWN;
 		engine_center_camera(game);
-
-		engine_set_background(game, C_WHITE);
 	}
 }
 

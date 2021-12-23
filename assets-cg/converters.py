@@ -79,6 +79,7 @@ def convert_map(input, output, params, target):
 	structMap += fxconv.ref(f"img_{nameTilesetFree}")
 
 	dialogs = fxconv.Structure()
+	# print(indexObjectlayer)
 	if indexObjectlayer != None:
 		#generate all of the dialog
 		for i in data["layers"][indexObjectlayer]["objects"]:
@@ -86,9 +87,14 @@ def convert_map(input, output, params, target):
 			#Tiled seem to start at the bottom y of the object
 			#So if tile is 16 px wide, you would start at line y = 1
 			dialogs += fxconv.u32(int(i["y"]/i["width"])-1)
-			for j in i["properties"]:
-				if(j["value"] == ""): j["value"] = " "
-				dialogs += fxconv.string(j["value"])
+
+			try:
+				for j in i["properties"]:
+					if(j["value"] == ""): j["value"] = " "
+					dialogs += fxconv.string(j["value"])
+			except KeyError:
+				dialogs += fxconv.string("default name")
+				dialogs += fxconv.string("default text")
 
 	structMap += fxconv.ptr(dialogs)
 
