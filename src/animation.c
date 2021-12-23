@@ -65,6 +65,33 @@ int anim_player_walking(struct AnimData *data, int init) {
     return 1;
 }
 
+/*animation for player walking*/
+int anim_player_sprinting(struct AnimData *data, int init) {
+    if(init) {
+        data->function = anim_player_sprinting;
+        data->frame = 0;
+        data->duration = 25;
+        int dx = (data->dir == DIR_LEFT) - (data->dir == DIR_RIGHT);
+        int dy = (data->dir == DIR_UP)   - (data->dir == DIR_DOWN);
+
+        data->dx = 4 * dx;
+        data->dy = 4 * dy;
+    } else {
+        data->dx -= sgn(data->dx);
+        data->dy -= sgn(data->dy);
+
+        if(!data->dx && !data->dy) {
+            return anim_player_idle(data, 1);
+        }
+
+        data->frame = (data->frame + 1) % 3;
+        data->duration += 25;
+    }
+
+    data->img = anim_frame(&anim_player, data->dir+4, data->frame);
+    return 1;
+}
+
 /*animation for player doing nothing*/
 int anim_player_idle(struct AnimData *data, int init) {
     if(init) {

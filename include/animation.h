@@ -5,6 +5,7 @@ struct AnimData;
 
 typedef int (anim_function_t)(struct AnimData *data, int init);
 anim_function_t anim_player_walking;
+anim_function_t anim_player_sprinting;
 anim_function_t anim_player_idle;
 
 struct AnimFrame
@@ -37,5 +38,7 @@ struct AnimData
 void dframe(int x, int y, struct AnimFrame const frame);
 /*animation for player walking*/
 int anim_player_walking(struct AnimData *data, int init);
+/*animation for player sprinting*/
+int anim_player_sprinting(struct AnimData *data, int init);
 /*animation for player doing nothing*/
 int anim_player_idle(struct AnimData *data, int init);

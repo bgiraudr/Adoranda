@@ -29,6 +29,10 @@ int main(void) {
 	usb_interface_t const *interfaces[] = {&usb_ff_bulk, NULL};
 	usb_open(interfaces, GINT_CALL_NULL);
 
+	/*Font*/
+	extern font_t uf8x9;
+	dfont(&uf8x9);
+
 	/*Main loop*/
 	while(!keydown(KEY_MENU)) {
 		while(!tick) sleep();

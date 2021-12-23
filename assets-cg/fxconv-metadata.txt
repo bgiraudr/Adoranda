@@ -2,7 +2,16 @@ tileset.png:
   type: bopti-image
   name: img_tileset
   profile:p4
-  
+
 spritesheet.png:
   type: bopti-image
   name: img_spritesheet
+
+uf8x9:
+  type: font
+  name: uf8x9
+  charset: unicode
+  grid.size: 8x11
+  grid.padding: 1
+  proportional: true
+  height: 9

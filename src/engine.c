@@ -77,7 +77,11 @@ int engine_move(struct Game *game, int direction) {
 			game->player->pos.x += dx;
 			game->player->pos.y += dy;
 
-			game->player->idle = !anim_player_walking(&game->player->anim, 1);
+			if(game->player->sprint) {
+				game->player->idle = !anim_player_sprinting(&game->player->anim, 1);
+			} else {
+				game->player->idle = !anim_player_walking(&game->player->anim, 1);
+			}
 			engine_check_position(game);
 		} else {
 			game->player->idle = !anim_player_idle(&game->player->anim, 1);

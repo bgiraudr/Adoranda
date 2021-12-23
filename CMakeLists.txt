@@ -48,6 +48,7 @@ set(ASSETS_cg
 	assets-cg/maps/inside/2.json
 	assets-cg/maps/inside/3.json
 	assets-cg/spritesheet.png
+	assets-cg/uf8x9
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)
