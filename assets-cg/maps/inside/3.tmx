@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="5">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="13">
+ <editorsettings>
+  <export target="3.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="../tileset.tsx"/>
  <layer id="1" name="1" width="20" height="15">
   <data encoding="csv">
@@ -31,10 +34,10 @@
 0,0,620,0,0,0,0,0,0,740,742,649,0,0,0,0,0,0,0,0,
 682,683,649,683,683,683,684,0,0,0,0,0,0,682,683,683,683,683,683,684,
 711,712,0,712,712,712,713,0,0,0,0,0,0,711,712,712,712,712,712,713,
-740,701,0,741,741,701,742,0,0,0,0,0,0,740,741,741,741,741,741,742,
+740,701,0,741,741,701,742,0,0,239,0,0,0,740,741,741,741,741,741,742,
 0,730,0,0,0,730,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,702,703,0,0,
+0,0,0,0,0,0,0,0,0,0,0,239,0,0,0,0,702,703,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,731,732,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -69,6 +72,20 @@
    <properties>
     <property name="name" value="Télévision"/>
     <property name="text" value="&quot;Et à bientôt sur Planète Casio !&quot;"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="teleporter">
+  <object id="11" gid="238" x="144" y="160" width="16" height="16">
+   <properties>
+    <property name="x" type="int" value="19"/>
+    <property name="y" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="12" gid="238" x="176" y="208" width="16" height="16">
+   <properties>
+    <property name="x" type="int" value="0"/>
+    <property name="y" type="int" value="14"/>
    </properties>
   </object>
  </objectgroup>

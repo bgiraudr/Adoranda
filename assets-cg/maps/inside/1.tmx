@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="35">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="36">
  <editorsettings>
   <export target="interior_1.json" format="json"/>
  </editorsettings>
@@ -45,8 +45,5 @@
     <property name="text" value="Le personnage semble bien mal au point..."/>
    </properties>
   </object>
- </objectgroup>
- <objectgroup id="11" name="test">
-  <object id="34" gid="267" x="80" y="64" width="16" height="16"/>
  </objectgroup>
 </map>

@@ -15,8 +15,10 @@ def convert_map(input, output, params, target):
 	TILE_DOOR_IN = 2
 	TILE_DOOR_OUT = 3
 	TILE_TALKABLE = 4
+	TILE_TELEPORTER = 5
 
 	DIALOG_LAYOUT = "dialog"
+	TELEPORTER_LAYOUT = "teleporter"
 
 	data = json.load(open(input, "r"))
 
@@ -51,6 +53,8 @@ def convert_map(input, output, params, target):
 			value = TILE_TALKABLE
 		elif type == "bridge":
 			value = TILE_BRIDGE
+		elif type == "teleporter":
+			value = TILE_TELEPORTER
 		else:
 			value = TILE_AIR
 
@@ -64,19 +68,25 @@ def convert_map(input, output, params, target):
 	objectLayers = data["layers"][nbTilelayer:len(data["layers"])]
 
 	nbDialog = 0
+	nbTelep = 0
 	structMap = fxconv.Structure()
 	dialogs = fxconv.Structure()
+	teleporter = fxconv.Structure()
 
 	for layer in objectLayers:
 		if layer.get("name") == DIALOG_LAYOUT:
 			nbDialog = len(layer["objects"])
 			dialogs = parseDialog(layer)
+		elif layer.get("name") == TELEPORTER_LAYOUT:
+			nbTelep = len(layer["objects"])
+			teleporter = parseTeleporter(layer)
 		else:
 			print("UNKNOWN LAYOUT FOUND : " + layer.get("name"))
 
-	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog)
+	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog) + fxconv.u32(nbTelep)
 	structMap += fxconv.ref(f"img_{nameTilesetFree}")
 	structMap += fxconv.ptr(dialogs)
+	structMap += fxconv.ptr(teleporter)
 
 	#generation of the collision map (take the maximum of the layer except for bridges)
 	#bridges are always walkable
@@ -127,3 +137,22 @@ def parseDialog(layer):
 			dialogs += fxconv.string("default name")
 			dialogs += fxconv.string("default text")
 	return dialogs
+
+def parseTeleporter(layer):
+	teleporter = fxconv.Structure()
+	for i in layer["objects"]:
+		teleporter += fxconv.u32(int(i["x"]/i["width"]))
+		#Tiled seem to start at the bottom y of the object
+		teleporter += fxconv.u32(int(i["y"]/i["width"])-1)
+
+		try:
+			if len(i["properties"]) < 2:
+				raise Exception("parseTeleporter() : Un téléporteur est mal configuré")
+			if len(i["properties"]) == 2:
+				print("parseTeleporter() : passage automatique idMap = -1 sur téléporteur x = " + str(i["properties"][0]["value"]) + ", y = " + str(i["properties"][1]["value"]))
+				teleporter += fxconv.u32(-1);
+			for j in i["properties"]:
+				teleporter += fxconv.u32(j["value"])
+		except KeyError	:
+			raise Exception("parseTeleporter() : Un téléporteur est mal configuré")
+	return teleporter

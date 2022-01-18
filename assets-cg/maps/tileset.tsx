@@ -63,7 +63,8 @@
  <tile id="234" type="solid"/>
  <tile id="235" type="solid"/>
  <tile id="236" type="solid"/>
- <tile id="237" type="air"/>
+ <tile id="237" type="teleporter"/>
+ <tile id="238" type="teleporter"/>
  <tile id="239" type="solid"/>
  <tile id="240" type="solid"/>
  <tile id="241" type="solid"/>
@@ -119,6 +120,7 @@
  <tile id="297" type="solid"/>
  <tile id="298" type="solid"/>
  <tile id="299" type="solid"/>
+ <tile id="301" type="solid"/>
  <tile id="302" type="solid"/>
  <tile id="303" type="solid"/>
  <tile id="304" type="solid"/>
@@ -189,6 +191,7 @@
  <tile id="666" type="solid"/>
  <tile id="674" type="solid"/>
  <tile id="675" type="solid"/>
+ <tile id="676" type="air"/>
  <tile id="677" type="solid"/>
  <tile id="681" type="solid"/>
  <tile id="682" type="solid"/>

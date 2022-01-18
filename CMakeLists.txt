@@ -21,6 +21,7 @@ add_custom_command(
 	COMMAND find | grep .*.tmx | sed 's/.tmx//g' | xargs -l bash -c 'tiled --export-map json $$0.tmx $$0.json'
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
 	DEPENDS assets-cg/maps/testCarte.tmx 
+	assets-cg/maps/1.tmx 
 	assets-cg/tileset.png 
 	assets-cg/maps/tileset.tsx 
 	assets-cg/converters.py 
@@ -44,6 +45,7 @@ set(SOURCES
 set(ASSETS_cg
 	assets-cg/tileset.png
 	assets-cg/maps/testCarte.json
+	assets-cg/maps/1.json
 	assets-cg/maps/inside/1.json
 	assets-cg/maps/inside/2.json
 	assets-cg/maps/inside/3.json

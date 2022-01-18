@@ -136,12 +136,22 @@ void engine_check_position(struct Game *game) {
 		old_map = game->map;
 		old_pos = game->player->pos;
 		generate_interior_map(game);
+		engine_center_camera(game);
 	}
 	if(player_curr_tile == TILE_DOOR_OUT) {
 		game->map = old_map;
 		game->player->pos = old_pos;
 		game->player->direction = DIR_DOWN;
 		game->player->anim.dir = DIR_DOWN;
+		engine_center_camera(game);
+	}
+	if(player_curr_tile == TILE_TELEPORTER) {
+		struct Teleporter teleporter = get_teleporter_xy(game->map, game->player->pos);
+		game->player->pos.x = teleporter.x2;
+		game->player->pos.y = teleporter.y2;
+		if(teleporter.idMap != -1) {
+			set_map(game, teleporter.idMap);
+		}
 		engine_center_camera(game);
 	}
 }
