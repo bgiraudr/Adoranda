@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="34">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="35">
  <editorsettings>
   <export target="interior_1.json" format="json"/>
  </editorsettings>
@@ -35,15 +35,18 @@
  <objectgroup id="10" name="dialog">
   <object id="32" gid="267" x="144" y="128" width="16" height="16">
    <properties>
-    <property name="name" value="Television"/>
-    <property name="text" value="La tele diffuse une ancienne;emission : Odyssee"/>
+    <property name="name" value="Télévision"/>
+    <property name="text" value="La télé diffuse une ancienne chaine à la mode; Odyssée"/>
    </properties>
   </object>
   <object id="33" gid="267" x="160" y="128" width="16" height="16">
    <properties>
-    <property name="name" value="Television"/>
-    <property name="text" value="La tele diffuse une ancienne;emission : Odyssee"/>
+    <property name="name" value="Télévision"/>
+    <property name="text" value="Le personnage semble bien mal au point..."/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup id="11" name="test">
+  <object id="34" gid="267" x="80" y="64" width="16" height="16"/>
  </objectgroup>
 </map>

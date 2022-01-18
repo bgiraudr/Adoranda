@@ -24,8 +24,8 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,710,710,0,0,0,0,679,0,0,0,0,710,710,0,0,710,710,0,0,
-0,739,739,0,704,705,0,20,21,0,0,0,739,739,0,0,739,739,0,0,
-0,0,0,0,733,734,0,49,50,654,655,0,0,0,0,0,0,0,0,0,
+0,739,739,0,704,705,0,0,0,0,0,0,739,739,0,0,739,739,0,0,
+0,0,0,0,733,734,0,0,0,654,655,0,0,0,0,0,0,0,0,0,
 0,0,0,0,706,706,0,0,0,654,655,591,0,0,0,0,0,0,0,0,
 0,0,591,614,615,615,616,0,0,711,713,620,0,0,0,0,0,0,0,0,
 0,0,620,0,0,0,0,0,0,740,742,649,0,0,0,0,0,0,0,0,
@@ -58,13 +58,18 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="talk">
+ <objectgroup id="4" name="dialog">
   <object id="1" gid="267" x="64" y="64" width="16" height="16">
    <properties>
     <property name="name" value="Télévision"/>
     <property name="text" value="&quot;Bonjour à tous !&quot;"/>
    </properties>
   </object>
-  <object id="2" gid="267" x="80" y="64" width="16" height="16"/>
+  <object id="2" gid="267" x="80" y="64" width="16" height="16">
+   <properties>
+    <property name="name" value="Télévision"/>
+    <property name="text" value="&quot;Et à bientôt sur Planète Casio !&quot;"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

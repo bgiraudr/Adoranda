@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="38">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="48">
  <editorsettings>
   <export target="testCarte.json" format="json"/>
  </editorsettings>
@@ -88,11 +88,11 @@
 294,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,381,382,383,381,382,383,381,382,383,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="10" name="text">
+ <objectgroup id="10" name="dialog">
   <object id="33" gid="267" x="592" y="528" width="16" height="16">
    <properties>
     <property name="name" value="Tituya"/>
-    <property name="text" value="J'ai toujours aimé ce pont;Pas toi ?"/>
+    <property name="text" value="Bonjour !;Je ne pense pas finir ce jeu...;voici donc une sorte de preview de ce qui;ne va pas arriver.;Encore désolé pour ce projet..."/>
    </properties>
   </object>
   <object id="34" gid="267" x="704" y="368" width="16" height="16">
@@ -117,6 +117,66 @@
    <properties>
     <property name="name" value="KikooDX"/>
     <property name="text" value="Je te rassure, pas de Pokémon !"/>
+   </properties>
+  </object>
+  <object id="38" gid="267" x="32" y="160" width="16" height="16">
+   <properties>
+    <property name="name" value="FlamingKite"/>
+    <property name="text" value="Vous avez vu le dernier Vilebrequin ?"/>
+   </properties>
+  </object>
+  <object id="39" gid="267" x="160" y="336" width="16" height="16">
+   <properties>
+    <property name="name" value="Planète Casio"/>
+    <property name="text" value="La ville déserte la plus active !"/>
+   </properties>
+  </object>
+  <object id="40" gid="267" x="176" y="336" width="16" height="16">
+   <properties>
+    <property name="name" value="Planète Casio"/>
+    <property name="text" value="Bienvenue !"/>
+   </properties>
+  </object>
+  <object id="41" gid="267" x="832" y="48" width="16" height="16">
+   <properties>
+    <property name="name" value="Masséna"/>
+    <property name="text" value="Evocalc ?"/>
+   </properties>
+  </object>
+  <object id="42" gid="267" x="1216" y="304" width="16" height="16">
+   <properties>
+    <property name="name" value="Shadow15510"/>
+    <property name="text" value="C'est Odyssée ici ?"/>
+   </properties>
+  </object>
+  <object id="43" gid="267" x="1440" y="272" width="16" height="16">
+   <properties>
+    <property name="name" value="Tituya"/>
+    <property name="text" value="Tu savais que je suis rédacteur ?"/>
+   </properties>
+  </object>
+  <object id="44" gid="267" x="1312" y="592" width="16" height="16">
+   <properties>
+    <property name="name" value="Hackcell"/>
+    <property name="text" value="Aujourd'hui, j'ai envie de parler;Comment vas-tu ?;Tu sais que j'ai bruteforce le puzzle de Noël !;Bientôt en violet sur la shout !"/>
+   </properties>
+  </object>
+  <object id="45" gid="267" x="1392" y="80" width="16" height="16">
+   <properties>
+    <property name="name" value="Inikiwi"/>
+    <property name="text" value="Bonjour !"/>
+   </properties>
+  </object>
+  <object id="46" gid="267" x="1104" y="32" width="16" height="16">
+   <properties>
+    <property name="name" value="Adoranda"/>
+    <property name="text" value="Ville la plus hype de la région !"/>
+   </properties>
+  </object>
+  <object id="47" gid="267" x="1120" y="32" width="16" height="16">
+   <properties>
+    <property name="name" value="Adoranda"/>
+    <property name="text" value="Parlez à nos habitants !"/>
    </properties>
   </object>
  </objectgroup>

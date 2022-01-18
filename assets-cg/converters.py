@@ -16,8 +16,9 @@ def convert_map(input, output, params, target):
 	TILE_DOOR_OUT = 3
 	TILE_TALKABLE = 4
 
-	with open(input, "r") as jsonData:
-		data = json.load(jsonData)
+	DIALOG_LAYOUT = "dialog"
+
+	data = json.load(open(input, "r"))
 
 	#find the tileset in use. it's a relative path (like ../tileset.tsx)
 	nameTileset = data["tilesets"][0]["source"].replace(".tsx","")
@@ -57,45 +58,24 @@ def convert_map(input, output, params, target):
 
 	#Extract from the json the width, height
 	w, h = data["width"], data["height"]
-	indexObjectlayer = None
 
 	#nbTileLayer is the number of "true" layers (without ObjectsLayer)
-	nbTilelayer = len(data["layers"])
-	for i in range(nbTilelayer):
-		try:
-			data["layers"][i]["data"]
-			nbTilelayer = i+1
-		except KeyError:
-			indexObjectlayer = i
-			break
+	nbTilelayer = ["data" in i for i in data["layers"]].count(True)
+	objectLayers = data["layers"][nbTilelayer:len(data["layers"])]
 
-	if indexObjectlayer != None: 
-		nbDialog = len(data["layers"][indexObjectlayer]["objects"])
-	else:
-		nbDialog = 0
-
+	nbDialog = 0
 	structMap = fxconv.Structure()
+	dialogs = fxconv.Structure()
+
+	for layer in objectLayers:
+		if layer.get("name") == DIALOG_LAYOUT:
+			nbDialog = len(layer["objects"])
+			dialogs = parseDialog(layer)
+		else:
+			print("UNKNOWN LAYOUT FOUND : " + layer.get("name"))
+
 	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog)
 	structMap += fxconv.ref(f"img_{nameTilesetFree}")
-
-	dialogs = fxconv.Structure()
-	# print(indexObjectlayer)
-	if indexObjectlayer != None:
-		#generate all of the dialog
-		for i in data["layers"][indexObjectlayer]["objects"]:
-			dialogs += fxconv.u32(int(i["x"]/i["width"]))
-			#Tiled seem to start at the bottom y of the object
-			#So if tile is 16 px wide, you would start at line y = 1
-			dialogs += fxconv.u32(int(i["y"]/i["width"])-1)
-
-			try:
-				for j in i["properties"]:
-					if(j["value"] == ""): j["value"] = " "
-					dialogs += fxconv.string(j["value"])
-			except KeyError:
-				dialogs += fxconv.string("default name")
-				dialogs += fxconv.string("default text")
-
 	structMap += fxconv.ptr(dialogs)
 
 	#generation of the collision map (take the maximum of the layer except for bridges)
@@ -131,3 +111,19 @@ def convert_map(input, output, params, target):
 
 	#generate !
 	fxconv.elf(structMap, output, "_" + params["name"], **target)
+
+def parseDialog(layer):
+	dialogs = fxconv.Structure()
+	for i in layer["objects"]:
+		dialogs += fxconv.u32(int(i["x"]/i["width"]))
+		#Tiled seem to start at the bottom y of the object
+		dialogs += fxconv.u32(int(i["y"]/i["width"])-1)
+
+		try:
+			for j in i["properties"]:
+				if(j["value"] == ""): j["value"] = " "
+				dialogs += fxconv.string(j["value"])
+		except KeyError:
+			dialogs += fxconv.string("default name")
+			dialogs += fxconv.string("default text")
+	return dialogs

@@ -46,17 +46,17 @@
 0,0,0,0,0,0,707,0,0,707,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="14" name="Calque d'Objets 1">
+ <objectgroup id="14" name="dialog">
   <object id="32" gid="267" x="16" y="64" width="16" height="16">
    <properties>
-    <property name="name" value="Television"/>
-    <property name="text" value="La television est eteinte"/>
+    <property name="name" value="Télévision"/>
+    <property name="text" value="La télévision est éteinte"/>
    </properties>
   </object>
   <object id="34" gid="267" x="32" y="64" width="16" height="16">
    <properties>
-    <property name="name" value="Television"/>
-    <property name="text" value="Des traces de doigts sont;presentes sur l'ecran"/>
+    <property name="name" value="Télévision"/>
+    <property name="text" value="Des traces de doigts sont;présentes sur l'écran"/>
    </properties>
   </object>
  </objectgroup>
