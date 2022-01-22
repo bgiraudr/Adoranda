@@ -1,3 +1,8 @@
 *.json:
   custom-type: map
   name_regex: (.*)\.json in_\1
+  
+tileset_in.png:
+  type: bopti-image
+  name: img_tileset_in
+  profile: p4

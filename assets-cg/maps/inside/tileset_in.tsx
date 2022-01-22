@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tileset version="1.5" tiledversion="1.7.2" name="tileset_in" tilewidth="16" tileheight="16" tilecount="119" columns="17">
+ <image source="tileset_in.png" width="272" height="112"/>
+ <tile id="27" type="solid"/>
+ <tile id="42" type="text"/>
+ <tile id="44" type="solid"/>
+ <tile id="49" type="solid"/>
+ <tile id="50" type="solid"/>
+ <tile id="58" type="solid"/>
+ <tile id="59" type="solid"/>
+ <tile id="61" type="solid"/>
+ <tile id="66" type="solid"/>
+ <tile id="67" type="solid"/>
+ <tile id="75" type="solid"/>
+ <tile id="76" type="solid"/>
+ <tile id="77" type="solid"/>
+ <tile id="78" type="solid"/>
+ <tile id="82" type="solid"/>
+ <tile id="83" type="solid"/>
+ <tile id="84" type="solid"/>
+ <tile id="89" type="solid"/>
+ <tile id="90" type="solid"/>
+ <tile id="91" type="solid"/>
+ <tile id="92" type="solid"/>
+ <tile id="93" type="solid"/>
+ <tile id="95" type="solid"/>
+ <tile id="96" type="solid"/>
+ <tile id="97" type="solid"/>
+ <tile id="98" type="solid"/>
+ <tile id="99" type="solid"/>
+ <tile id="100" type="solid"/>
+ <tile id="101" type="solid"/>
+ <tile id="104" type="door_out"/>
+ <tile id="105" type="door_out"/>
+ <tile id="106" type="solid"/>
+ <tile id="107" type="solid"/>
+ <tile id="108" type="solid"/>
+ <tile id="109" type="talkable"/>
+ <tile id="110" type="talkable"/>
+ <tile id="113" type="solid"/>
+ <tile id="114" type="solid"/>
+ <tile id="115" type="solid"/>
+ <tile id="116" type="solid"/>
+ <tile id="117" type="solid"/>
+ <tile id="118" type="solid"/>
+</tileset>

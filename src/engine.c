@@ -28,6 +28,7 @@ void engine_draw(struct Game const *game) {
 void engine_draw_map(struct Game const *game) {
 	const int x_offset = (game->camera.offset.x - DWIDTH/2);
 	const int y_offset = (game->camera.offset.y - DHEIGHT/2);
+	const int tileset_size = game->map->tileset_size;
 
 	for (int y = 1 ; y <= DHEIGHT / TILE_SIZE-1; y++) {
 		for (int x = 1 ; x <= DWIDTH / TILE_SIZE; x++) {
@@ -42,8 +43,8 @@ void engine_draw_map(struct Game const *game) {
 
 				if (tile_id != 0) {
 					tile_id--;
-					unsigned int tile_x = TILE_SIZE * (tile_id % TILESET_WIDTH);
-					unsigned int tile_y = TILE_SIZE * (tile_id / TILESET_WIDTH);
+					unsigned int tile_x = TILE_SIZE * (tile_id % tileset_size);
+					unsigned int tile_y = TILE_SIZE * (tile_id / tileset_size);
 
 					dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
 						y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 

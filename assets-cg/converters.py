@@ -33,6 +33,7 @@ def convert_map(input, output, params, target):
 
 	tileset = open(tilesetPath, "r")
 	data_tileset = json.load(tileset)
+	tileset_size = data_tileset.get("columns")
 	tileset.close()
 
 	tile_value = {}
@@ -85,6 +86,7 @@ def convert_map(input, output, params, target):
 
 	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog) + fxconv.u32(nbTelep)
 	structMap += fxconv.ref(f"img_{nameTilesetFree}")
+	structMap += fxconv.u32(tileset_size)
 	structMap += fxconv.ptr(dialogs)
 	structMap += fxconv.ptr(teleporter)
 

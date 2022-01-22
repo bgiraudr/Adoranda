@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="36">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="38">
  <editorsettings>
   <export target="interior_1.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" source="../tileset.tsx"/>
+ <tileset firstgid="1" source="tileset_in.tsx"/>
  <layer id="5" name="1" width="12" height="10">
   <data encoding="csv">
-682,683,683,683,683,683,683,683,683,683,683,684,
-711,712,712,712,712,712,712,712,712,712,712,713,
-740,741,741,741,741,741,741,741,741,741,741,742,
-617,617,617,617,617,617,617,617,617,617,617,617,
-617,617,617,617,617,617,617,617,617,617,617,617,
-617,617,617,617,617,617,617,617,617,617,617,617,
-617,617,617,617,617,617,617,617,617,736,736,736,
-617,617,617,617,617,617,617,617,736,736,736,736,
-617,617,617,617,617,617,617,617,736,736,736,736,
-617,617,0,617,617,617,617,617,617,736,736,736
+83,84,84,84,84,84,84,84,84,84,84,85,
+100,101,101,101,101,101,101,101,101,101,101,102,
+117,118,118,118,118,118,118,118,118,118,118,119,
+42,42,42,42,42,113,113,42,42,42,42,42,
+42,42,42,42,42,113,113,42,42,42,42,42,
+113,42,42,42,42,42,42,42,42,42,42,42,
+113,42,42,42,42,42,42,42,42,113,113,113,
+42,42,42,42,42,42,42,42,113,113,113,113,
+42,0,0,0,0,42,42,42,113,113,113,113,
+0,0,0,0,0,0,42,42,42,113,113,113
 </data>
  </layer>
  <layer id="1" name="2" width="12" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,710,710,0,0,0,0,0,
-678,0,701,701,0,739,739,0,0,0,646,647,
-707,0,730,730,0,736,736,0,0,0,675,676,
-0,0,0,0,0,736,736,0,0,0,0,0,
-736,0,702,703,0,0,0,0,248,250,249,250,
-736,0,731,732,0,0,0,0,277,704,705,736,
-0,0,0,0,0,0,0,0,277,733,734,0,
-614,615,615,615,615,616,0,0,0,735,735,678,
-643,644,728,729,644,645,0,0,0,0,0,707
+0,0,0,0,0,99,99,0,0,0,0,0,
+79,0,90,90,0,116,116,0,0,0,59,60,
+96,0,107,107,0,0,0,0,0,0,76,77,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,91,92,0,0,0,0,0,0,0,0,
+0,0,108,109,0,0,0,28,0,93,94,0,
+0,0,0,0,0,0,0,45,0,110,111,0,
+39,40,40,40,40,41,0,62,0,112,112,79,
+56,57,105,106,57,58,0,0,0,0,0,96
 </data>
  </layer>
- <objectgroup id="10" name="dialog">
-  <object id="32" gid="267" x="144" y="128" width="16" height="16">
+ <objectgroup id="12" name="dialog">
+  <object id="36" gid="43" x="144" y="128" width="16" height="16">
    <properties>
     <property name="name" value="Télévision"/>
-    <property name="text" value="La télé diffuse une ancienne chaine à la mode; Odyssée"/>
+    <property name="text" value="Bonjour"/>
    </properties>
   </object>
-  <object id="33" gid="267" x="160" y="128" width="16" height="16">
+  <object id="37" gid="43" x="160" y="128" width="16" height="16">
    <properties>
     <property name="name" value="Télévision"/>
-    <property name="text" value="Le personnage semble bien mal au point..."/>
+    <property name="text" value="Salut"/>
    </properties>
   </object>
  </objectgroup>

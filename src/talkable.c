@@ -26,7 +26,7 @@ void draw_dialog(struct Talkable *talkable) {
 		dprint(25,20, C_BLACK, "%s", talkable->name);
 
 		//TODO Il y a moyen de faire mieux avec seulement curr_line.
-		//Cela semble globalement fonctionner, mais j'ai pu oobserver des petites erreurs
+		//Cela semble globalement fonctionner, mais j'ai pu observer des petites erreurs
 		if(strlen(curr_line) > LIMIT) {
 			char remain[strlen(curr_line)+1];
 			char split[LIMIT+1];

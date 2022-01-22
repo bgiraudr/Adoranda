@@ -13,6 +13,7 @@ struct Map {
 	int w, h, nb_layers, dialog_count, teleporter_count;
 	/*the tileset to use*/
 	bopti_image_t *tileset;
+	int tileset_size;
 	/*list of all the dialog*/
 	struct Talkable *dialogs;
 	struct Teleporter *teleporters;

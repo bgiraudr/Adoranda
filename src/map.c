@@ -27,16 +27,12 @@ int map_get_player_tile(struct Game const *game) {
 
 /*generate the interior*/
 void generate_interior_map(struct Game *game) {
-	const int NB_INTERIORS = 3;
-
 	extern struct Map in_1;
 	extern struct Map in_2;
-	extern struct Map in_3;
 
 	struct Map *interiors[] = {
 		&in_1,
 		&in_2,
-		&in_3
 	};
 
 	srand(game->player->pos.x * game->player->pos.y);
@@ -45,7 +41,6 @@ void generate_interior_map(struct Game *game) {
 	game->player->pos = locate_tile(game->map, TILE_DOOR_OUT);
 }
 
-/*may be useful later*/
 void set_map(struct Game *game, int id) {
 	game->map = maps[id];
 }

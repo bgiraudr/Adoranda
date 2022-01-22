@@ -15,19 +15,19 @@ add_custom_command(
 	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.json"
 	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/1.json"
 	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/2.json"
-	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/3.json"
 	COMMENT "Convert tmx map to json"
 	COMMAND tiled --export-tileset json tileset.tsx tileset.json
+	COMMAND tiled --export-tileset json inside/tileset_in.tsx inside/tileset_in.json
 	COMMAND find | grep .*.tmx | sed 's/.tmx//g' | xargs -l bash -c 'tiled --export-map json $$0.tmx $$0.json'
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
 	DEPENDS assets-cg/maps/testCarte.tmx 
 	assets-cg/maps/1.tmx 
 	assets-cg/tileset.png 
 	assets-cg/maps/tileset.tsx 
+	assets-cg/maps/inside/tileset_in.tsx 
 	assets-cg/converters.py 
 	assets-cg/maps/inside/1.tmx
-	assets-cg/maps/inside/2.tmx
-	assets-cg/maps/inside/3.tmx)
+	assets-cg/maps/inside/2.tmx)
 
 set(SOURCES
 	src/main.c
@@ -44,11 +44,11 @@ set(SOURCES
 
 set(ASSETS_cg
 	assets-cg/tileset.png
+	assets-cg/maps/inside/tileset_in.png
 	assets-cg/maps/testCarte.json
 	assets-cg/maps/1.json
 	assets-cg/maps/inside/1.json
 	assets-cg/maps/inside/2.json
-	assets-cg/maps/inside/3.json
 	assets-cg/spritesheet.png
 	assets-cg/uf8x9
 )
