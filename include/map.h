@@ -30,6 +30,7 @@ enum map_state {
 	TILE_DOOR_OUT = 3,
 	TILE_TALKABLE = 4,
 	TILE_TELEPORTER = 5,
+	TILE_GRASS = 6,
 };
 
 /*check if a tile is walkable*/

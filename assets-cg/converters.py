@@ -16,6 +16,7 @@ def convert_map(input, output, params, target):
 	TILE_DOOR_OUT = 3
 	TILE_TALKABLE = 4
 	TILE_TELEPORTER = 5
+	TILE_GRASS = 6
 
 	DIALOG_LAYOUT = "dialog"
 	TELEPORTER_LAYOUT = "teleporter"
@@ -56,6 +57,8 @@ def convert_map(input, output, params, target):
 			value = TILE_BRIDGE
 		elif type == "teleporter":
 			value = TILE_TELEPORTER
+		elif type == "grass":
+			value = TILE_GRASS
 		else:
 			value = TILE_AIR
 

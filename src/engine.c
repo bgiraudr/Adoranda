@@ -10,6 +10,7 @@
 #include "talkable.h"
 #include "camera.h"
 #include "vec2.h"
+#include "battle.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
@@ -125,6 +126,9 @@ void engine_action(struct Game const *game, int action) {
 	if(action == ACTION_F1) {
 		game->player->sprint = game->player->sprint ? 0 : 1;
 	}
+	if(action == ACTION_OPTN) {
+		draw_stats(game->player->stats);
+	}
 }
 
 /*check the current position of the player. To perform action depends of his location*/
@@ -154,6 +158,9 @@ void engine_check_position(struct Game *game) {
 			set_map(game, teleporter.idMap);
 		}
 		engine_center_camera(game);
+	}
+	if(player_curr_tile == TILE_GRASS) {
+		create_battle(game->player);
 	}
 }
 

@@ -1,11 +1,22 @@
 #include "player.h"
 #include "define.h"
 #include "map.h"
+#include "stats.h"
 
 struct Player init_player(void) {
+
+	struct Stats stats = {
+		.atk = 1,
+		.def = 1,
+		.level = 1,
+		.pv = 10,
+		.xp = 0
+	};
+
 	struct Player player = {
 		.pos = VEC2(32, 30),
 		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
+		.stats = stats,
 		.x_mid = 6,
 		.y_mid = 1,
 		.show_x = 12,

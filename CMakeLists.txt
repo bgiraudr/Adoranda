@@ -40,6 +40,8 @@ set(SOURCES
 	src/player.c
 	src/util.c
 	src/animation.c
+	src/battle.c
+	src/stats.c
 )
 
 set(ASSETS_cg

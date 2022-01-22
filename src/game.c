@@ -39,5 +39,6 @@ int get_inputs(void) {
         if(key == KEY_SHIFT)  return ACTION_SHIFT;
         if(key == KEY_ALPHA)  return ACTION_ALPHA;
         if(key == KEY_F1) return ACTION_F1;
+        if(key == KEY_OPTN) return ACTION_OPTN;
     }
 }

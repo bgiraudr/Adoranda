@@ -19,7 +19,8 @@ enum action {
 	DIR_RIGHT = 3,
 	ACTION_SHIFT = 4,
 	ACTION_ALPHA = 5,
-	ACTION_F1 = 6
+	ACTION_F1 = 6,
+	ACTION_OPTN = 7
 };
 
 /*get the input with a timeout*/
