@@ -1,8 +1,11 @@
+#include <gint/keyboard.h>
+
 #include "player.h"
 #include "define.h"
 #include "map.h"
 #include "stats.h"
 #include "capacite.h"
+#include "util.h"
 
 struct Player init_player(void) {
 
@@ -55,7 +58,7 @@ void add_move(struct Player *player, struct Move move) {
 	if(player->moves[1].name == NULL) {
 		player->moves[1] = move;
 	} else {
-		//TODO remplacer une capacité
+		replace_capacities(player, move);
 	}
 }
 
@@ -66,3 +69,34 @@ void draw_player_moves(struct Player *player) {
 	}
 }
 
+void replace_capacities(struct Player *player, struct Move move) {
+	int selection = 0;
+	int buffer = keydown(KEY_SHIFT);
+	while(1) {
+		clearevents();
+
+		selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
+		if(selection > 1) selection = 1;
+		if(selection < 0) selection = 0;
+
+		draw_classic_move(115,DHEIGHT/2-65, move);
+		draw_classic_move(20,DHEIGHT/2+5, player->moves[0]);
+		draw_classic_move(210,DHEIGHT/2+5, player->moves[1]);
+		
+		dtext(95 + (selection * 190), DHEIGHT/2+50 , C_RED, "[X]");
+		dupdate();
+
+		if(keydown(KEY_SHIFT)) {
+			if(buffer) buffer = 0;
+			else break;
+		}
+		if(keydown(KEY_EXIT)) {
+			selection = -1;
+			break;
+		}
+		while(keydown(KEY_SHIFT)) clearevents();
+	}
+	if(selection >= 0) {
+		player->moves[selection] = move;
+	}
+}

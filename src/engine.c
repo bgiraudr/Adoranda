@@ -127,6 +127,7 @@ void engine_action(struct Game const *game, int action) {
 	}
 	if(action == ACTION_F1) {
 		game->player->sprint = game->player->sprint ? 0 : 1;
+		add_move(game->player, get_move_id(2));
 	}
 	if(action == ACTION_OPTN) {
 		draw_stats(game->player->stats);

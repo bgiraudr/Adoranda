@@ -25,5 +25,5 @@ void draw_move(int x, int y, int x2, int y2, struct Move move) {
 }
 
 void draw_classic_move(int x, int y, struct Move move) {
-	draw_move(x, y, x+200, y+60, move);
+	draw_move(x, y, x+170, y+60, move);
 }

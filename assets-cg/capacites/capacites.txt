@@ -1,2 +1,3 @@
 Test capacité;5;2
 Deuxième;10;3
+Charge;25;2
