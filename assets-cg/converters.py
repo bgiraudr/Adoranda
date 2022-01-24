@@ -5,6 +5,9 @@ def convert(input, output, params, target):
 	if params["custom-type"] == "map":
 		convert_map(input, output, params, target)
 		return 0
+	elif params["custom-type"] == "capacites":
+		convert_capa(input, output, params, target)
+		return 0
 	else:
 		return 1
 
@@ -161,3 +164,24 @@ def parseTeleporter(layer):
 		except KeyError	:
 			raise Exception("parseTeleporter() : Un téléporteur est mal configuré")
 	return teleporter
+
+def convert_capa(input, output, params, target):
+	with open(input, "r") as file:
+		capacities = fxconv.Structure()
+
+		lines = file.read().splitlines()
+		matrix = [i.split(";") for i in lines]
+		
+		capacities += fxconv.u32(len(lines))
+		
+		for i in matrix:
+			moves = fxconv.Structure()
+			for j in range(len(i)):
+				if j == 0:
+					moves += fxconv.string(i[j])
+				else:
+					moves += fxconv.u32(int(i[j]))
+
+			capacities += fxconv.ptr(moves)
+
+	fxconv.elf(capacities, output, "_" + params["name"], **target)

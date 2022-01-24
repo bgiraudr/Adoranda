@@ -1,0 +1,2 @@
+Test capacité;5;2
+Deuxième;10;3

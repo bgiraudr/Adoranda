@@ -2,6 +2,7 @@
 #include "define.h"
 #include "map.h"
 #include "stats.h"
+#include "capacite.h"
 
 struct Player init_player(void) {
 
@@ -26,6 +27,7 @@ struct Player init_player(void) {
 		.anim.dir = DIR_DOWN
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
+	player.moves[0] = default_move();
 
 	return player;
 }
@@ -47,4 +49,12 @@ int player_facing(struct Game const *game) {
 		return game->map->info_map[index];
 	}
 	return TILE_SOLID;
+}
+
+void add_move(struct Player *player, struct Move move) {
+	if(player->moves[1].name == NULL) {
+		player->moves[1] = move;
+	} else {
+		//TODO remplacer une capacité
+	}
 }

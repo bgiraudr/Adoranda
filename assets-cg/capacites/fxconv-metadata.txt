@@ -1,0 +1,3 @@
+capacites.txt:
+  custom-type: capacites
+  name: capacites

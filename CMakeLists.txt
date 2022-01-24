@@ -42,6 +42,7 @@ set(SOURCES
 	src/animation.c
 	src/battle.c
 	src/stats.c
+	src/capacite.c
 )
 
 set(ASSETS_cg
@@ -53,6 +54,7 @@ set(ASSETS_cg
 	assets-cg/maps/inside/2.json
 	assets-cg/spritesheet.png
 	assets-cg/uf8x9
+	assets-cg/capacites/capacites.txt
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

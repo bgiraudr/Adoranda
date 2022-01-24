@@ -11,6 +11,7 @@
 #include "camera.h"
 #include "vec2.h"
 #include "battle.h"
+#include "capacite.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {

@@ -3,6 +3,8 @@
 #include "engine.h"
 #include "vec2.h"
 #include "stats.h"
+#include "capacite.h"
+
 
 struct Player {
 	/*current position of the player on the map - Tile*/
@@ -11,6 +13,7 @@ struct Player {
 	struct Vec2f pos_visual;
 
 	struct Stats stats;
+	struct Move moves[2];
 	/*player mid - offset pixels*/
 	int x_mid, y_mid;
 	/*the direction the player facing to*/
@@ -29,3 +32,4 @@ struct Player {
 /*return the info tile value the player is facing to*/
 int player_facing(struct Game const *game);
 struct Player init_player(void);
+void add_move(struct Player *player, struct Move move);
