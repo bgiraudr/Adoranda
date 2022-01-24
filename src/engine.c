@@ -12,6 +12,7 @@
 #include "vec2.h"
 #include "battle.h"
 #include "capacite.h"
+#include "util.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
@@ -129,6 +130,9 @@ void engine_action(struct Game const *game, int action) {
 	}
 	if(action == ACTION_OPTN) {
 		draw_stats(game->player->stats);
+		draw_player_moves(game->player);
+		dupdate();
+		wait_for_input(KEY_OPTN);
 	}
 }
 

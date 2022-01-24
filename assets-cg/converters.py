@@ -5,7 +5,7 @@ def convert(input, output, params, target):
 	if params["custom-type"] == "map":
 		convert_map(input, output, params, target)
 		return 0
-	elif params["custom-type"] == "capacites":
+	elif params["custom-type"] == "capacities":
 		convert_capa(input, output, params, target)
 		return 0
 	else:

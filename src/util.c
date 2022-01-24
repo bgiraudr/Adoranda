@@ -5,7 +5,7 @@
 
 /*wait for a specified input key*/
 void wait_for_input(int input) {
-	int buffer = 1;
+	int buffer = keydown(input);
 	while(1) {
 		clearevents();
 		if(keydown(input)) {

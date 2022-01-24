@@ -58,3 +58,11 @@ void add_move(struct Player *player, struct Move move) {
 		//TODO remplacer une capacité
 	}
 }
+
+void draw_player_moves(struct Player *player) {
+	draw_classic_move(0,0,player->moves[0]);
+	if(player->moves[1].name != NULL) {
+		draw_classic_move(0,80,player->moves[1]);
+	}
+}
+

@@ -11,6 +11,4 @@ void draw_stats(struct Stats stats) {
 	dprint(300,60,C_BLACK,"XP : %d",stats.xp);
 	dprint(300,80,C_BLACK,"ATK : %d",stats.atk);
 	dprint(300,100,C_BLACK,"DEF : %d",stats.def);
-	dupdate();
-	wait_for_input(KEY_OPTN);
 }
