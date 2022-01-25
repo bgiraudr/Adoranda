@@ -27,3 +27,7 @@ void draw_move(int x, int y, int x2, int y2, struct Move move) {
 void draw_classic_move(int x, int y, struct Move move) {
 	draw_move(x, y, x+170, y+60, move);
 }
+
+void execute_move(struct Stats *player_stats, struct Move move) {
+	player_stats->pv-=move.atk;
+}

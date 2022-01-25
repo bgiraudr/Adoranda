@@ -5,6 +5,7 @@
 /*.g3a
 *.json
 *~
+/images
 
 # Python bytecode
 __pycache__/

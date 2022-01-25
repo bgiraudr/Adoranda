@@ -35,3 +35,4 @@ struct Player init_player(void);
 void add_move(struct Player *player, struct Move move);
 void draw_player_moves(struct Player *player);
 void replace_capacities(struct Player *player, struct Move move);
+void draw_ui(struct Player *player);

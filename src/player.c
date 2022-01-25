@@ -14,7 +14,8 @@ struct Player init_player(void) {
 		.def = 1,
 		.level = 1,
 		.pv = 10,
-		.xp = 0
+		.xp = 0,
+		.max_pv = 10,
 	};
 
 	struct Player player = {
@@ -99,4 +100,18 @@ void replace_capacities(struct Player *player, struct Move move) {
 	if(selection >= 0) {
 		player->moves[selection] = move;
 	}
+}
+
+void draw_ui(struct Player *player) {
+	draw_classic_move(20,DHEIGHT-80, player->moves[0]);
+	if(player->moves[1].name != NULL) {
+		draw_classic_move(210,DHEIGHT-80, player->moves[1]);
+	}
+
+	const int WIDTH_HP = 100;
+	int posHP = (float)player->stats.pv / player->stats.max_pv * WIDTH_HP;
+	drect(10,10,10+WIDTH_HP,20,C_BLACK);
+	drect(10,10,10+posHP,20,C_GREEN);
+
+	dprint(15+WIDTH_HP,10,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
 }

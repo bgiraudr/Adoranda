@@ -1,4 +1,5 @@
 #pragma once
+#include "stats.h"
 
 struct Move {
 	char *name;
@@ -15,3 +16,4 @@ struct Move default_move();
 struct Move get_move_id(int id);
 void draw_move(int x, int y, int x2, int y2, struct Move move);
 void draw_classic_move(int x, int y, struct Move move);
+void execute_move(struct Stats *player_stats, struct Move move);

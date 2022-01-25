@@ -14,6 +14,12 @@ static int callback_tick(volatile int *tick) {
 	return TIMER_CONTINUE;
 }
 
+void take_capture(void) {
+	if (keydown(KEY_VARS) && usb_is_open()) {
+		usb_fxlink_screenshot(1);
+	}
+}
+
 int main(void) {
 	/*Structure definition*/
 	struct Player player = init_player();
@@ -33,6 +39,8 @@ int main(void) {
 	extern font_t uf8x9;
 	dfont(&uf8x9);
 
+	dupdate_set_hook(GINT_CALL(take_capture));
+
 	/*Main loop*/
 	while(!keydown(KEY_MENU)) {
 		while(!tick) sleep();
@@ -40,8 +48,6 @@ int main(void) {
 
 		engine_draw(&game);
 		dupdate();
-		if (keydown(KEY_VARS) && usb_is_open())
-				usb_fxlink_screenshot(1);
 
 		int action = get_inputs();
 		if(action >= 0 && action <= 3)
