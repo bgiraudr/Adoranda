@@ -13,6 +13,7 @@ void create_battle(struct Player *player) {
 }
 
 int during_battle(struct Player *player) {
+	const int nbMove = get_nb_moves(player);
 	int tour = 0;
 
 	int selection = 0;
@@ -21,16 +22,14 @@ int during_battle(struct Player *player) {
 		while(1) {
 			clearevents();
 
-			if(player->moves[1].name != NULL) {
-				selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
-			}
+			selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
 			
-			if(selection > 1) selection = 1;
+			if(selection > nbMove-1) selection = nbMove-1;
 			if(selection < 0) selection = 0;
 
 			dclear(C_RGB(25,25,25));
 			draw_ui(player);
-			dtext(95 + (selection * 190), DHEIGHT-15 , C_RED, "[X]");
+			dtext(58 + (selection * 130), DHEIGHT-15 , C_RED, "[X]");
 			dupdate();
 
 			if(keydown(KEY_SHIFT)) {
@@ -41,7 +40,7 @@ int during_battle(struct Player *player) {
 				player->stats.pv--;
 				break;
 			}
-			while(keydown(KEY_SHIFT)) clearevents();
+			while(keydown_any(KEY_RIGHT, KEY_LEFT, KEY_SHIFT, 0)) clearevents();
 		}
 
 		execute_move(&player->stats, player->moves[selection]);

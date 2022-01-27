@@ -4,7 +4,7 @@
 #include "vec2.h"
 #include "stats.h"
 #include "capacite.h"
-
+#include "define.h"
 
 struct Player {
 	/*current position of the player on the map - Tile*/
@@ -13,7 +13,7 @@ struct Player {
 	struct Vec2f pos_visual;
 
 	struct Stats stats;
-	struct Move moves[2];
+	struct Move moves[NB_PLAYER_MOVES];
 	/*player mid - offset pixels*/
 	int x_mid, y_mid;
 	/*the direction the player facing to*/
@@ -36,3 +36,4 @@ void add_move(struct Player *player, struct Move move);
 void draw_player_moves(struct Player *player);
 void replace_capacities(struct Player *player, struct Move move);
 void draw_ui(struct Player *player);
+int get_nb_moves(struct Player *player);

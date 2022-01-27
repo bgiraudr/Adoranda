@@ -55,18 +55,25 @@ int player_facing(struct Game const *game) {
 	return TILE_SOLID;
 }
 
-void add_move(struct Player *player, struct Move move) {
-	if(player->moves[1].name == NULL) {
-		player->moves[1] = move;
-	} else {
-		replace_capacities(player, move);
+int get_nb_moves(struct Player *player) {
+	for(int i = 0; i < NB_PLAYER_MOVES; i++) {
+		if(player->moves[i].name == NULL) {
+			return i;
+		}
 	}
+	return NB_PLAYER_MOVES;
+}
+
+void add_move(struct Player *player, struct Move move) {
+	int index = get_nb_moves(player);
+	if(index != NB_PLAYER_MOVES) player->moves[index] = move;
+	else replace_capacities(player, move);
 }
 
 void draw_player_moves(struct Player *player) {
-	draw_classic_move(0,0,player->moves[0]);
-	if(player->moves[1].name != NULL) {
-		draw_classic_move(0,80,player->moves[1]);
+	int index = get_nb_moves(player);
+	for(int i = 0; i < index; i++) {
+		draw_classic_move(0,65*i,player->moves[i]);
 	}
 }
 
@@ -76,15 +83,16 @@ void replace_capacities(struct Player *player, struct Move move) {
 	while(1) {
 		clearevents();
 
-		selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
-		if(selection > 1) selection = 1;
+		selection += keydown(KEY_DOWN) - keydown(KEY_UP);
+		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
-		draw_classic_move(115,DHEIGHT/2-65, move);
-		draw_classic_move(20,DHEIGHT/2+5, player->moves[0]);
-		draw_classic_move(210,DHEIGHT/2+5, player->moves[1]);
+		draw_classic_move(200,DHEIGHT/2-30, move);
+		for(int i = 0; i < NB_PLAYER_MOVES; i++) {
+			draw_classic_move(0,65*i, player->moves[i]);
+		}
 		
-		dtext(95 + (selection * 190), DHEIGHT/2+50 , C_RED, "[X]");
+		dtext(105, 45+65*selection , C_RED, "[X]");
 		dupdate();
 
 		if(keydown(KEY_SHIFT)) {
@@ -95,7 +103,7 @@ void replace_capacities(struct Player *player, struct Move move) {
 			selection = -1;
 			break;
 		}
-		while(keydown(KEY_SHIFT)) clearevents();
+		while(keydown_any(KEY_DOWN,KEY_UP, KEY_SHIFT,0)) clearevents();
 	}
 	if(selection >= 0) {
 		player->moves[selection] = move;
@@ -103,9 +111,10 @@ void replace_capacities(struct Player *player, struct Move move) {
 }
 
 void draw_ui(struct Player *player) {
-	draw_classic_move(20,DHEIGHT-80, player->moves[0]);
-	if(player->moves[1].name != NULL) {
-		draw_classic_move(210,DHEIGHT-80, player->moves[1]);
+	int index = get_nb_moves(player);
+
+	for(int i = 0; i < index; i++) {
+		draw_classic_move(2+132*i,DHEIGHT-80, player->moves[i]);
 	}
 
 	const int WIDTH_HP = 100;

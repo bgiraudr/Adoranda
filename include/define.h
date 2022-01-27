@@ -3,3 +3,5 @@
 #define TILE_SIZE 16
 
 #define NB_INTERIORS 2
+
+#define NB_PLAYER_MOVES 3
