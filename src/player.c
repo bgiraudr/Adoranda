@@ -116,11 +116,4 @@ void draw_ui(struct Player *player) {
 	for(int i = 0; i < index; i++) {
 		draw_classic_move(2+132*i,DHEIGHT-80, player->moves[i]);
 	}
-
-	const int WIDTH_HP = 100;
-	int posHP = (float)player->stats.pv / player->stats.max_pv * WIDTH_HP;
-	drect(10,10,10+WIDTH_HP,20,C_BLACK);
-	drect(10,10,10+posHP,20,C_GREEN);
-
-	dprint(15+WIDTH_HP,10,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
 }

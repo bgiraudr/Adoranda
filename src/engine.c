@@ -167,7 +167,7 @@ void engine_check_position(struct Game *game) {
 		engine_center_camera(game);
 	}
 	if(player_curr_tile == TILE_GRASS) {
-		create_battle(game->player);
+		create_battle(game);
 	}
 }
 

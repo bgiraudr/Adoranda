@@ -1,0 +1,4 @@
+test.png:
+  type: bopti-image
+  name: img_test
+
