@@ -29,6 +29,6 @@ void draw_classic_move(int x, int y, struct Move move) {
 }
 
 void execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move move) {
-	// player_stats->pv-=move.atk;
-	monster_stats->pv-=move.atk;
+	player_stats->pv-=move.atk;
+	//monster_stats->pv-=move.atk;
 }

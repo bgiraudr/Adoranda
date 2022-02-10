@@ -2,3 +2,6 @@ test.png:
   type: bopti-image
   name: img_test
 
+*.json:
+  custom-type: monster
+  name_regex: (.*)\.json monster_\1

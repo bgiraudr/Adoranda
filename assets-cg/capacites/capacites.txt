@@ -1,3 +1,3 @@
 Test capacité;5;3
-Deuxième;10;3
+Deuxième;100;100
 Charge;25;15

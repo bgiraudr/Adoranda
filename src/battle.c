@@ -21,11 +21,13 @@ int during_battle(struct Player *player, struct Monster monster) {
 		draw_battle(player, &monster);
 		dupdate();
 		selection = select_move(player, &monster, selection);
-		execute_move(&player->stats, &monster.stats, player->moves[selection]);
+		draw_executed_move(player->moves[selection], &monster, 0);
+		wait_for_input(KEY_SHIFT);
+		execute_move(&player->stats, monster.stats, player->moves[selection]);
 		if(player->stats.pv <= 0) {
 			return LOSE;
 		}
-		if(monster.stats.pv <= 0) {
+		if(monster.stats->pv <= 0) {
 			return WIN;
 		}
 		tour++;
@@ -73,11 +75,22 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 
 	dprint(15+WIDTH_HP,15,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
 
-	int posHPmonster = (float)monster->stats.pv / monster->stats.max_pv * WIDTH_HP;
+	int posHPmonster = (float)monster->stats->pv / monster->stats->max_pv * WIDTH_HP;
 	dtext(240,2,C_BLACK,monster->name);
 	drect(240,15,240+WIDTH_HP,25,C_BLACK);
 	drect(240,15,240+posHPmonster,25,C_GREEN);
 
-	dprint(245+WIDTH_HP,15,C_BLACK,"%d/%d", monster->stats.pv, monster->stats.max_pv);
+	dprint(245+WIDTH_HP,15,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
 	dimage(260,30,monster->sprite);
+}
+
+void draw_executed_move(struct Move move, struct Monster *monster, int is_monster) {
+	const int rect_size = 100;
+	drect(0,DHEIGHT,DWIDTH,DHEIGHT-rect_size,C_WHITE);
+	if(is_monster) {
+		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "%s lance %s !", monster->name, move.name);
+	} else {
+		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "Vous lancez %s !", move.name);
+	}
+	dupdate();
 }

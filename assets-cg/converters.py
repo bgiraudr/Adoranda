@@ -8,6 +8,9 @@ def convert(input, output, params, target):
 	elif params["custom-type"] == "capacities":
 		convert_capa(input, output, params, target)
 		return 0
+	elif params["custom-type"] == "monster":
+		convert_monster(input, output, params, target)
+		return 0
 	else:
 		return 1
 
@@ -185,3 +188,24 @@ def convert_capa(input, output, params, target):
 			capacities += fxconv.ptr(moves)
 
 	fxconv.elf(capacities, output, "_" + params["name"], **target)
+
+def convert_monster(input, output, params, target):
+	file = open(input, "r")
+	data = json.load(file)
+
+	stats = fxconv.Structure()
+	if len(data["stats"]) != 6: raise Exception(f"convert_monster : Les statistiques de {data['name']} sont mauvaises")
+	for i in data["stats"].values():
+		stats+=fxconv.u32(i)
+
+	moves = bytes()
+	for i in data["moves"]:
+		moves+=fxconv.u16(i)
+
+	monster = fxconv.Structure()
+	monster += fxconv.string(data["name"])
+	monster += fxconv.ptr(f"img_{data['sprite']}")
+	monster += fxconv.ptr(stats)
+	monster += fxconv.ptr(moves)
+
+	fxconv.elf(monster, output, "_" + params["name"], **target)
