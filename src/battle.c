@@ -7,31 +7,51 @@
 #include "capacite.h"
 #include "player.h"
 #include "monster.h"
+#include <stdlib.h>
 
 void create_battle(struct Game *game) {
 	game->player->stats.pv = game->player->stats.max_pv;
 	during_battle(game->player, generate_monster(game));
 }
 
-int during_battle(struct Player *player, struct Monster monster) {
+int during_battle(struct Player *player, struct Monster *monster) {
 	int tour = 0;
 	int selection = 0;
 	while(1) {
 		dclear(C_RGB(25,25,25));
-		draw_battle(player, &monster);
+		draw_battle(player, monster);
 		dupdate();
-		selection = select_move(player, &monster, selection);
-		draw_executed_move(player->moves[selection], &monster, 0);
+		selection = select_move(player, monster, selection);
+		draw_executed_move(player->moves[selection], monster, 0);
+		dupdate();
 		wait_for_input(KEY_SHIFT);
-		execute_move(&player->stats, monster.stats, player->moves[selection]);
+		execute_move(&player->stats, monster->stats, player->moves[selection], 0);
+
 		if(player->stats.pv <= 0) {
 			return LOSE;
 		}
-		if(monster.stats->pv <= 0) {
+		if(monster->stats->pv <= 0) {
+			return WIN;
+		}
+
+		dclear(C_RGB(25,25,25));
+		draw_battle(player, monster);
+
+		struct Move monster_move = monster_select(player, monster);
+		draw_executed_move(monster_move, monster, 1);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+		execute_move(&player->stats, monster->stats, monster_move, 1);
+
+		if(player->stats.pv <= 0) {
+			return LOSE;
+		}
+		if(monster->stats->pv <= 0) {
 			return WIN;
 		}
 		tour++;
 	}
+	free(monster);
 	return LOSE;
 }
 
@@ -79,7 +99,6 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	dtext(240,2,C_BLACK,monster->name);
 	drect(240,15,240+WIDTH_HP,25,C_BLACK);
 	drect(240,15,240+posHPmonster,25,C_GREEN);
-
 	dprint(245+WIDTH_HP,15,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
 	dimage(260,30,monster->sprite);
 }
@@ -92,5 +111,4 @@ void draw_executed_move(struct Move move, struct Monster *monster, int is_monste
 	} else {
 		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "Vous lancez %s !", move.name);
 	}
-	dupdate();
 }
