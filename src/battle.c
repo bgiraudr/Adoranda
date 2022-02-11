@@ -11,7 +11,9 @@
 
 void create_battle(struct Game *game) {
 	game->player->stats.pv = game->player->stats.max_pv;
-	during_battle(game->player, generate_monster(game));
+	struct Monster *monster = generate_monster(game);
+	during_battle(game->player, monster);
+	free_monster(monster);
 }
 
 int during_battle(struct Player *player, struct Monster *monster) {
@@ -51,7 +53,6 @@ int during_battle(struct Player *player, struct Monster *monster) {
 		}
 		tour++;
 	}
-	free(monster);
 	return LOSE;
 }
 

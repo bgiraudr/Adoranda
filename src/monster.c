@@ -29,7 +29,7 @@ struct Move monster_select(struct Player *player, struct Monster *monster) {
 struct Monster *copyMonster(struct Monster *source) {
 	struct Monster *dest = malloc(sizeof(struct Monster));
 
-	dest->name = strdup(source->name);
+	dest->name = source->name;
 	dest->nbMoves = source->nbMoves;
 	dest->sprite = source->sprite;
 	
@@ -40,4 +40,10 @@ struct Monster *copyMonster(struct Monster *source) {
 	memcpy(dest->stats, source->stats, sizeof *source->stats);
 
 	return dest;
+}
+
+void free_monster(struct Monster *monster) {
+	free(monster->moves);
+	free(monster->stats);
+	free(monster);
 }
