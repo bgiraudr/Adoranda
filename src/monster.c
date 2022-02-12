@@ -9,7 +9,10 @@ struct Monster *generate_monster(struct Game *game) {
 
 	extern struct Monster monster_test;
 
-	return(copyMonster(&monster_test));
+	struct Monster *monster = copyMonster(&monster_test);
+	// TODO formule pour niveau du monstre adverse
+	monster->stats->level = game->player->stats.level;
+	return monster;
 }
 
 struct Move monster_select(struct Player *player, struct Monster *monster) {

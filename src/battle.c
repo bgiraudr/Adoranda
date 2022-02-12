@@ -8,15 +8,45 @@
 #include "player.h"
 #include "monster.h"
 #include <stdlib.h>
+#include <math.h>
 
 void create_battle(struct Game *game) {
 	game->player->stats.pv = game->player->stats.max_pv;
 	struct Monster *monster = generate_monster(game);
-	during_battle(game->player, monster);
+	int status = battle(game->player, monster);
+
+	if(status == WIN) {
+		//gain d'xp
+		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
+
+		const int rect_size = 100;
+		drect(0,DHEIGHT,DWIDTH,DHEIGHT-rect_size,C_WHITE);
+		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "Vous remportez %d points d'experience", xp);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+
+		game->player->stats.xp += xp;
+
+		//niveau suivant une progession N³
+		int calc_level = (int)pow(game->player->stats.xp, 0.34);
+		for(int i = game->player->stats.level; i < calc_level; i++) {
+			dclear(C_RGB(25,25,25));
+			draw_battle(game->player, monster);
+			drect(0,DHEIGHT,DWIDTH,DHEIGHT-rect_size,C_WHITE);
+			dprint(10,DHEIGHT-rect_size/2-8,C_BLACK,"Vous passez au niveau %d !", i+1);
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+		}
+		game->player->stats.level = calc_level;
+
+	} else if(status == LOSE) {
+		game->player->stats.pv = 0;
+	}
+
 	free_monster(monster);
 }
 
-int during_battle(struct Player *player, struct Monster *monster) {
+int battle(struct Player *player, struct Monster *monster) {
 	int tour = 0;
 	int selection = 0;
 	while(1) {
@@ -29,15 +59,15 @@ int during_battle(struct Player *player, struct Monster *monster) {
 		wait_for_input(KEY_SHIFT);
 		execute_move(&player->stats, monster->stats, player->moves[selection], 0);
 
+		dclear(C_RGB(25,25,25));
+		draw_battle(player, monster);
+
 		if(player->stats.pv <= 0) {
 			return LOSE;
 		}
 		if(monster->stats->pv <= 0) {
 			return WIN;
 		}
-
-		dclear(C_RGB(25,25,25));
-		draw_battle(player, monster);
 
 		struct Move monster_move = monster_select(player, monster);
 		draw_executed_move(monster_move, monster, 1);
@@ -90,6 +120,10 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 
 void draw_battle(struct Player *player, struct Monster *monster) {
 	const int WIDTH_HP = 100;
+
+	if(player->stats.pv < 0) player->stats.pv = 0;
+	if(monster->stats->pv < 0) monster->stats->pv = 0;
+
 	int posHP = (float)player->stats.pv / player->stats.max_pv * WIDTH_HP;
 	drect(10,15,10+WIDTH_HP,25,C_BLACK);
 	drect(10,15,10+posHP,25,C_GREEN);
@@ -97,9 +131,10 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	dprint(15+WIDTH_HP,15,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
 
 	int posHPmonster = (float)monster->stats->pv / monster->stats->max_pv * WIDTH_HP;
-	dtext(240,2,C_BLACK,monster->name);
+	dprint(240,2,C_BLACK,"%s",monster->name);
 	drect(240,15,240+WIDTH_HP,25,C_BLACK);
 	drect(240,15,240+posHPmonster,25,C_GREEN);
+	dprint(245+WIDTH_HP,2,C_BLACK,"%d",monster->stats->level);
 	dprint(245+WIDTH_HP,15,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
 	dimage(260,30,monster->sprite);
 }
