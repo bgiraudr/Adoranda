@@ -10,3 +10,6 @@ struct Stats {
 };
 
 void draw_stats(struct Stats stats);
+void set_stats_level(struct Stats *stats);
+int calc_stats(int base, int level);
+void set_stats_level_from(const struct Stats *from, struct Stats *to);

@@ -1,3 +1,4 @@
 Test capacité;5;3
 Deuxième;100;11
 Charge;25;15
+Cheat;25;45

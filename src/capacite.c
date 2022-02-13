@@ -1,6 +1,7 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
 #include <string.h>
+#include <math.h>
 
 #include "capacite.h"
 
@@ -30,8 +31,12 @@ void draw_classic_move(int x, int y, struct Move move) {
 
 void execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move move, int ismonster) {
 	if(ismonster) {
-		player_stats->pv-=move.atk;
+		player_stats->pv-=calc_damage(monster_stats, player_stats, move);
 	} else {
-		monster_stats->pv-=move.atk;
+		monster_stats->pv-=calc_damage(player_stats, monster_stats, move);
 	}
+}
+
+int calc_damage(struct Stats *attacker, struct Stats *target, struct Move move) {
+	return(floor(((2*attacker->level / 5 + 2) * attacker->atk * move.atk / target->def) / 50) + 2);
 }

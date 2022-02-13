@@ -1,9 +1,10 @@
+#include <string.h>
+#include <stdlib.h>
+
 #include "monster.h"
 #include "stats.h"
 #include "capacite.h"
 #include "player.h"
-#include <string.h>
-#include <stdlib.h>
 
 struct Monster *generate_monster(struct Game *game) {
 
@@ -12,18 +13,24 @@ struct Monster *generate_monster(struct Game *game) {
 	struct Monster *monster = copyMonster(&monster_test);
 	// TODO formule pour niveau du monstre adverse
 	monster->stats->level = game->player->stats.level;
+	set_stats_level(monster->stats);
+	monster->stats->pv = monster->stats->max_pv;
 	return monster;
 }
 
 struct Move monster_select(struct Player *player, struct Monster *monster) {
 	struct Move stoMove = get_move_id(monster->moves[0]);
+	int stoDamage = 0;
+
 	for(int i = 0; i < monster->nbMoves; i++) {
 		struct Move move = get_move_id(monster->moves[i]);
-		if(move.atk >= player->stats.pv) {
+		int damage = calc_damage(monster->stats, &player->stats, move);
+		if(damage >= player->stats.pv) {
 			return move;
 		}
-		if(move.atk > stoMove.atk) {
+		if(damage > stoDamage) {
 			stoMove = move;
+			stoDamage = damage;
 		}
 	}
 	return stoMove;

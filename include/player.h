@@ -12,6 +12,7 @@ struct Player {
 	/*current position of the player on the map - pixels */
 	struct Vec2f pos_visual;
 
+	const struct Stats base_stats;
 	struct Stats stats;
 	struct Move moves[NB_PLAYER_MOVES];
 	/*player mid - offset pixels*/

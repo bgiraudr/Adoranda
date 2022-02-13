@@ -28,7 +28,7 @@ void create_battle(struct Game *game) {
 		game->player->stats.xp += xp;
 
 		//niveau suivant une progession N³
-		int calc_level = (int)pow(game->player->stats.xp, 0.34);
+		int calc_level = (int)pow(game->player->stats.xp, 0.33);
 		for(int i = game->player->stats.level; i < calc_level; i++) {
 			dclear(C_RGB(25,25,25));
 			draw_battle(game->player, monster);
@@ -38,6 +38,7 @@ void create_battle(struct Game *game) {
 			wait_for_input(KEY_SHIFT);
 		}
 		game->player->stats.level = calc_level;
+		set_stats_level_from(&game->player->base_stats, &game->player->stats);
 
 	} else if(status == LOSE) {
 		game->player->stats.pv = 0;

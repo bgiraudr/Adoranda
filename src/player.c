@@ -9,18 +9,22 @@
 
 struct Player init_player(void) {
 
-	struct Stats stats = {
-		.atk = 1,
-		.def = 1,
+	struct Stats bstats = {
+		.atk = 15,
+		.def = 15,
 		.level = 1,
-		.pv = 10,
-		.xp = 0,
-		.max_pv = 10,
+		.pv = 30,
+	};
+
+	struct Stats stats = {
+		.level = 1,
+		.xp = 0
 	};
 
 	struct Player player = {
 		.pos = VEC2(32, 30),
 		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
+		.base_stats = bstats,
 		.stats = stats,
 		.x_mid = 6,
 		.y_mid = 1,
@@ -33,6 +37,7 @@ struct Player init_player(void) {
 	player.idle = !anim_player_idle(&player.anim, 1);
 	player.moves[0] = default_move();
 
+	set_stats_level_from(&player.base_stats, &player.stats);
 	return player;
 }
 
