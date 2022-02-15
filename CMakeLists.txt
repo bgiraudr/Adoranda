@@ -48,6 +48,9 @@ set(SOURCES
 
 set(ASSETS_cg
 	assets-cg/tileset.png
+	assets-cg/dialogue.png
+	assets-cg/capacite.png
+	assets-cg/battle_ui.png
 	assets-cg/maps/inside/tileset_in.png
 	assets-cg/maps/testCarte.json
 	assets-cg/maps/1.json

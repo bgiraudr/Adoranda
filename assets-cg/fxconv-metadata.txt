@@ -11,7 +11,21 @@ uf8x9:
   type: font
   name: uf8x9
   charset: unicode
-  grid.size: 8x11
-  grid.padding: 1
+  grid.size: 14x44
   proportional: true
-  height: 9
+  height: 16
+  
+dialogue.png:
+  type: bopti-image
+  name: img_dialogue
+  profile: p4  
+  
+capacite.png:
+  type: bopti-image
+  name: img_capacite
+  profile: p4  
+  
+battle_ui.png:
+  type: bopti-image
+  name: img_battle
+  profile: p4  

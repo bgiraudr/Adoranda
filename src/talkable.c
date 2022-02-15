@@ -16,14 +16,15 @@ struct Talkable default_value = {
 
 /*draw the dialog of a specified talkable tile*/
 void draw_dialog(struct Talkable *talkable) {
+	extern bopti_image_t img_dialogue;
 	const char *delim = ";";
 
 	char *str = strdup(talkable->text);
 	char *curr_line = strtok(str, delim);
 
 	while(curr_line != NULL) {
-		drect(20,10,370,80,C_WHITE);
-		dprint(25,20, C_BLACK, "%s", talkable->name);
+		dimage(43,31,&img_dialogue);
+		dprint(50,40, C_BLACK, "%s", talkable->name);
 
 		//TODO Il y a moyen de faire mieux avec seulement curr_line.
 		//Cela semble globalement fonctionner, mais j'ai pu observer des petites erreurs
@@ -44,12 +45,12 @@ void draw_dialog(struct Talkable *talkable) {
 				strncpy(split,&remain[0],indexSpace);
 				strncpy(remain,&remain[indexSpace]+1,strlen(remain));
 				
-				dprint(25,40+indexLine*15, C_BLACK, "%s", split);
+				dprint(50,60+indexLine*15, C_BLACK, "%s", split);
 				indexLine++;
 			}
-			dprint(25,40+indexLine*15, C_BLACK, "%s", remain);
+			dprint(50,60+indexLine*15, C_BLACK, "%s", remain);
 		} else {
-			dprint(25,40, C_BLACK, "%s", curr_line);
+			dprint(50,60, C_BLACK, "%s", curr_line);
 		}
 
 		dupdate();

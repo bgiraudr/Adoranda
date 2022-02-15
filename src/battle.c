@@ -19,9 +19,10 @@ void create_battle(struct Game *game) {
 		//gain d'xp
 		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
 
-		const int rect_size = 100;
-		drect(0,DHEIGHT,DWIDTH,DHEIGHT-rect_size,C_WHITE);
-		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "Vous remportez %d points d'experience", xp);
+		extern bopti_image_t img_dialogue;
+		dimage(42,DHEIGHT-75,&img_dialogue);
+
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous remportez %d points d'experience", xp);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 
@@ -32,8 +33,8 @@ void create_battle(struct Game *game) {
 		for(int i = game->player->stats.level; i < calc_level; i++) {
 			dclear(C_RGB(25,25,25));
 			draw_battle(game->player, monster);
-			drect(0,DHEIGHT,DWIDTH,DHEIGHT-rect_size,C_WHITE);
-			dprint(10,DHEIGHT-rect_size/2-8,C_BLACK,"Vous passez au niveau %d !", i+1);
+			dimage(42,DHEIGHT-75,&img_dialogue);
+			dprint(50,DHEIGHT-75/2-10,C_BLACK,"Vous passez au niveau %d !", i+1);
 			dupdate();
 			wait_for_input(KEY_SHIFT);
 		}
@@ -120,32 +121,36 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 }
 
 void draw_battle(struct Player *player, struct Monster *monster) {
-	const int WIDTH_HP = 100;
+	extern bopti_image_t img_battle;
+	const int WIDTH_HP = 74;
 
 	if(player->stats.pv < 0) player->stats.pv = 0;
 	if(monster->stats->pv < 0) monster->stats->pv = 0;
 
+	dimage(0,0,&img_battle);
 	int posHP = (float)player->stats.pv / player->stats.max_pv * WIDTH_HP;
-	drect(10,15,10+WIDTH_HP,25,C_BLACK);
-	drect(10,15,10+posHP,25,C_GREEN);
+	drect(290,138,290+WIDTH_HP,142,C_WHITE);
+	drect(290,138,290+posHP,142,C_GREEN);
 
-	dprint(15+WIDTH_HP,15,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
+	dprint(333,124,C_BLACK,"%d",player->stats.level);
+	dprint(246,124,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
 
 	int posHPmonster = (float)monster->stats->pv / monster->stats->max_pv * WIDTH_HP;
-	dprint(240,2,C_BLACK,"%s",monster->name);
-	drect(240,15,240+WIDTH_HP,25,C_BLACK);
-	drect(240,15,240+posHPmonster,25,C_GREEN);
-	dprint(245+WIDTH_HP,2,C_BLACK,"%d",monster->stats->level);
-	dprint(245+WIDTH_HP,15,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
-	dimage(260,30,monster->sprite);
+	dprint(2,8,C_BLACK,"%s",monster->name);
+	drect(48,23,48+WIDTH_HP,27,C_WHITE);
+	drect(48,23,48+posHPmonster,27,C_GREEN);
+	dprint(90,9,C_BLACK,"%d",monster->stats->level);
+	dprint(127,11,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
+
+	dimage(265,10,monster->sprite);
 }
 
 void draw_executed_move(struct Move move, struct Monster *monster, int is_monster) {
-	const int rect_size = 100;
-	drect(0,DHEIGHT,DWIDTH,DHEIGHT-rect_size,C_WHITE);
+	extern bopti_image_t img_dialogue;
+	dimage(42,DHEIGHT-75,&img_dialogue);
 	if(is_monster) {
-		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "%s lance %s !", monster->name, move.name);
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "%s lance %s !", monster->name, move.name);
 	} else {
-		dprint(10,DHEIGHT-rect_size/2-8, C_BLACK, "Vous lancez %s !", move.name);
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous lancez %s !", move.name);
 	}
 }

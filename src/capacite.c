@@ -16,10 +16,11 @@ struct Move get_move_id(int id) {
 }
 
 void draw_move(int x, int y, int x2, int y2, struct Move move) {
+	extern bopti_image_t img_capacite;
 	const int font_size = 8;
-	drect(x, y, x2, y2, C_WHITE);
-	dprint(x+5, y+5, C_BLACK, "PP : %d", move.pp);
-	dprint(x+5, y2-15, C_BLACK, "ATK : %d", move.atk);
+	dimage(x, y, &img_capacite);
+	dprint(x+15, y+5, C_BLACK, "PP : %d", move.pp);
+	dprint(x+15, y2-20, C_BLACK, "ATK : %d", move.atk);
 	dprint((int)((x+x2)/2)-(int)(strlen(move.name)/2*font_size), 
 		(int)((y+y2)/2)-font_size/2, 
 		C_BLACK, "%s", move.name);

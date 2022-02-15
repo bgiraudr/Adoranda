@@ -119,6 +119,6 @@ void draw_ui(struct Player *player) {
 	int index = get_nb_moves(player);
 
 	for(int i = 0; i < index; i++) {
-		draw_classic_move(2+132*i,DHEIGHT-80, player->moves[i]);
+		draw_classic_move(2+132*i,DHEIGHT-70, player->moves[i]);
 	}
 }
