@@ -12,4 +12,4 @@ void create_battle(struct Game *game);
 int battle(struct Player *player, struct Monster *monster);
 int select_move(struct Player *player, struct Monster *monster, int prec_selected);
 void draw_battle(struct Player *player, struct Monster *monster);
-void draw_executed_move(struct Move move, struct Monster *monster, int is_monster);
+void draw_executed_move(struct Move *move, struct Monster *monster, int is_monster);

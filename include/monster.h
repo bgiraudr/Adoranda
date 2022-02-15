@@ -14,6 +14,6 @@ struct Monster {
 };
 
 struct Monster *generate_monster(struct Game *game);
-struct Move monster_select(struct Player *player, struct Monster *monster);
+struct Move *monster_select(struct Player *player, struct Monster *monster);
 struct Monster *copyMonster(struct Monster *source);
 void free_monster(struct Monster *monster);

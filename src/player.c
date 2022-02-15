@@ -1,4 +1,5 @@
 #include <gint/keyboard.h>
+#include <stdlib.h>
 
 #include "player.h"
 #include "define.h"
@@ -35,7 +36,7 @@ struct Player init_player(void) {
 		.anim.dir = DIR_DOWN
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
-	player.moves[0] = default_move();
+	player.moves[0] = copy_move(default_move());
 
 	set_stats_level_from(&player.base_stats, &player.stats);
 	return player;
@@ -62,7 +63,7 @@ int player_facing(struct Game const *game) {
 
 int get_nb_moves(struct Player *player) {
 	for(int i = 0; i < NB_PLAYER_MOVES; i++) {
-		if(player->moves[i].name == NULL) {
+		if(player->moves[i] == NULL) {
 			return i;
 		}
 	}
@@ -71,7 +72,7 @@ int get_nb_moves(struct Player *player) {
 
 void add_move(struct Player *player, struct Move move) {
 	int index = get_nb_moves(player);
-	if(index != NB_PLAYER_MOVES) player->moves[index] = move;
+	if(index != NB_PLAYER_MOVES) player->moves[index] = copy_move(move);
 	else replace_capacities(player, move);
 }
 
@@ -92,7 +93,7 @@ void replace_capacities(struct Player *player, struct Move move) {
 		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
-		draw_classic_move(200,DHEIGHT/2-30, move);
+		// draw_classic_move(200,DHEIGHT/2-30, move);
 		for(int i = 0; i < NB_PLAYER_MOVES; i++) {
 			draw_classic_move(0,65*i, player->moves[i]);
 		}
@@ -111,7 +112,8 @@ void replace_capacities(struct Player *player, struct Move move) {
 		while(keydown_any(KEY_DOWN,KEY_UP, KEY_SHIFT,0)) clearevents();
 	}
 	if(selection >= 0) {
-		player->moves[selection] = move;
+		free(player->moves[selection]);
+		player->moves[selection] = copy_move(move);
 	}
 }
 

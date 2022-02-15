@@ -14,7 +14,7 @@ struct Player {
 
 	const struct Stats base_stats;
 	struct Stats stats;
-	struct Move moves[NB_PLAYER_MOVES];
+	struct Move *moves[NB_PLAYER_MOVES];
 	/*player mid - offset pixels*/
 	int x_mid, y_mid;
 	/*the direction the player facing to*/

@@ -71,7 +71,7 @@ int battle(struct Player *player, struct Monster *monster) {
 			return WIN;
 		}
 
-		struct Move monster_move = monster_select(player, monster);
+		struct Move *monster_move = monster_select(player, monster);
 		draw_executed_move(monster_move, monster, 1);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
@@ -107,7 +107,7 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 		dtext(58 + (selection * 130), DHEIGHT-15 , C_RED, "[X]");
 		dupdate();
 
-		if(keydown(KEY_SHIFT)) {
+		if(keydown(KEY_SHIFT) && player->moves[selection]->pp > 0) {
 			if(buffer) buffer = 0;
 			else break;
 		}
@@ -145,12 +145,12 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	dimage(265,10,monster->sprite);
 }
 
-void draw_executed_move(struct Move move, struct Monster *monster, int is_monster) {
+void draw_executed_move(struct Move *move, struct Monster *monster, int is_monster) {
 	extern bopti_image_t img_dialogue;
 	dimage(42,DHEIGHT-75,&img_dialogue);
 	if(is_monster) {
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "%s lance %s !", monster->name, move.name);
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "%s lance %s !", monster->name, move->name);
 	} else {
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous lancez %s !", move.name);
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous lancez %s !", move->name);
 	}
 }
