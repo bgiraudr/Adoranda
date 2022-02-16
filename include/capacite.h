@@ -20,4 +20,7 @@ void execute_move(struct Stats *player_stats, struct Stats *monster_stats, struc
 int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move);
 struct Move *copy_move(struct Move move);
 
-struct Move *get_move_id2(int id);
+struct Move *get_move_id_pointer(int id);
+
+float crit(struct Stats *attacker);
+int is_crit();

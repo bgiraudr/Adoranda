@@ -9,50 +9,22 @@
 #include "monster.h"
 #include <stdlib.h>
 #include <math.h>
+#include <gint/rtc.h>
+
+extern bopti_image_t img_dialogue;
 
 void create_battle(struct Game *game) {
 	game->player->stats.pv = game->player->stats.max_pv;
 	struct Monster *monster = generate_monster(game);
 	int status = battle(game->player, monster);
 
-	if(status == WIN) {
-		//gain d'xp
-		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
-
-		extern bopti_image_t img_dialogue;
-		dimage(42,DHEIGHT-75,&img_dialogue);
-
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous remportez %d points d'experience", xp);
-		dupdate();
-		wait_for_input(KEY_SHIFT);
-
-		game->player->stats.xp += xp;
-
-		//niveau suivant une progession N³
-		int calc_level = (int)pow(game->player->stats.xp, 0.33);
-		for(int i = game->player->stats.level; i < calc_level; i++) {
-			dclear(C_RGB(25,25,25));
-			draw_battle(game->player, monster);
-			dimage(42,DHEIGHT-75,&img_dialogue);
-			dprint(50,DHEIGHT-75/2-10,C_BLACK,"Vous passez au niveau %d !", i+1);
-			dupdate();
-			wait_for_input(KEY_SHIFT);
-		}
-		game->player->stats.level = calc_level;
-		set_stats_level_from(&game->player->base_stats, &game->player->stats);
-
-	} else if(status == LOSE) {
-		game->player->stats.pv = 0;
-	}
-
-	free_monster(monster);
+	finish_battle(status, game, monster);
 }
 
 int battle(struct Player *player, struct Monster *monster) {
 	int tour = 0;
 	int selection = 0;
 	while(1) {
-		dclear(C_RGB(25,25,25));
 		draw_battle(player, monster);
 		dupdate();
 		selection = select_move(player, monster, selection);
@@ -61,7 +33,13 @@ int battle(struct Player *player, struct Monster *monster) {
 		wait_for_input(KEY_SHIFT);
 		execute_move(&player->stats, monster->stats, player->moves[selection], 0);
 
-		dclear(C_RGB(25,25,25));
+		if(is_crit()) {
+			draw_battle(player, monster);
+			draw_crit();
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+		}
+
 		draw_battle(player, monster);
 
 		if(player->stats.pv <= 0) {
@@ -76,6 +54,13 @@ int battle(struct Player *player, struct Monster *monster) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		execute_move(&player->stats, monster->stats, monster_move, 1);
+
+		if(is_crit()) {
+			draw_battle(player, monster);
+			draw_crit();
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+		}
 
 		if(player->stats.pv <= 0) {
 			return LOSE;
@@ -127,10 +112,18 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	if(player->stats.pv < 0) player->stats.pv = 0;
 	if(monster->stats->pv < 0) monster->stats->pv = 0;
 
+	dclear(C_RGB(25,25,25));
 	dimage(0,0,&img_battle);
 	int posHP = (float)player->stats.pv / player->stats.max_pv * WIDTH_HP;
 	drect(290,138,290+WIDTH_HP,142,C_WHITE);
-	drect(290,138,290+posHP,142,C_GREEN);
+
+	int pcolor = (player->stats.pv <= player->stats.max_pv/2 ? 
+		(player->stats.pv <= player->stats.max_pv/4 ? 
+			C_RED : 
+			C_RGB(31,17,0)) : 
+		C_GREEN);
+
+	drect(290,138,290+posHP,142,pcolor);
 
 	dprint(333,124,C_BLACK,"%d",player->stats.level);
 	dprint(246,124,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
@@ -138,7 +131,14 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	int posHPmonster = (float)monster->stats->pv / monster->stats->max_pv * WIDTH_HP;
 	dprint(2,8,C_BLACK,"%s",monster->name);
 	drect(48,23,48+WIDTH_HP,27,C_WHITE);
-	drect(48,23,48+posHPmonster,27,C_GREEN);
+
+	int mcolor = (monster->stats->pv <= monster->stats->max_pv/2 ? 
+		(monster->stats->pv <= monster->stats->max_pv/4 ? 
+			C_RED : 
+			C_RGB(31,17,0)) : 
+		C_GREEN);
+
+	drect(48,23,48+posHPmonster,27,mcolor);
 	dprint(90,9,C_BLACK,"%d",monster->stats->level);
 	dprint(127,11,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
 
@@ -146,11 +146,47 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 }
 
 void draw_executed_move(struct Move *move, struct Monster *monster, int is_monster) {
-	extern bopti_image_t img_dialogue;
 	dimage(42,DHEIGHT-75,&img_dialogue);
 	if(is_monster) {
 		dprint(50,DHEIGHT-75/2-10, C_BLACK, "%s lance %s !", monster->name, move->name);
 	} else {
 		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous lancez %s !", move->name);
 	}
+}
+
+void draw_crit() {
+	dimage(42,DHEIGHT-75,&img_dialogue);
+	dprint(50,DHEIGHT-75/2-10, C_BLACK, "Coup critique !");
+}
+
+void finish_battle(int status, struct Game *game, struct Monster *monster) {
+	if(status == WIN) {
+		//gain d'xp
+		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
+
+		dimage(42,DHEIGHT-75,&img_dialogue);
+
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous remportez %d points d'experience", xp);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+
+		game->player->stats.xp += xp;
+
+		//niveau suivant une progession N³
+		int calc_level = (int)pow(game->player->stats.xp, 0.33);
+		for(int i = game->player->stats.level; i < calc_level; i++) {
+			draw_battle(game->player, monster);
+			dimage(42,DHEIGHT-75,&img_dialogue);
+			dprint(50,DHEIGHT-75/2-10,C_BLACK,"Vous passez au niveau %d !", i+1);
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+		}
+		game->player->stats.level = calc_level;
+		set_stats_level_from(&game->player->base_stats, &game->player->stats);
+
+	} else if(status == LOSE) {
+		game->player->stats.pv = 0;
+	}
+
+	free_monster(monster);
 }

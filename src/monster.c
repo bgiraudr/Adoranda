@@ -19,11 +19,11 @@ struct Monster *generate_monster(struct Game *game) {
 }
 
 struct Move *monster_select(struct Player *player, struct Monster *monster) {
-	struct Move *stoMove = get_move_id2(monster->moves[0]);
+	struct Move *stoMove = get_move_id_pointer(monster->moves[0]);
 	int stoDamage = 0;
 
 	for(int i = 0; i < monster->nbMoves; i++) {
-		struct Move *move = get_move_id2(monster->moves[i]);
+		struct Move *move = get_move_id_pointer(monster->moves[i]);
 		int damage = calc_damage(monster->stats, &player->stats, move);
 		if(damage >= player->stats.pv) {
 			return move;

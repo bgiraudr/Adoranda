@@ -16,4 +16,7 @@ void wait_for_input(int input) {
 	}
 }
 
+/**
+ * Random [low;high[
+ */
 int rand_range(int low, int high) { return (rand() % (high - low)) + low; }

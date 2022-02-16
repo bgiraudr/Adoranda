@@ -3,8 +3,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+#include <gint/rtc.h>
 
 #include "capacite.h"
+#include "util.h"
 
 extern struct Capacities capacities;
 
@@ -16,7 +18,7 @@ struct Move get_move_id(int id) {
 	return *capacities.moves[id];
 }
 
-struct Move *get_move_id2(int id) {
+struct Move *get_move_id_pointer(int id) {
 	return capacities.moves[id];
 }
 
@@ -55,5 +57,21 @@ void execute_move(struct Stats *player_stats, struct Stats *monster_stats, struc
 }
 
 int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move) {
-	return(floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2);
+	return (floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2)*crit(attacker);
+}
+
+int is_crit() {
+	//une chance sur 16 d'avoir un coup critique
+	const int proba_crit = 16;
+	return rand_range(0,proba_crit)==0 ? 1 : 0;
+}
+
+float crit(struct Stats *attacker) {
+	srand(rtc_ticks());
+	float taux = 1.0f;
+	//une chance sur 16 d'avoir un coup critique
+	if(is_crit()) {
+		taux = (float)(2 * attacker->level + 5)/(attacker->level+5);
+	}
+	return taux;
 }
