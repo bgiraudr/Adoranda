@@ -5,14 +5,21 @@
 #include "stats.h"
 #include "capacite.h"
 #include "player.h"
+#include "map.h"
 
 struct Monster *generate_monster(struct Game *game) {
 
 	extern struct Monster monster_test;
 
 	struct Monster *monster = copyMonster(&monster_test);
-	// TODO formule pour niveau du monstre adverse
-	monster->stats->level = game->player->stats.level;
+
+	int level_zone = get_level_zone(game->player, game->map);
+	//En cas d'erreur / aucune zone trouvée
+	if(level_zone == -1) {
+		level_zone = game->player->stats.level;
+	}
+
+	monster->stats->level = level_zone;
 	set_stats_level(monster->stats);
 	monster->stats->pv = monster->stats->max_pv;
 	return monster;

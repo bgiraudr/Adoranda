@@ -66,3 +66,13 @@ struct Teleporter get_teleporter_xy(struct Map *map, struct Vec2 pos) {
 	}
 	return map->teleporters[0];
 }
+
+int get_level_zone(struct Player *player, struct Map *map) {
+	const int posx = player->pos.x;
+	const int posy = player->pos.y;
+	for(int i = 0; i < map->zone_count; i++) {
+		const struct Zone zone = map->zones[i];
+		if(zone.start_x <= posx && zone.start_y <= posy && zone.end_x >= posx && zone.end_y >= posy) return zone.level;
+	}
+	return -1;
+}

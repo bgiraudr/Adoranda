@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.0" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="54">
+<map version="1.8" tiledversion="1.8.1" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="59">
  <editorsettings>
   <export target="testCarte.json" format="json"/>
  </editorsettings>
@@ -198,6 +198,18 @@
    <properties>
     <property name="x" type="int" value="30"/>
     <property name="y" type="int" value="30"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="13" name="zone">
+  <object id="57" x="400" y="464" width="32" height="48">
+   <properties>
+    <property name="level" type="int" value="30"/>
+   </properties>
+  </object>
+  <object id="58" x="304" y="560" width="112" height="32">
+   <properties>
+    <property name="level" type="int" value="5"/>
    </properties>
   </object>
  </objectgroup>

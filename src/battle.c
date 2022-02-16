@@ -13,6 +13,9 @@
 
 extern bopti_image_t img_dialogue;
 
+/**
+ * create a new battle
+ */
 void create_battle(struct Game *game) {
 	game->player->stats.pv = game->player->stats.max_pv;
 	struct Monster *monster = generate_monster(game);
@@ -21,6 +24,9 @@ void create_battle(struct Game *game) {
 	finish_battle(status, game, monster);
 }
 
+/**
+ * Launch the battle
+ */
 int battle(struct Player *player, struct Monster *monster) {
 	int tour = 0;
 	int selection = 0;
@@ -73,6 +79,42 @@ int battle(struct Player *player, struct Monster *monster) {
 	return LOSE;
 }
 
+/*When a battle is finish, compute xp gain and gain level*/
+void finish_battle(int status, struct Game *game, struct Monster *monster) {
+	if(status == WIN) {
+		//gain d'xp
+		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
+
+		dimage(42,DHEIGHT-75,&img_dialogue);
+
+		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous remportez %d points d'experience", xp);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+
+		game->player->stats.xp += xp;
+
+		//niveau suivant une progession N³
+		int calc_level = (int)pow(game->player->stats.xp, 0.33);
+		for(int i = game->player->stats.level; i < calc_level; i++) {
+			draw_battle(game->player, monster);
+			dimage(42,DHEIGHT-75,&img_dialogue);
+			dprint(50,DHEIGHT-75/2-10,C_BLACK,"Vous passez au niveau %d !", i+1);
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+		}
+		game->player->stats.level = calc_level;
+		set_stats_level_from(&game->player->base_stats, &game->player->stats);
+
+	} else if(status == LOSE) {
+		game->player->stats.pv = 0;
+	}
+
+	free_monster(monster);
+}
+
+/**
+ * Select a move in the list
+ */
 int select_move(struct Player *player, struct Monster *monster, int prec_selected) {
 	const int nbMove = get_nb_moves(player);
 	int selection = prec_selected;
@@ -157,36 +199,4 @@ void draw_executed_move(struct Move *move, struct Monster *monster, int is_monst
 void draw_crit() {
 	dimage(42,DHEIGHT-75,&img_dialogue);
 	dprint(50,DHEIGHT-75/2-10, C_BLACK, "Coup critique !");
-}
-
-void finish_battle(int status, struct Game *game, struct Monster *monster) {
-	if(status == WIN) {
-		//gain d'xp
-		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
-
-		dimage(42,DHEIGHT-75,&img_dialogue);
-
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous remportez %d points d'experience", xp);
-		dupdate();
-		wait_for_input(KEY_SHIFT);
-
-		game->player->stats.xp += xp;
-
-		//niveau suivant une progession N³
-		int calc_level = (int)pow(game->player->stats.xp, 0.33);
-		for(int i = game->player->stats.level; i < calc_level; i++) {
-			draw_battle(game->player, monster);
-			dimage(42,DHEIGHT-75,&img_dialogue);
-			dprint(50,DHEIGHT-75/2-10,C_BLACK,"Vous passez au niveau %d !", i+1);
-			dupdate();
-			wait_for_input(KEY_SHIFT);
-		}
-		game->player->stats.level = calc_level;
-		set_stats_level_from(&game->player->base_stats, &game->player->stats);
-
-	} else if(status == LOSE) {
-		game->player->stats.pv = 0;
-	}
-
-	free_monster(monster);
 }

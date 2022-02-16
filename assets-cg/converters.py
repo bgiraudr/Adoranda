@@ -26,6 +26,7 @@ def convert_map(input, output, params, target):
 
 	DIALOG_LAYOUT = "dialog"
 	TELEPORTER_LAYOUT = "teleporter"
+	ZONE_LAYOUT = "zone"
 
 	data = json.load(open(input, "r"))
 
@@ -79,9 +80,11 @@ def convert_map(input, output, params, target):
 
 	nbDialog = 0
 	nbTelep = 0
+	nbZone = 0
 	structMap = fxconv.Structure()
 	dialogs = fxconv.Structure()
 	teleporter = fxconv.Structure()
+	zone = fxconv.Structure()
 
 	for layer in objectLayers:
 		if layer.get("name") == DIALOG_LAYOUT:
@@ -90,14 +93,18 @@ def convert_map(input, output, params, target):
 		elif layer.get("name") == TELEPORTER_LAYOUT:
 			nbTelep = len(layer["objects"])
 			teleporter = parseTeleporter(layer)
+		elif layer.get("name") == ZONE_LAYOUT:
+			nbZone = len(layer["objects"])
+			zone = parseZone(layer)
 		else:
 			print("UNKNOWN LAYOUT FOUND : " + layer.get("name"))
 
-	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog) + fxconv.u32(nbTelep)
+	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog) + fxconv.u32(nbTelep) + fxconv.u32(nbZone)
 	structMap += fxconv.ref(f"img_{nameTilesetFree}")
 	structMap += fxconv.u32(tileset_size)
 	structMap += fxconv.ptr(dialogs)
 	structMap += fxconv.ptr(teleporter)
+	structMap += fxconv.ptr(zone)
 
 	#generation of the collision map (take the maximum of the layer except for bridges)
 	#bridges are always walkable
@@ -167,6 +174,24 @@ def parseTeleporter(layer):
 		except KeyError	:
 			raise Exception("parseTeleporter() : Un téléporteur est mal configuré")
 	return teleporter
+
+def parseZone(layer):
+	zone = fxconv.Structure()
+	for i in layer["objects"]:
+		origin = (int(i['x']/16), int(i['y']/16))
+		to = (int(origin[0]+i['width']/16)-1, int(origin[1]+i['height']/16)-1)
+
+		zone += fxconv.u32(origin[0])
+		zone += fxconv.u32(origin[1])
+		zone += fxconv.u32(to[0])
+		zone += fxconv.u32(to[1])
+
+		try:
+			zone += fxconv.u32(i["properties"][0]["value"])
+		except KeyError:
+			print("parseZone() : Zone sans niveau de référence, passage automatique à -1")
+			zone += fxconv.u32(-1)
+	return zone
 
 def convert_capa(input, output, params, target):
 	with open(input, "r") as file:

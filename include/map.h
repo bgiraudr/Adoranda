@@ -8,15 +8,22 @@ struct Teleporter {
 	int x2, y2;
 };
 
+struct Zone {
+	int start_x, start_y;
+	int end_x, end_y;
+	int level;
+};
+
 struct Map {
 	/*width, height and the number of layer of the map*/
-	int w, h, nb_layers, dialog_count, teleporter_count;
+	int w, h, nb_layers, dialog_count, teleporter_count, zone_count;
 	/*the tileset to use*/
 	bopti_image_t *tileset;
 	int tileset_size;
 	/*list of all the dialog*/
 	struct Talkable *dialogs;
 	struct Teleporter *teleporters;
+	struct Zone *zones;
 	/*state of each tile on the map (solid, air ...)*/
 	short *info_map;
 	/*list of all the tiles*/
@@ -45,3 +52,5 @@ void set_map(struct Game *game, int id);
 struct Vec2 locate_tile(struct Map const *map, int tile);
 
 struct Teleporter get_teleporter_xy(struct Map *map, struct Vec2 pos);
+
+int get_level_zone(struct Player *player, struct Map *map);
