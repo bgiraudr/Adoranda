@@ -189,7 +189,7 @@ def parseZone(layer):
 		try:
 			zone += fxconv.u32(i["properties"][0]["value"])
 		except KeyError:
-			print("parseZone() : Zone sans niveau de référence, passage automatique à -1")
+			print(f"parseZone() : Zone {origin};{to} sans niveau de référence, passage automatique à -1")
 			zone += fxconv.u32(-1)
 	return zone
 

@@ -3,6 +3,7 @@
 
 struct Move {
 	char *name;
+	int init_pp;
 	int pp;
 	int atk;
 };

@@ -38,3 +38,4 @@ void draw_player_moves(struct Player *player);
 void replace_capacities(struct Player *player, struct Move move);
 void draw_ui(struct Player *player);
 int get_nb_moves(struct Player *player);
+void reset_pp(struct Player *player);

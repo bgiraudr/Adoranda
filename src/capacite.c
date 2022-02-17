@@ -25,6 +25,8 @@ struct Move *get_move_id_pointer(int id) {
 struct Move *copy_move(struct Move move) {
 	struct Move *copyMove = malloc(sizeof(struct Move));
 	copyMove->name = move.name;
+	copyMove->init_pp = move.init_pp;
+	
 	copyMove->pp = move.pp;
 	copyMove->atk = move.atk;
 

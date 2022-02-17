@@ -9,7 +9,6 @@
 #include "monster.h"
 #include <stdlib.h>
 #include <math.h>
-#include <gint/rtc.h>
 
 extern bopti_image_t img_dialogue;
 
@@ -18,6 +17,7 @@ extern bopti_image_t img_dialogue;
  */
 void create_battle(struct Game *game) {
 	game->player->stats.pv = game->player->stats.max_pv;
+	reset_pp(game->player);
 	struct Monster *monster = generate_monster(game);
 	int status = battle(game->player, monster);
 
@@ -87,7 +87,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 
 		dimage(42,DHEIGHT-75,&img_dialogue);
 
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous remportez %d points d'experience", xp);
+		dprint(50,DHEIGHT-47, C_BLACK, "Vous remportez %d points d'experience", xp);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 
@@ -98,7 +98,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		for(int i = game->player->stats.level; i < calc_level; i++) {
 			draw_battle(game->player, monster);
 			dimage(42,DHEIGHT-75,&img_dialogue);
-			dprint(50,DHEIGHT-75/2-10,C_BLACK,"Vous passez au niveau %d !", i+1);
+			dprint(50,DHEIGHT-47,C_BLACK,"Vous passez au niveau %d !", i+1);
 			dupdate();
 			wait_for_input(KEY_SHIFT);
 		}
@@ -106,6 +106,11 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		set_stats_level_from(&game->player->base_stats, &game->player->stats);
 
 	} else if(status == LOSE) {
+		draw_battle(game->player, monster);
+		dimage(42,DHEIGHT-75,&img_dialogue);
+		dprint(50,DHEIGHT-47,C_BLACK,"%s a eu raison de vous !", monster->name);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
 		game->player->stats.pv = 0;
 	}
 
@@ -139,7 +144,6 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 			else break;
 		}
 		if(keydown(KEY_EXIT)) {
-			player->stats.pv--;
 			break;
 		}
 		while(keydown_any(KEY_RIGHT, KEY_LEFT, KEY_SHIFT, 0)) clearevents();
@@ -190,13 +194,13 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 void draw_executed_move(struct Move *move, struct Monster *monster, int is_monster) {
 	dimage(42,DHEIGHT-75,&img_dialogue);
 	if(is_monster) {
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "%s lance %s !", monster->name, move->name);
+		dprint(50,DHEIGHT-47, C_BLACK, "%s lance %s !", monster->name, move->name);
 	} else {
-		dprint(50,DHEIGHT-75/2-10, C_BLACK, "Vous lancez %s !", move->name);
+		dprint(50,DHEIGHT-47, C_BLACK, "Vous lancez %s !", move->name);
 	}
 }
 
 void draw_crit() {
 	dimage(42,DHEIGHT-75,&img_dialogue);
-	dprint(50,DHEIGHT-75/2-10, C_BLACK, "Coup critique !");
+	dprint(50,DHEIGHT-47, C_BLACK, "Coup critique !");
 }

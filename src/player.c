@@ -124,3 +124,10 @@ void draw_ui(struct Player *player) {
 		draw_classic_move(2+132*i,DHEIGHT-70, player->moves[i]);
 	}
 }
+
+void reset_pp(struct Player *player) {
+	int index = get_nb_moves(player);
+	for(int i = 0; i < index; i++) {
+		player->moves[i]->pp = player->moves[i]->init_pp;
+	}
+}
