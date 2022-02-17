@@ -1,0 +1,17 @@
+{
+	"name":"test",
+	"sprite":"test",
+	"stats":{
+		"atk":10,
+		"def":10,
+		"pv":20,
+		"level":1,
+		"xp":300,
+		"max_pv":20
+	},
+	"moves":[
+		0,
+		1,
+		2
+	]
+}
