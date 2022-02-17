@@ -29,6 +29,7 @@ struct Move *copy_move(struct Move move) {
 	
 	copyMove->pp = move.pp;
 	copyMove->atk = move.atk;
+	copyMove->precision = move.precision;
 
 	return copyMove;
 }
@@ -39,7 +40,8 @@ void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 	dimage(x, y, &img_capacite);
 	int color = move->pp > 0 ? C_BLACK : C_RED;
 	dprint(x+15, y+5, color, "PP : %d", move->pp);
-	dprint(x+15, y2-20, C_BLACK, "ATK : %d", move->atk);
+	dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
+	dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
 	dprint((int)((x+x2)/2)-(int)(strlen(move->name)/2*font_size), 
 		(int)((y+y2)/2)-font_size/2, 
 		C_BLACK, "%s", move->name);
@@ -49,13 +51,22 @@ void draw_classic_move(int x, int y, struct Move *move) {
 	draw_move(x, y, x+125, y+60, move);
 }
 
-void execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move *move, int ismonster) {
+int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move *move, int ismonster) {
+	srand(rtc_ticks());
+	if(is_miss(move)) {
+		move->pp--;
+		return MISS;
+	}
+
 	if(ismonster) {
 		player_stats->pv-=calc_damage(monster_stats, player_stats, move);
 	} else {
 		move->pp--;
 		monster_stats->pv-=calc_damage(player_stats, monster_stats, move);
 	}
+
+	if(is_crit()) return CRIT;
+	return SUCCESS;
 }
 
 int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move) {
@@ -65,15 +76,18 @@ int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move)
 int is_crit() {
 	//une chance sur 16 d'avoir un coup critique
 	const int proba_crit = 16;
-	return rand_range(0,proba_crit)==0 ? 1 : 0;
+	return rand_range(0,proba_crit)==0;
 }
 
 float crit(struct Stats *attacker) {
-	srand(rtc_ticks());
 	float taux = 1.0f;
-	//une chance sur 16 d'avoir un coup critique
 	if(is_crit()) {
 		taux = (float)(2 * attacker->level + 5)/(attacker->level+5);
 	}
 	return taux;
+}
+
+/*1 if miss, else 0*/
+int is_miss(struct Move *move) {
+	return rand_range(0, 101) > move->precision;
 }

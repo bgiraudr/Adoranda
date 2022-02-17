@@ -1,4 +1,4 @@
-Test capacité;5;5;3
-Deuxième;100;100;11
-Charge;25;25;15
-Cheat;25;25;45
+Test capacité;5;5;3;20
+Deuxième;100;100;11;50
+Charge;25;25;15;100
+Cheat;25;25;45;100

@@ -30,6 +30,7 @@ void create_battle(struct Game *game) {
 int battle(struct Player *player, struct Monster *monster) {
 	int tour = 0;
 	int selection = 0;
+	int status;
 	while(1) {
 		draw_battle(player, monster);
 		dupdate();
@@ -37,14 +38,8 @@ int battle(struct Player *player, struct Monster *monster) {
 		draw_executed_move(player->moves[selection], monster, 0);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
-		execute_move(&player->stats, monster->stats, player->moves[selection], 0);
-
-		if(is_crit()) {
-			draw_battle(player, monster);
-			draw_crit();
-			dupdate();
-			wait_for_input(KEY_SHIFT);
-		}
+		status = execute_move(&player->stats, monster->stats, player->moves[selection], 0);
+		check_move_status(status, player, monster);
 
 		draw_battle(player, monster);
 
@@ -59,14 +54,8 @@ int battle(struct Player *player, struct Monster *monster) {
 		draw_executed_move(monster_move, monster, 1);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
-		execute_move(&player->stats, monster->stats, monster_move, 1);
-
-		if(is_crit()) {
-			draw_battle(player, monster);
-			draw_crit();
-			dupdate();
-			wait_for_input(KEY_SHIFT);
-		}
+		status = execute_move(&player->stats, monster->stats, monster_move, 1);
+		check_move_status(status, player, monster);
 
 		if(player->stats.pv <= 0) {
 			return LOSE;
@@ -79,6 +68,22 @@ int battle(struct Player *player, struct Monster *monster) {
 	return LOSE;
 }
 
+void check_move_status(int status, struct Player *player, struct Monster *monster) {
+	if(status == CRIT) {
+		draw_battle(player, monster);
+		draw_status("Coup critique !");
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+	}
+
+	if(status == MISS) {
+		draw_battle(player, monster);
+		draw_status("Mais il rate !");
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+	}
+}
+
 /*When a battle is finish, compute xp gain and gain level*/
 void finish_battle(int status, struct Game *game, struct Monster *monster) {
 	if(status == WIN) {
@@ -86,7 +91,6 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
 
 		dimage(42,DHEIGHT-75,&img_dialogue);
-
 		dprint(50,DHEIGHT-47, C_BLACK, "Vous remportez %d points d'experience", xp);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
@@ -139,9 +143,9 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 		dtext(58 + (selection * 130), DHEIGHT-15 , C_RED, "[X]");
 		dupdate();
 
-		if(keydown(KEY_SHIFT) && player->moves[selection]->pp > 0) {
+		if(keydown(KEY_SHIFT)) {
 			if(buffer) buffer = 0;
-			else break;
+			else if(player->moves[selection]->pp > 0) break;
 		}
 		if(keydown(KEY_EXIT)) {
 			break;
@@ -200,7 +204,7 @@ void draw_executed_move(struct Move *move, struct Monster *monster, int is_monst
 	}
 }
 
-void draw_crit() {
+void draw_status(char *message) {
 	dimage(42,DHEIGHT-75,&img_dialogue);
-	dprint(50,DHEIGHT-47, C_BLACK, "Coup critique !");
+	dprint(50,DHEIGHT-47, C_BLACK, "%s", message);
 }
