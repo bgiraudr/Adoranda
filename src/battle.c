@@ -78,7 +78,7 @@ void check_move_status(int status, struct Player *player, struct Monster *monste
 
 	if(status == MISS) {
 		draw_battle(player, monster);
-		draw_status("Mais il rate !");
+		draw_status("Mais cela échoue !");
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 	}

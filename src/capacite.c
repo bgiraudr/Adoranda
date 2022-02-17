@@ -15,10 +15,16 @@ struct Move default_move() {
 }
 
 struct Move get_move_id(int id) {
-	return *capacities.moves[id];
+	for(int i = 0; i < capacities.nbCapacities; i++) {
+		if(capacities.moves[i]->id == id) return *capacities.moves[i];
+	}
+	return *capacities.moves[0];
 }
 
 struct Move *get_move_id_pointer(int id) {
+	for(int i = 0; i < capacities.nbCapacities; i++) {
+		if(capacities.moves[i]->id == id) return capacities.moves[i];
+	}
 	return capacities.moves[id];
 }
 
@@ -26,6 +32,7 @@ struct Move *copy_move(struct Move move) {
 	struct Move *copyMove = malloc(sizeof(struct Move));
 	copyMove->name = move.name;
 	copyMove->init_pp = move.init_pp;
+	copyMove->id = move.id;
 	
 	copyMove->pp = move.pp;
 	copyMove->atk = move.atk;

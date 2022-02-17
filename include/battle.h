@@ -3,9 +3,9 @@
 #include "monster.h"
 
 enum battle_state {
-	EXIT = 0,
-	LOSE = 1,
-	WIN = 2,
+	EXIT,
+	LOSE,
+	WIN,
 };
 
 void create_battle(struct Game *game);

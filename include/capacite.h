@@ -3,6 +3,7 @@
 
 struct Move {
 	char *name;
+	int id;
 	int init_pp;
 	int pp;
 	int atk;
@@ -15,9 +16,9 @@ struct Capacities {
 };
 
 enum status {
-	MISS = 0,
-	SUCCESS = 1,
-	CRIT = 2
+	MISS,
+	SUCCESS,
+	CRIT,
 };
 
 struct Move default_move();

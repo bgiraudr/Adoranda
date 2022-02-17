@@ -31,13 +31,13 @@ struct Map {
 };
 
 enum map_state {
-	TILE_AIR = 0,
-	TILE_SOLID = 1,
-	TILE_DOOR_IN = 2,
-	TILE_DOOR_OUT = 3,
-	TILE_TALKABLE = 4,
-	TILE_TELEPORTER = 5,
-	TILE_GRASS = 6,
+	TILE_AIR,
+	TILE_SOLID,
+	TILE_DOOR_IN,
+	TILE_DOOR_OUT,
+	TILE_TALKABLE,
+	TILE_TELEPORTER,
+	TILE_GRASS,
 };
 
 /*check if a tile is walkable*/

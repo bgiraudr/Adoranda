@@ -1,5 +1,6 @@
 import fxconv
 import json
+import pathlib
 
 def convert(input, output, params, target):
 	if params["custom-type"] == "map":
@@ -194,23 +195,26 @@ def parseZone(layer):
 	return zone
 
 def convert_capa(input, output, params, target):
-	with open(input, "r") as file:
-		capacities = fxconv.Structure()
+	liste_file = list(pathlib.Path(input).parent.glob('*.json'))
 
-		lines = file.read().splitlines()
-		matrix = [i.split(";") for i in lines]
-		
-		capacities += fxconv.u32(len(lines))
-		
-		for i in matrix:
-			moves = fxconv.Structure()
-			for j in range(len(i)):
-				if j == 0:
-					moves += fxconv.string(i[j])
-				else:
-					moves += fxconv.u32(int(i[j]))
+	capacities = fxconv.Structure()
+	capacities += fxconv.u32(len(liste_file))
+	for f in liste_file:
+		file = open(f,"r")
+		data = json.load(file)
+		move = fxconv.Structure()
 
-			capacities += fxconv.ptr(moves)
+		try:
+			move += fxconv.string(data["name"])
+			move += fxconv.u32(data["id"])
+			move += fxconv.u32(data["pp"])
+			move += fxconv.u32(data["pp"])
+			move += fxconv.u32(data["atk"])
+			move += fxconv.u32(data["precision"])
+		except KeyError:
+			raise Exception(f"convert_capa() : La capacité {data['name']} est mal configurée")
+
+		capacities += fxconv.ptr(move)
 
 	fxconv.elf(capacities, output, "_" + params["name"], **target)
 
