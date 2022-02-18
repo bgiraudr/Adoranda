@@ -1,6 +1,7 @@
 {
 	"name":"Cheat",
 	"id":3,
+	"categorie":"PHYSICAL",
 	"pp":25,
 	"atk":45,
 	"precision":100

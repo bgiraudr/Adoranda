@@ -6,7 +6,7 @@
 #include <gint/display.h>
 
 struct Monster {
-	const char *name;
+	char *name;
 	bopti_image_t *sprite;
 	int nbMoves;
 	struct Stats *stats;

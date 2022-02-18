@@ -25,6 +25,11 @@ capacite.png:
   name: img_capacite
   profile: p4  
   
+categories.png:
+  type: bopti-image
+  name: img_categories
+  profile: p4  
+  
 battle_ui.png:
   type: bopti-image
   name: img_battle

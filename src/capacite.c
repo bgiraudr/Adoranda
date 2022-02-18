@@ -33,25 +33,40 @@ struct Move *copy_move(struct Move move) {
 	copyMove->name = move.name;
 	copyMove->init_pp = move.init_pp;
 	copyMove->id = move.id;
+	copyMove->categorie = move.categorie;
 	
 	copyMove->pp = move.pp;
 	copyMove->atk = move.atk;
 	copyMove->precision = move.precision;
+	copyMove->boost_atk = move.boost_atk;
+	copyMove->boost_def = move.boost_def;
+	copyMove->boost_hp = move.boost_hp;
 
 	return copyMove;
 }
 
 void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 	extern bopti_image_t img_capacite;
+	extern bopti_image_t img_categories;
+
 	const int font_size = 8;
 	dimage(x, y, &img_capacite);
+	dsubimage(x+96, y+7, &img_categories, 20*move->categorie, 0, 20, 10, DIMAGE_NONE);
+
 	int color = move->pp > 0 ? C_BLACK : C_RED;
 	dprint(x+15, y+5, color, "PP : %d", move->pp);
-	dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
-	dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
 	dprint((int)((x+x2)/2)-(int)(strlen(move->name)/2*font_size), 
 		(int)((y+y2)/2)-font_size/2, 
 		C_BLACK, "%s", move->name);
+
+	if(move->categorie == PHYSICAL) {
+		dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
+		dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
+	} else {
+		if(move->boost_atk > 0) dprint(x+10, y2-17, C_BLACK, "A+%d%%", move->boost_atk);
+		if(move->boost_hp > 0) dprint(x+47, y2-17, C_BLACK, "H+%d%%", move->boost_hp);
+		if(move->boost_def > 0) dprint(x+85, y2-17, C_BLACK, "D+%d%%", move->boost_def);
+	}
 }
 
 void draw_classic_move(int x, int y, struct Move *move) {
@@ -60,24 +75,34 @@ void draw_classic_move(int x, int y, struct Move *move) {
 
 int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move *move, int ismonster) {
 	srand(rtc_ticks());
-	if(is_miss(move)) {
-		move->pp--;
-		return MISS;
-	}
+	if(move->categorie == PHYSICAL) {
+		if(is_miss(move)) {
+			move->pp--;
+			return MISS;
+		}
 
-	if(ismonster) {
-		player_stats->pv-=calc_damage(monster_stats, player_stats, move);
+		if(ismonster) {
+			player_stats->pv-=calc_damage(monster_stats, player_stats, move);
+		} else {
+			move->pp--;
+			monster_stats->pv-=calc_damage(player_stats, monster_stats, move);
+		}
+
+		if(is_crit()) return CRIT;
 	} else {
-		move->pp--;
-		monster_stats->pv-=calc_damage(player_stats, monster_stats, move);
+		if(ismonster) {
+			return self_effect(monster_stats, move);
+		} else {
+			move->pp--;
+			return self_effect(player_stats, move);	
+		}
+		return HEAL;
 	}
-
-	if(is_crit()) return CRIT;
 	return SUCCESS;
 }
 
 int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move) {
-	return (floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2)*crit(attacker);
+	return floor((floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2)*crit(attacker));
 }
 
 int is_crit() {
@@ -97,4 +122,17 @@ float crit(struct Stats *attacker) {
 /*1 if miss, else 0*/
 int is_miss(struct Move *move) {
 	return rand_range(0, 101) > move->precision;
+}
+
+int self_effect(struct Stats *stats, struct Move *move) {
+	stats->pv += stats->max_pv * move->boost_hp/100;
+	stats->atk *= (float)(100+move->boost_atk)/100;
+	stats->def *= (float)(100+move->boost_def)/100;
+
+	if(stats->pv > stats->max_pv) stats->pv = stats->max_pv;
+
+	if((move->boost_hp > 0 && move->boost_atk > 0) ||
+	(move->boost_hp > 0 && move->boost_def > 0) ||
+	(move->boost_atk > 0 && move->boost_def > 0)) return MULTIPLE;
+	return move->boost_hp > 0 ? HEAL : move->boost_atk > 0 ? ATK : DEF;
 }

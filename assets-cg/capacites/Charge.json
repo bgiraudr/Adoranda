@@ -1,6 +1,7 @@
 {
 	"name":"Charge",
 	"id":2,
+	"categorie":"PHYSICAL",
 	"pp":25,
 	"atk":15,
 	"precision":100

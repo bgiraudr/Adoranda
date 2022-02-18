@@ -1,0 +1,9 @@
+{
+	"name":"Soin",
+	"id":1,
+	"categorie":"STATUT",
+	"pp":100,
+	"boost_atk":15,
+	"boost_hp":15,
+	"boost_def":15
+}

@@ -39,7 +39,7 @@ int battle(struct Player *player, struct Monster *monster) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		status = execute_move(&player->stats, monster->stats, player->moves[selection], 0);
-		check_move_status(status, player, monster);
+		check_move_status(status, player, monster, 0);
 
 		draw_battle(player, monster);
 
@@ -55,7 +55,7 @@ int battle(struct Player *player, struct Monster *monster) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		status = execute_move(&player->stats, monster->stats, monster_move, 1);
-		check_move_status(status, player, monster);
+		check_move_status(status, player, monster, 1);
 
 		if(player->stats.pv <= 0) {
 			return LOSE;
@@ -68,17 +68,32 @@ int battle(struct Player *player, struct Monster *monster) {
 	return LOSE;
 }
 
-void check_move_status(int status, struct Player *player, struct Monster *monster) {
-	if(status == CRIT) {
+void check_move_status(int status, struct Player *player, struct Monster *monster, int is_monster) {
+	char *name = is_monster ? monster->name : "Player";
+	if(status != SUCCESS) {
 		draw_battle(player, monster);
-		draw_status("Coup critique !");
-		dupdate();
-		wait_for_input(KEY_SHIFT);
-	}
 
-	if(status == MISS) {
-		draw_battle(player, monster);
-		draw_status("Mais cela échoue !");
+		switch(status){
+			case CRIT:
+				draw_status(name, "réalise un coup critique !");
+				break;
+			case MISS:
+				draw_status(name, "rate son attaque !");
+				break;
+			case HEAL:
+				draw_status(name, "regagne des PVs !");
+				break;
+			case ATK:
+				draw_status(name, "améliore son attaque !");
+				break;
+			case DEF:
+				draw_status(name, "améliore sa défense !");
+				break;
+			case MULTIPLE:
+				draw_status(name, "améliore ses statistiques !");
+				break;
+		}
+		
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 	}
@@ -107,7 +122,6 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 			wait_for_input(KEY_SHIFT);
 		}
 		game->player->stats.level = calc_level;
-		set_stats_level_from(&game->player->base_stats, &game->player->stats);
 
 	} else if(status == LOSE) {
 		draw_battle(game->player, monster);
@@ -118,6 +132,8 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		game->player->stats.pv = 0;
 	}
 
+	//On retire les changements de status en revenant à la base
+	set_stats_level_from(&game->player->base_stats, &game->player->stats);
 	free_monster(monster);
 }
 
@@ -142,6 +158,12 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 		draw_ui(player);
 		dtext(58 + (selection * 130), DHEIGHT-15 , C_RED, "[X]");
 		dupdate();
+
+		if(keydown(KEY_OPTN)) {
+			draw_stats(player->stats);
+			dupdate();
+			wait_for_input(KEY_OPTN);
+		}
 
 		if(keydown(KEY_SHIFT)) {
 			if(buffer) buffer = 0;
@@ -204,7 +226,7 @@ void draw_executed_move(struct Move *move, struct Monster *monster, int is_monst
 	}
 }
 
-void draw_status(char *message) {
+void draw_status(char *name, char *message) {
 	dimage(42,DHEIGHT-75,&img_dialogue);
-	dprint(50,DHEIGHT-47, C_BLACK, "%s", message);
+	dprint(50,DHEIGHT-47, C_BLACK, "%s %s", name, message);
 }

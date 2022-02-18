@@ -207,10 +207,20 @@ def convert_capa(input, output, params, target):
 		try:
 			move += fxconv.string(data["name"])
 			move += fxconv.u32(data["id"])
+			move += fxconv.u32(1 if data["categorie"]=="PHYSICAL" else 0)
 			move += fxconv.u32(data["pp"])
 			move += fxconv.u32(data["pp"])
-			move += fxconv.u32(data["atk"])
-			move += fxconv.u32(data["precision"])
+
+			categorie = data["categorie"]
+			if categorie=="PHYSICAL":
+				move += fxconv.u32(data["atk"])
+				move += fxconv.u32(data["precision"])
+				move += fxconv.u32(0) + fxconv.u32(0) + fxconv.u32(0)
+			elif categorie=="STATUT":
+				move += fxconv.u32(0) + fxconv.u32(100)
+				move += fxconv.u32(data["boost_atk"])
+				move += fxconv.u32(data["boost_def"])
+				move += fxconv.u32(data["boost_hp"])
 		except KeyError:
 			raise Exception(f"convert_capa() : La capacité {data['name']} est mal configurée")
 

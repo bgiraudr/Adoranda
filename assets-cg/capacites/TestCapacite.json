@@ -1,7 +1,8 @@
 {
 	"name":"Test capacité",
 	"id":0,
+	"categorie":"PHYSICAL",
 	"pp":5,
 	"atk":20,
-	"precision":50
+	"precision":80
 }

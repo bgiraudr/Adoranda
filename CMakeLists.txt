@@ -48,6 +48,7 @@ set(SOURCES
 
 set(ASSETS_cg
 	assets-cg/tileset.png
+	assets-cg/categories.png
 	assets-cg/dialogue.png
 	assets-cg/capacite.png
 	assets-cg/battle_ui.png

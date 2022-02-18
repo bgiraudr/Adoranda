@@ -44,10 +44,10 @@ struct Move *monster_select(struct Player *player, struct Monster *monster) {
 	for(int i = 0; i < monster->nbMoves; i++) {
 		struct Move *move = get_move_id_pointer(monster->moves[i]);
 		int damage = calc_damage(monster->stats, &player->stats, move);
-		if(damage >= player->stats.pv) {
-			stoMove = move;
-			if(move->precision > 80) return move;
-		}
+		// if(damage >= player->stats.pv) {
+		// 	stoMove = move;
+		// 	if(move->precision > 80) return move;
+		// }
 		if(damage > stoDamage) {
 			stoMove = move;
 			stoDamage = damage;
