@@ -187,11 +187,20 @@ def parseZone(layer):
 		zone += fxconv.u32(to[0])
 		zone += fxconv.u32(to[1])
 
+		monsters = bytes()
 		try:
 			zone += fxconv.u32(i["properties"][0]["value"])
+			monster_list = i["properties"][1]["value"].split(";")
+			zone += fxconv.u32(len(monster_list))
+			for j in monster_list:
+				monsters += fxconv.u16(int(j))
+		except IndexError:
+			raise Exception(f"parseZone() : La zone {origin};{to} n'a pas de monstres associés")
 		except KeyError:
 			print(f"parseZone() : Zone {origin};{to} sans niveau de référence, passage automatique à -1")
 			zone += fxconv.u32(-1)
+
+		zone += fxconv.ptr(monsters)
 	return zone
 
 def convert_capa(input, output, params, target):
@@ -229,23 +238,35 @@ def convert_capa(input, output, params, target):
 	fxconv.elf(capacities, output, "_" + params["name"], **target)
 
 def convert_monster(input, output, params, target):
-	file = open(input, "r")
-	data = json.load(file)
+	liste_file = list(pathlib.Path(input).parent.glob('*.json'))
 
-	stats = fxconv.Structure()
-	if len(data["stats"]) != 6: raise Exception(f"convert_monster : Les statistiques de {data['name']} sont mauvaises")
-	for i in data["stats"].values():
-		stats+=fxconv.u32(i)
+	monsters = fxconv.Structure()
+	monsters += fxconv.u32(len(liste_file))
+	for f in liste_file:
+		file = open(f,"r")
+		data = json.load(file)
+		stats = fxconv.Structure()
 
-	moves = bytes()
-	for i in data["moves"]:
-		moves+=fxconv.u16(i)
+		if len(data["stats"]) != 4: raise Exception(f"convert_monster : Les statistiques de {data['name']} sont mauvaises")
+		stats+=fxconv.u32(data["stats"]["atk"])
+		stats+=fxconv.u32(data["stats"]["def"])
+		stats+=fxconv.u32(data["stats"]["pv"])
+		stats+=fxconv.u32(1)
+		stats+=fxconv.u32(data["stats"]["xp"])
+		stats+=fxconv.u32(data["stats"]["pv"])
 
-	monster = fxconv.Structure()
-	monster += fxconv.string(data["name"])
-	monster += fxconv.ptr(f"img_{data['sprite']}")
-	monster += fxconv.u32(len(data["moves"]))
-	monster += fxconv.ptr(stats)
-	monster += fxconv.ptr(moves)
+		moves = bytes()
+		for i in data["moves"]:
+			moves+=fxconv.u16(i)
 
-	fxconv.elf(monster, output, "_" + params["name"], **target)
+		monster = fxconv.Structure()
+		monster += fxconv.string(data["name"])
+		monster += fxconv.ptr(f"img_{data['sprite']}")
+		monster += fxconv.u32(data["id"])
+		monster += fxconv.u32(len(data["moves"]))
+		monster += fxconv.ptr(stats)
+		monster += fxconv.ptr(moves)
+
+		monsters += fxconv.ptr(monster)
+
+	fxconv.elf(monsters, output, "_" + params["name"], **target)

@@ -1,13 +1,12 @@
 {
 	"name":"test",
 	"sprite":"test",
+	"id":1,
 	"stats":{
 		"atk":10,
 		"def":10,
 		"pv":20,
-		"level":1,
-		"xp":300,
-		"max_pv":20
+		"xp":300
 	},
 	"moves":[
 		0,

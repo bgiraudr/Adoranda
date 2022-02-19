@@ -93,7 +93,7 @@ void replace_capacities(struct Player *player, struct Move move) {
 		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
-		// draw_classic_move(200,DHEIGHT/2-30, move);
+		draw_classic_move(200,DHEIGHT/2-30, &move);
 		for(int i = 0; i < NB_PLAYER_MOVES; i++) {
 			draw_classic_move(0,65*i, player->moves[i]);
 		}

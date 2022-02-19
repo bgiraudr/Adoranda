@@ -9,16 +9,33 @@
 #include "map.h"
 #include "util.h"
 
+
+#include <gint/display.h>
+#include <gint/keyboard.h>
+
+extern struct Monsters monsters;
+
+struct Monster *get_monster_id(int id) {
+	for(int i = 0; i < monsters.nbMonsters; i++) {
+		if(monsters.monster[i]->id == id) return monsters.monster[i];
+	}
+	return monsters.monster[0];
+}
+
 struct Monster *generate_monster(struct Game *game) {
 
-	extern struct Monster monster_test;
-
-	struct Monster *monster = copyMonster(&monster_test);
-
 	srand(rtc_ticks());
-	int level_zone = get_level_zone(game->player, game->map);
-	//En cas d'erreur / aucune zone trouvée
-	if(level_zone == -1) {
+
+	int level_zone;
+
+	//set the monster depends of the current zone
+	struct Monster *monster;
+	if(is_in_zone(game->player, game->map)) {
+		struct Zone zone = get_zone(game->player, game->map);
+		monster = copyMonster(get_monster_id(zone.monsters[rand_range(0,zone.nbMonsters)]));
+		level_zone = zone.level;
+	} else {
+		monster = copyMonster(get_monster_id(0));
 		level_zone = game->player->stats.level;
 	}
 
@@ -62,6 +79,7 @@ struct Monster *copyMonster(struct Monster *source) {
 	dest->name = source->name;
 	dest->nbMoves = source->nbMoves;
 	dest->sprite = source->sprite;
+	dest->id = source->id;
 	
 	dest->moves = malloc(dest->nbMoves * sizeof *source->moves);
 	memcpy(dest->moves, source->moves, dest->nbMoves * sizeof *source->moves);

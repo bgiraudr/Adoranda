@@ -1,7 +1,7 @@
-test.png:
+*.png:
   type: bopti-image
-  name: img_test
+  name_regex: (.*)\.png img_\1
 
-*.json:
+monsters.txt:
   custom-type: monster
-  name_regex: (.*)\.json monster_\1
+  name: monsters

@@ -12,6 +12,8 @@ struct Zone {
 	int start_x, start_y;
 	int end_x, end_y;
 	int level;
+	int nbMonsters;
+	short *monsters;
 };
 
 struct Map {
@@ -53,4 +55,5 @@ struct Vec2 locate_tile(struct Map const *map, int tile);
 
 struct Teleporter get_teleporter_xy(struct Map *map, struct Vec2 pos);
 
-int get_level_zone(struct Player *player, struct Map *map);
+int is_in_zone(struct Player *player, struct Map *map);
+struct Zone get_zone(struct Player *player, struct Map *map);

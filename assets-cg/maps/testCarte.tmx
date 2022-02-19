@@ -205,11 +205,13 @@
   <object id="57" x="400" y="464" width="32" height="48">
    <properties>
     <property name="level" type="int" value="30"/>
+    <property name="monsters" value="1"/>
    </properties>
   </object>
   <object id="58" x="304" y="560" width="112" height="32">
    <properties>
     <property name="level" type="int" value="5"/>
+    <property name="monsters" value="1;2"/>
    </properties>
   </object>
  </objectgroup>

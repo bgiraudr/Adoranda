@@ -61,7 +61,8 @@ set(ASSETS_cg
 	assets-cg/uf8x9
 	assets-cg/capacites/capacites.txt
 	assets-cg/monsters/test.png
-	assets-cg/monsters/test.json
+	assets-cg/monsters/test2.png
+	assets-cg/monsters/monsters.txt
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

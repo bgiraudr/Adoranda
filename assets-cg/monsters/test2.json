@@ -1,0 +1,16 @@
+{
+	"name":"Citron",
+	"sprite":"test2",
+	"id":2,
+	"stats":{
+		"atk":80,
+		"def":5,
+		"pv":45,
+		"xp":150
+	},
+	"moves":[
+		0,
+		1,
+		2
+	]
+}
