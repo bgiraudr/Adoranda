@@ -26,6 +26,7 @@ void engine_draw(struct Game const *game) {
 	
 	dprint(1,1,C_WHITE,"%d:%d",game->player->pos.x, game->player->pos.y);
 	dprint(1,20,C_WHITE,"%d",game->player->sprint);
+	dprint(1,40,C_WHITE,"%d",map_get_player_tile(game));
 }
 
 void engine_draw_map(struct Game const *game) {
@@ -167,6 +168,20 @@ void engine_check_position(struct Game *game) {
 	}
 	if(player_curr_tile == TILE_GRASS) {
 		create_battle(game);
+	}
+	if(player_curr_tile == TILE_ICE) {
+		int direction = game->player->direction;
+		int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
+		int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
+
+		if(player_facing(game) == TILE_ICE || map_walkable(game->map, game->player->pos.x+dx, game->player->pos.y+dy)) {
+			game->player->pos.x += dx;
+			game->player->pos.y += dy;
+			engine_draw(game);
+			engine_tick(game, ENGINE_TICK);
+			dupdate();
+			engine_check_position(game);
+		}
 	}
 }
 

@@ -40,6 +40,7 @@ enum map_state {
 	TILE_TALKABLE,
 	TILE_TELEPORTER,
 	TILE_GRASS,
+	TILE_ICE,
 };
 
 /*check if a tile is walkable*/

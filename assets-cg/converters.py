@@ -24,6 +24,7 @@ def convert_map(input, output, params, target):
 	TILE_TALKABLE = 4
 	TILE_TELEPORTER = 5
 	TILE_GRASS = 6
+	TILE_ICE = 7
 
 	DIALOG_LAYOUT = "dialog"
 	TELEPORTER_LAYOUT = "teleporter"
@@ -46,30 +47,23 @@ def convert_map(input, output, params, target):
 	tileset.close()
 
 	tile_value = {}
+	tile_type = {
+		"air":TILE_AIR, 
+		"solid":TILE_SOLID, 
+		"door_in":TILE_DOOR_IN, 
+		"door_out":TILE_DOOR_OUT, 
+		"talkable":TILE_TALKABLE, 
+		"bridge":TILE_BRIDGE, 
+		"teleporter":TILE_TELEPORTER, 
+		"grass":TILE_GRASS, 
+		"ice":TILE_ICE
+	}
 	#create a dictionnary {tile id:type}
 	for i in data_tileset["tiles"]:
 		id = i["id"]+1
 		type = i["type"]
 
-		if type == "air":
-			value = TILE_AIR
-		elif type == "solid":
-			value = TILE_SOLID
-		elif type == "door_in":
-			value = TILE_DOOR_IN
-		elif type == "door_out":
-			value = TILE_DOOR_OUT
-		elif type == "talkable":
-			value = TILE_TALKABLE
-		elif type == "bridge":
-			value = TILE_BRIDGE
-		elif type == "teleporter":
-			value = TILE_TELEPORTER
-		elif type == "grass":
-			value = TILE_GRASS
-		else:
-			value = TILE_AIR
-
+		value = tile_type.get(type) if type in tile_type else TILE_AIR
 		tile_value[id] = value
 
 	#Extract from the json the width, height
@@ -98,7 +92,7 @@ def convert_map(input, output, params, target):
 			nbZone = len(layer["objects"])
 			zone = parseZone(layer)
 		else:
-			print("UNKNOWN LAYOUT FOUND : " + layer.get("name"))
+			print("UNKNOWN LAYER FOUND : " + layer.get("name"))
 
 	structMap += fxconv.u32(w) + fxconv.u32(h) + fxconv.u32(nbTilelayer) + fxconv.u32(nbDialog) + fxconv.u32(nbTelep) + fxconv.u32(nbZone)
 	structMap += fxconv.ref(f"img_{nameTilesetFree}")
@@ -116,6 +110,9 @@ def convert_map(input, output, params, target):
 	for x in range(w*h):
 		for i in range(nbTilelayer):
 			value = tile_value.get(data["layers"][i]["data"][x])
+			if value == TILE_SOLID:
+				maxValue = TILE_SOLID
+				break
 			if value == None: value = TILE_AIR
 			if value > maxValue: maxValue = value
 			if value == TILE_BRIDGE:

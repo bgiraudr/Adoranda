@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.2" name="tileset" tilewidth="16" tileheight="16" tilecount="464" columns="29">
+<tileset version="1.8" tiledversion="1.8.2" name="tileset" tilewidth="16" tileheight="16" tilecount="464" columns="29">
  <editorsettings>
   <export target="tileset.json" format="json"/>
  </editorsettings>
@@ -57,6 +57,7 @@
  <tile id="223" type="solid"/>
  <tile id="224" type="solid"/>
  <tile id="225" type="solid"/>
+ <tile id="229" type="solid"/>
  <tile id="231" type="bridge"/>
  <tile id="232" type="solid"/>
  <tile id="233" type="solid"/>
@@ -84,6 +85,9 @@
  <tile id="255" type="bridge"/>
  <tile id="256" type="bridge"/>
  <tile id="257" type="solid"/>
+ <tile id="258" type="ice"/>
+ <tile id="259" type="ice"/>
+ <tile id="260" type="ice"/>
  <tile id="261" type="solid"/>
  <tile id="262" type="solid"/>
  <tile id="263" type="solid"/>
@@ -114,6 +118,9 @@
  <tile id="284" type="bridge"/>
  <tile id="285" type="bridge"/>
  <tile id="286" type="solid"/>
+ <tile id="287" type="ice"/>
+ <tile id="288" type="ice"/>
+ <tile id="289" type="ice"/>
  <tile id="290" type="solid"/>
  <tile id="291" type="solid"/>
  <tile id="292" type="solid"/>
@@ -135,6 +142,9 @@
  <tile id="313" type="bridge"/>
  <tile id="314" type="bridge"/>
  <tile id="315" type="solid"/>
+ <tile id="316" type="ice"/>
+ <tile id="317" type="ice"/>
+ <tile id="318" type="ice"/>
  <tile id="319" type="solid"/>
  <tile id="320" type="solid"/>
  <tile id="321" type="solid"/>

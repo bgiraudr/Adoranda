@@ -14,4 +14,5 @@ struct Talkable {
 void draw_dialog(struct Talkable *character);
 /*find the talkable tile using the player's position*/
 struct Talkable* get_dialog_xy(struct Map *map, int x, int y);
-void clean(char *var);
+char *word_boundary_before(char *str, char *limit);
+char *skip_spaces(char *str);
