@@ -8,6 +8,8 @@
 #include "capacite.h"
 #include "util.h"
 
+extern struct LevelUpPlayer levelupplayer;
+
 struct Player init_player(void) {
 
 	struct Stats bstats = {
@@ -40,6 +42,15 @@ struct Player init_player(void) {
 
 	set_stats_level_from(&player.base_stats, &player.stats);
 	return player;
+}
+
+void check_level(struct Player *player, int prec_level) {
+	for(int i = 0; i < levelupplayer.nbLevelUp; i++) {
+		if(player->stats.level >= levelupplayer.levelup[i]->level
+		 && prec_level < levelupplayer.levelup[i]->level) {
+			add_move(player, get_move_id(levelupplayer.levelup[i]->id_move));
+		}
+	}
 }
 
 /*

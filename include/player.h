@@ -30,6 +30,16 @@ struct Player {
 	struct AnimData anim;
 };
 
+struct LevelUp {
+	int level;
+	int id_move;
+};
+
+struct LevelUpPlayer {
+	int nbLevelUp;
+	struct LevelUp *levelup[];
+};
+
 /*return the info tile value the player is facing to*/
 int player_facing(struct Game const *game);
 struct Player init_player(void);
@@ -39,3 +49,4 @@ void replace_capacities(struct Player *player, struct Move move);
 void draw_ui(struct Player *player);
 int get_nb_moves(struct Player *player);
 void reset_pp(struct Player *player);
+void check_level(struct Player *player, int prec_level);

@@ -34,3 +34,7 @@ battle_ui.png:
   type: bopti-image
   name: img_battle
   profile: p4  
+  
+player_moves.txt:
+  custom-type: player_moves
+  name:levelupplayer

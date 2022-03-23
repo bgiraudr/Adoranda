@@ -9,7 +9,6 @@
 #include "map.h"
 #include "util.h"
 
-
 #include <gint/display.h>
 #include <gint/keyboard.h>
 

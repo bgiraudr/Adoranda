@@ -12,6 +12,7 @@ void draw_stats(struct Stats stats) {
 	dprint(300,60,C_BLACK,"XP : %d",stats.xp);
 	dprint(300,80,C_BLACK,"ATK : %d",stats.atk);
 	dprint(300,100,C_BLACK,"DEF : %d",stats.def);
+	dprint(300,120,C_BLACK,"LVLUP : %d",(int)(pow(stats.level+1, 3.03))-stats.xp);
 }
 
 void set_stats_level_from(const struct Stats *from, struct Stats *to) {

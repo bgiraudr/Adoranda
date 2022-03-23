@@ -121,7 +121,9 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 			dupdate();
 			wait_for_input(KEY_SHIFT);
 		}
+		int prec = game->player->stats.level;
 		game->player->stats.level = calc_level;
+		check_level(game->player, prec);
 
 	} else if(status == LOSE) {
 		draw_battle(game->player, monster);

@@ -63,6 +63,7 @@ set(ASSETS_cg
 	assets-cg/monsters/test.png
 	assets-cg/monsters/test2.png
 	assets-cg/monsters/monsters.txt
+	assets-cg/player_moves.txt
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

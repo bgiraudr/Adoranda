@@ -12,6 +12,9 @@ def convert(input, output, params, target):
 	elif params["custom-type"] == "monster":
 		convert_monster(input, output, params, target)
 		return 0
+	elif params["custom-type"] == "player_moves":
+		convert_player_moves(input, output, params, target)
+		return 0
 	else:
 		return 1
 
@@ -187,8 +190,17 @@ def parseZone(layer):
 		monsters = bytes()
 		try:
 			zone += fxconv.u32(i["properties"][0]["value"])
-			monster_list = i["properties"][1]["value"].split(";")
+			monster_list_raw = i["properties"][1]["value"].split(";")
+			monster_list = []
+			#x-y notation generate an array
+			for i in monster_list_raw: 
+				if "-" in i:
+					a = i.split("-")
+					monster_list.extend(list(range(int(a[0]),int(a[1])+1)))
+				else:
+					monster_list.append(int(i))
 			zone += fxconv.u32(len(monster_list))
+
 			for j in monster_list:
 				monsters += fxconv.u16(int(j))
 		except IndexError:
@@ -267,3 +279,15 @@ def convert_monster(input, output, params, target):
 		monsters += fxconv.ptr(monster)
 
 	fxconv.elf(monsters, output, "_" + params["name"], **target)
+
+def convert_player_moves(input, output, params, target):
+	levelupplayer = fxconv.Structure()
+	data = open(input, 'r').readlines()
+	levelupplayer += fxconv.u32(len(data))
+	for i in data:
+		levelup = fxconv.Structure()
+		levelup += fxconv.u32(int(i.split(":")[0]))
+		levelup += fxconv.u32(int(i.split(":")[1]))
+
+		levelupplayer += fxconv.ptr(levelup)
+	fxconv.elf(levelupplayer, output, "_" + params["name"], **target)
