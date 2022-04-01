@@ -6,6 +6,8 @@
 
 #include "talkable.h"
 #include "util.h"
+#include "event.h"
+#include "player.h"
 
 #define LIMIT 35
 
@@ -37,32 +39,41 @@ char *skip_spaces(char *str)
 }
 
 /*draw the dialog of a specified talkable tile*/
-void draw_dialog(struct Talkable *talkable) {
+void draw_dialog(struct Game *game) {
 	extern bopti_image_t img_dialogue;
 	const char *delim = ";";
 
-	char *str = strdup(talkable->text);
+	int direction = game->player->direction;
+	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
+	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
+	struct Talkable *talk = get_dialog_xy(game->map, game->player->pos.x + dx, game->player->pos.y + dy);
+
+	char *str = strdup(talk->text);
 	char *curr_line = strtok(str, delim);
 
 	while(curr_line != NULL) {
-		dimage(43,31,&img_dialogue);
-		dprint(50,40, C_BLACK, "%s", talkable->name);
+		char *event = strchr(curr_line, '~');
+		if(event) handle_event(game, curr_line+1);
+		else {
+			dimage(43,31,&img_dialogue);
+			dprint(50,40, C_BLACK, "%s", talk->name);
 
-		int const DIALOG_WIDTH = 295, LINE_HEIGHT = 13;
-		int y = 45 + LINE_HEIGHT;
+			int const DIALOG_WIDTH = 295, LINE_HEIGHT = 13;
+			int y = 45 + LINE_HEIGHT;
 
-		while(*curr_line) {
-			char *end = (char *)drsize(curr_line, NULL, DIALOG_WIDTH, NULL);
-			char *last_word = word_boundary_before(curr_line, end);
-			dtext_opt(50, y, C_BLACK, C_NONE, DTEXT_LEFT, DTEXT_TOP,
-				curr_line, last_word - curr_line);
-			curr_line = skip_spaces(last_word);
-			y += LINE_HEIGHT;
+			while(*curr_line) {
+				char *end = (char *)drsize(curr_line, NULL, DIALOG_WIDTH, NULL);
+				char *last_word = word_boundary_before(curr_line, end);
+				dtext_opt(50, y, C_BLACK, C_NONE, DTEXT_LEFT, DTEXT_TOP,
+					curr_line, last_word - curr_line);
+				curr_line = skip_spaces(last_word);
+				y += LINE_HEIGHT;
+			}
+
+			dupdate();
+			wait_for_input(KEY_SHIFT);
 		}
-
-		dupdate();
 		curr_line = strtok(NULL, delim);
-		wait_for_input(KEY_SHIFT);
 	}
 }
 

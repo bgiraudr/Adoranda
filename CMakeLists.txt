@@ -44,6 +44,7 @@ set(SOURCES
 	src/stats.c
 	src/capacite.c
 	src/monster.c
+	src/event.c
 )
 
 set(ASSETS_cg

@@ -1,5 +1,6 @@
 #include <gint/keyboard.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "player.h"
 #include "define.h"
@@ -9,6 +10,7 @@
 #include "util.h"
 
 extern struct LevelUpPlayer levelupplayer;
+extern bopti_image_t img_dialogue;
 
 struct Player init_player(void) {
 
@@ -83,14 +85,24 @@ int get_nb_moves(struct Player *player) {
 
 void add_move(struct Player *player, struct Move move) {
 	int index = get_nb_moves(player);
-	if(index != NB_PLAYER_MOVES) player->moves[index] = copy_move(move);
-	else replace_capacities(player, move);
+	dimage(42,DHEIGHT-75,&img_dialogue);
+	if(index != NB_PLAYER_MOVES) {
+		dprint(50,DHEIGHT-47,C_BLACK,"Vous apprenez %s !", move.name);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+		player->moves[index] = copy_move(move);
+	} else {
+		dprint(50,DHEIGHT-47,C_BLACK,"Vous pouvez apprendre %s !", move.name);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+		replace_capacities(player, move);
+	}
 }
 
 void draw_player_moves(struct Player *player) {
 	int index = get_nb_moves(player);
 	for(int i = 0; i < index; i++) {
-		draw_classic_move(0,65*i,player->moves[i]);
+		draw_classic_move(20,65*i+15,player->moves[i]);
 	}
 }
 
@@ -99,17 +111,16 @@ void replace_capacities(struct Player *player, struct Move move) {
 	int buffer = keydown(KEY_SHIFT);
 	while(1) {
 		clearevents();
+		dclear(C_WHITE);
 
 		selection += keydown(KEY_DOWN) - keydown(KEY_UP);
 		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
 		draw_classic_move(200,DHEIGHT/2-30, &move);
-		for(int i = 0; i < NB_PLAYER_MOVES; i++) {
-			draw_classic_move(0,65*i, player->moves[i]);
-		}
+		draw_player_moves(player);
 		
-		dtext(105, 45+65*selection , C_RED, "[X]");
+		dtext(105, 42+65*selection , C_RED, "[X]");
 		dupdate();
 
 		if(keydown(KEY_SHIFT)) {
@@ -141,4 +152,21 @@ void reset_pp(struct Player *player) {
 	for(int i = 0; i < index; i++) {
 		player->moves[i]->pp = player->moves[i]->init_pp;
 	}
+}
+
+void add_xp(struct Player *player, int xp) {
+	player->stats.xp += xp;
+
+	//niveau suivant une progession N³
+	int calc_level = (int)pow(player->stats.xp, 0.33);
+	for(int i = player->stats.level; i < calc_level; i++) {
+		// draw_battle(game->player, monster);
+		dimage(42,DHEIGHT-75,&img_dialogue);
+		dprint(50,DHEIGHT-47,C_BLACK,"Vous passez au niveau %d !", i+1);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+	}
+	int prec = player->stats.level;
+	player->stats.level = calc_level;
+	check_level(player, prec);
 }

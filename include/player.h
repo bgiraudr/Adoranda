@@ -50,3 +50,4 @@ void draw_ui(struct Player *player);
 int get_nb_moves(struct Player *player);
 void reset_pp(struct Player *player);
 void check_level(struct Player *player, int prec_level);
+void add_xp(struct Player *player, int xp);

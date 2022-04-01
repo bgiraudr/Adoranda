@@ -120,10 +120,7 @@ void engine_set_background(struct Game *game, int color) {
 void engine_action(struct Game const *game, int action) {
 	if(action == ACTION_SHIFT) {
 		if(player_facing(game) == TILE_TALKABLE) {
-			int direction = game->player->direction;
-			int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
-			int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
-			draw_dialog(get_dialog_xy(game->map, game->player->pos.x + dx, game->player->pos.y + dy));
+			draw_dialog(game);
 		}
 	}
 	if(action == ACTION_F1) {

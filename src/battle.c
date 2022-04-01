@@ -1,5 +1,6 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
+#include <math.h>
 
 #include "engine.h"
 #include "battle.h"
@@ -8,7 +9,6 @@
 #include "player.h"
 #include "monster.h"
 #include <stdlib.h>
-#include <math.h>
 
 extern bopti_image_t img_dialogue;
 
@@ -110,20 +110,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 
-		game->player->stats.xp += xp;
-
-		//niveau suivant une progession N³
-		int calc_level = (int)pow(game->player->stats.xp, 0.33);
-		for(int i = game->player->stats.level; i < calc_level; i++) {
-			draw_battle(game->player, monster);
-			dimage(42,DHEIGHT-75,&img_dialogue);
-			dprint(50,DHEIGHT-47,C_BLACK,"Vous passez au niveau %d !", i+1);
-			dupdate();
-			wait_for_input(KEY_SHIFT);
-		}
-		int prec = game->player->stats.level;
-		game->player->stats.level = calc_level;
-		check_level(game->player, prec);
+		add_xp(game->player, xp);
 
 	} else if(status == LOSE) {
 		draw_battle(game->player, monster);

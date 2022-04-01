@@ -1,5 +1,6 @@
 #pragma once
 #include "map.h"
+#include "game.h"
 
 struct Talkable {
 	/*the position of the tile*/
@@ -11,7 +12,7 @@ struct Talkable {
 };
 
 /*draw the dialog of a specified talkable tile*/
-void draw_dialog(struct Talkable *character);
+void draw_dialog(struct Game *game);
 /*find the talkable tile using the player's position*/
 struct Talkable* get_dialog_xy(struct Map *map, int x, int y);
 char *word_boundary_before(char *str, char *limit);
