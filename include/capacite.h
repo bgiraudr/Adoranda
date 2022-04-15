@@ -34,6 +34,7 @@ enum status {
 enum categorie {
 	STATUT,
 	PHYSICAL,
+	SPECIAL,
 };
 
 struct Move default_move();

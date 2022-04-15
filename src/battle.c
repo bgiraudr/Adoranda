@@ -161,7 +161,7 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 		if(keydown(KEY_EXIT)) {
 			break;
 		}
-		while(keydown_any(KEY_RIGHT, KEY_LEFT, KEY_SHIFT, 0)) clearevents();
+		while(keydown_any(KEY_RIGHT, KEY_LEFT, KEY_SHIFT, KEY_OPTN, 0)) clearevents();
 	}
 	return selection;
 }

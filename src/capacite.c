@@ -59,13 +59,13 @@ void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 		(int)((y+y2)/2)-font_size/2, 
 		C_BLACK, "%s", move->name);
 
-	if(move->categorie == PHYSICAL) {
-		dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
-		dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
-	} else {
+	if(move->categorie == STATUT) {
 		if(move->boost_atk > 0) dprint(x+10, y2-17, C_BLACK, "A+%d%%", move->boost_atk);
 		if(move->boost_hp > 0) dprint(x+47, y2-17, C_BLACK, "H+%d%%", move->boost_hp);
 		if(move->boost_def > 0) dprint(x+85, y2-17, C_BLACK, "D+%d%%", move->boost_def);
+	} else {
+		dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
+		dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
 	}
 }
 
@@ -75,7 +75,7 @@ void draw_classic_move(int x, int y, struct Move *move) {
 
 int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move *move, int ismonster) {
 	srand(rtc_ticks());
-	if(move->categorie == PHYSICAL) {
+	if(move->categorie == PHYSICAL || move->categorie == SPECIAL) {
 		if(is_miss(move)) {
 			move->pp--;
 			return MISS;
@@ -102,7 +102,11 @@ int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct
 }
 
 int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move) {
-	return floor((floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2)*crit(attacker));
+	if(move->categorie == PHYSICAL)
+		return floor((floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2)*crit(attacker));
+	if(move->categorie == SPECIAL)
+		return floor((floor(((2*attacker->level / 5 + 2) * attacker->spe_atk * move->atk / target->spe_def) / 50) + 2)*crit(attacker));
+	return 0;
 }
 
 int is_crit() {

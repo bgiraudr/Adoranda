@@ -4,6 +4,8 @@ struct Stats {
 	int atk;
 	int def;
 	int pv;
+	int spe_atk;
+	int spe_def;
 	int level;
 	int xp;
 	int max_pv;

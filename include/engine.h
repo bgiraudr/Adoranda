@@ -16,7 +16,7 @@ void engine_tick(struct Game *game, int dt);
 /*set the background color*/
 void engine_set_background(struct Game *game, int color);
 /*make an interaction with something*/
-void engine_action(struct Game const *game, int action);
+void engine_action(struct Game *game, int action);
 /*check the current position of the player. To perform action depends of his location*/
 void engine_check_position(struct Game *game);
 void engine_center_camera(struct Game *game);

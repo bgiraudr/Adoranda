@@ -12,19 +12,25 @@ void draw_stats(struct Stats stats) {
 	dprint(300,60,C_BLACK,"XP : %d",stats.xp);
 	dprint(300,80,C_BLACK,"ATK : %d",stats.atk);
 	dprint(300,100,C_BLACK,"DEF : %d",stats.def);
-	dprint(300,120,C_BLACK,"LVLUP : %d",(int)(pow(stats.level+1, 3.03))-stats.xp);
+	dprint(300,120,C_BLACK,"ATKS : %d",stats.spe_atk);
+	dprint(300,140,C_BLACK,"DEFS : %d",stats.spe_def);
+	dprint(300,160,C_BLACK,"LVLUP : %d",(int)(pow(stats.level+1, 3.03))-stats.xp);
 }
 
 void set_stats_level_from(const struct Stats *from, struct Stats *to) {
 	to->max_pv = calc_stats(from->pv, to->level);
 	to->atk = calc_stats(from->atk, to->level);
 	to->def = calc_stats(from->def, to->level);
+	to->spe_atk = calc_stats(from->spe_atk, to->level);
+	to->spe_def = calc_stats(from->spe_def, to->level);
 }
 
 void set_stats_level(struct Stats *stats) {
 	stats->max_pv = calc_stats(stats->pv, stats->level);
 	stats->atk = calc_stats(stats->atk, stats->level);
 	stats->def = calc_stats(stats->def, stats->level);
+	stats->spe_atk = calc_stats(stats->spe_atk, stats->level);
+	stats->spe_def = calc_stats(stats->spe_def, stats->level);
 }
 
 int calc_stats(int base, int level) {

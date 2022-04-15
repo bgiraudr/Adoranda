@@ -17,6 +17,8 @@ struct Player init_player(void) {
 	struct Stats bstats = {
 		.atk = 15,
 		.def = 15,
+		.spe_atk = 15,
+		.spe_def = 15,
 		.level = 1,
 		.pv = 30,
 	};
@@ -40,7 +42,8 @@ struct Player init_player(void) {
 		.anim.dir = DIR_DOWN
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
-	player.moves[0] = copy_move(get_move_id(1));
+	player.moves[0] = copy_move(get_move_id(0));
+	player.moves[1] = copy_move(get_move_id(4));
 
 	set_stats_level_from(&player.base_stats, &player.stats);
 	return player;

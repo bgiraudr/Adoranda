@@ -5,6 +5,8 @@
 	"stats":{
 		"atk":10,
 		"def":10,
+		"spe_atk":10,
+		"spe_def":10,
 		"pv":20,
 		"xp":300
 	},

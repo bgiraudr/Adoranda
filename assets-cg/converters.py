@@ -223,14 +223,16 @@ def convert_capa(input, output, params, target):
 		move = fxconv.Structure()
 
 		try:
+			categorie = data["categorie"]
+			id_categorie = ["STATUT", "PHYSICAL", "SPECIAL"]
+			
 			move += fxconv.string(data["name"])
 			move += fxconv.u32(data["id"])
-			move += fxconv.u32(1 if data["categorie"]=="PHYSICAL" else 0)
+			move += fxconv.u32(id_categorie.index(categorie))
 			move += fxconv.u32(data["pp"])
 			move += fxconv.u32(data["pp"])
 
-			categorie = data["categorie"]
-			if categorie=="PHYSICAL":
+			if categorie=="PHYSICAL" or categorie=="SPECIAL":
 				move += fxconv.u32(data["atk"])
 				move += fxconv.u32(data["precision"])
 				move += fxconv.u32(0) + fxconv.u32(0) + fxconv.u32(0)
@@ -256,11 +258,13 @@ def convert_monster(input, output, params, target):
 		data = json.load(file)
 		stats = fxconv.Structure()
 
-		if len(data["stats"]) != 4: raise Exception(f"convert_monster : Les statistiques de {data['name']} sont mauvaises")
+		if len(data["stats"]) != 6: raise Exception(f"convert_monster : Les statistiques de {data['name']} sont mauvaises")
 		stats+=fxconv.u32(data["stats"]["atk"])
 		stats+=fxconv.u32(data["stats"]["def"])
 		stats+=fxconv.u32(data["stats"]["pv"])
-		stats+=fxconv.u32(1)
+		stats+=fxconv.u32(data["stats"]["spe_atk"])
+		stats+=fxconv.u32(data["stats"]["spe_def"])
+		stats+=fxconv.u32(1) # level, will be calculated later
 		stats+=fxconv.u32(data["stats"]["xp"])
 		stats+=fxconv.u32(data["stats"]["pv"])
 

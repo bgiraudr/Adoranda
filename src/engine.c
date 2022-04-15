@@ -117,7 +117,7 @@ void engine_set_background(struct Game *game, int color) {
 }
 
 /*make an interaction with something*/
-void engine_action(struct Game const *game, int action) {
+void engine_action(struct Game *game, int action) {
 	if(action == ACTION_SHIFT) {
 		if(player_facing(game) == TILE_TALKABLE) {
 			draw_dialog(game);
