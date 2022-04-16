@@ -182,7 +182,7 @@
   <object id="61" gid="267" x="464" y="432" width="16" height="16">
    <properties>
     <property name="name" value="Pancarte"/>
-    <property name="text" value="De quoi bien commencer l'aventure !;~xp:500;De rien :)"/>
+    <property name="text" value="De quoi bien commencer l'aventure !;~move:3;De rien :)"/>
    </properties>
   </object>
  </objectgroup>

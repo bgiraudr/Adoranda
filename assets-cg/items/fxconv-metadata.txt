@@ -1,0 +1,3 @@
+items.txt:
+  custom-type: items
+  name: items

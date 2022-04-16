@@ -15,6 +15,9 @@ def convert(input, output, params, target):
 	elif params["custom-type"] == "player_moves":
 		convert_player_moves(input, output, params, target)
 		return 0
+	elif params["custom-type"] == "items":
+		convert_items(input, output, params, target)
+		return 0
 	else:
 		return 1
 
@@ -295,3 +298,19 @@ def convert_player_moves(input, output, params, target):
 
 		levelupplayer += fxconv.ptr(levelup)
 	fxconv.elf(levelupplayer, output, "_" + params["name"], **target)
+
+def convert_items(input, output, params, target):
+	liste_file = list(pathlib.Path(input).parent.glob('*.json'))
+
+	items = fxconv.Structure()
+	items += fxconv.u32(len(liste_file))
+	for f in liste_file:
+		file = open(f,"r")
+		data = json.load(file)
+		item = fxconv.Structure()
+
+		item += fxconv.string(data["name"])
+		item += fxconv.u32(data["id"])
+		items += fxconv.ptr(item)
+
+	fxconv.elf(items, output, "_" + params["name"], **target)
