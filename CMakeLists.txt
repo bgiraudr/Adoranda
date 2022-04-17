@@ -45,6 +45,7 @@ set(SOURCES
 	src/capacite.c
 	src/monster.c
 	src/event.c
+	src/inventory.c
 )
 
 set(ASSETS_cg
@@ -65,6 +66,9 @@ set(ASSETS_cg
 	assets-cg/monsters/test2.png
 	assets-cg/monsters/monsters.txt
 	assets-cg/player_moves.txt
+	assets-cg/items/items.txt
+	assets-cg/items/item.png
+	assets-cg/items/item2.png
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)

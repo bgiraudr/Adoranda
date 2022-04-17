@@ -311,6 +311,7 @@ def convert_items(input, output, params, target):
 
 		item += fxconv.string(data["name"])
 		item += fxconv.u32(data["id"])
+		item += fxconv.ptr(f"img_{data['sprite']}")
 		items += fxconv.ptr(item)
 
 	fxconv.elf(items, output, "_" + params["name"], **target)

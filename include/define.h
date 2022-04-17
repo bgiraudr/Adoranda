@@ -5,3 +5,4 @@
 #define NB_INTERIORS 2
 
 #define NB_PLAYER_MOVES 3
+#define NB_PLAYER_ITEMS 10

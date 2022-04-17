@@ -28,11 +28,16 @@ struct Player init_player(void) {
 		.xp = 0
 	};
 
+	struct Inventory inventory = {
+		.nbItems = 0
+	};
+
 	struct Player player = {
 		.pos = VEC2(32, 30),
 		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
 		.base_stats = bstats,
 		.stats = stats,
+		.inventory = inventory,
 		.x_mid = 6,
 		.y_mid = 1,
 		.show_x = 12,

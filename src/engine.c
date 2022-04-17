@@ -13,6 +13,7 @@
 #include "battle.h"
 #include "capacite.h"
 #include "util.h"
+#include "inventory.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
@@ -124,8 +125,10 @@ void engine_action(struct Game *game, int action) {
 		}
 	}
 	if(action == ACTION_F1) {
-		game->player->sprint = game->player->sprint ? 0 : 1;
-		add_move(game->player, get_move_id(3));
+		/*game->player->sprint = game->player->sprint ? 0 : 1;
+		add_move(game->player, get_move_id(3));*/
+		add_item_to_inventory(&game->player->inventory, get_item_id(1));
+		display_inventory(&game->player->inventory);
 	}
 	if(action == ACTION_OPTN) {
 		draw_stats(game->player->stats);

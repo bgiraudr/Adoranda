@@ -1,4 +1,5 @@
 {
 	"name":"Obj2",
-	"id":2
+	"id":2,
+	"sprite":"item2"
 }

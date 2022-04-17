@@ -4,6 +4,7 @@
 #include "vec2.h"
 #include "stats.h"
 #include "capacite.h"
+#include "inventory.h"
 #include "define.h"
 
 struct Player {
@@ -15,6 +16,7 @@ struct Player {
 	const struct Stats base_stats;
 	struct Stats stats;
 	struct Move *moves[NB_PLAYER_MOVES];
+	struct Inventory inventory;
 	/*player mid - offset pixels*/
 	int x_mid, y_mid;
 	/*the direction the player facing to*/

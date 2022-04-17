@@ -4,6 +4,7 @@
 #include "game.h"
 #include "event.h"
 #include "player.h"
+#include "capacite.h"
 
 bool handle_event(struct Game *game, char const *event)
 {
@@ -18,6 +19,11 @@ bool handle_event(struct Game *game, char const *event)
     else if(!strncmp(event, "xp:", 3)) {
     	event += 3;
     	add_xp(game->player, atoi(event));
+    	return true;
+    }
+    else if(!strncmp(event, "move:", 5)) {
+    	event += 5;
+    	add_move(game->player, get_move_id(atoi(event)));
     	return true;
     }
     else if(!strcmp(event, "test:test")) {
