@@ -172,7 +172,7 @@ def parseTeleporter(layer):
 				raise Exception("parseTeleporter() : Un téléporteur est mal configuré")
 			if len(i["properties"]) == 2:
 				print("parseTeleporter() : passage automatique idMap = -1 sur téléporteur x = " + str(i["properties"][0]["value"]) + ", y = " + str(i["properties"][1]["value"]))
-				teleporter += fxconv.u32(-1);
+				teleporter += fxconv.u32(-1)
 			for j in i["properties"]:
 				teleporter += fxconv.u32(j["value"])
 		except KeyError	:
@@ -308,10 +308,13 @@ def convert_items(input, output, params, target):
 		file = open(f,"r")
 		data = json.load(file)
 		item = fxconv.Structure()
-
-		item += fxconv.string(data["name"])
-		item += fxconv.u32(data["id"])
-		item += fxconv.ptr(f"img_{data['sprite']}")
-		items += fxconv.ptr(item)
+		try:
+			item += fxconv.string(data["name"])
+			item += fxconv.u32(data["id"])
+			item += fxconv.string(data["description"])
+			item += fxconv.ptr(f"img_{data['sprite']}")
+			items += fxconv.ptr(item)
+		except KeyError:
+			raise Exception(f"convert_items() : L'item {data['name']} est mal configuré")
 
 	fxconv.elf(items, output, "_" + params["name"], **target)

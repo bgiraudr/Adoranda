@@ -5,8 +5,8 @@
 struct Item {
     char *name;
     int id;
-    bopti_image_t *sprite;
     char *description;
+    bopti_image_t *sprite;
 };
 
 struct Items {
@@ -24,3 +24,4 @@ bool add_item_to_inventory(struct Inventory *inventory, struct Item *item);
 int get_first_free_space(struct Inventory *inventory);
 void remove_item_pos(struct Inventory *inventory, int pos);
 void display_inventory(struct Inventory *inventory);
+int open_inventory(struct Inventory *inventory, char* context);

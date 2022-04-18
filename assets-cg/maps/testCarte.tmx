@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="62">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="63">
  <editorsettings>
   <export target="testCarte.json" format="json"/>
  </editorsettings>
@@ -183,6 +183,12 @@
    <properties>
     <property name="name" value="Pancarte"/>
     <property name="text" value="De quoi bien commencer l'aventure !;~move:3;De rien :)"/>
+   </properties>
+  </object>
+  <object id="62" gid="267" x="448" y="432" width="16" height="16">
+   <properties>
+    <property name="name" value="Pancarte"/>
+    <property name="text" value="Cadeau;~give:1"/>
    </properties>
   </object>
  </objectgroup>

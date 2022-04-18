@@ -13,14 +13,15 @@ struct Game {
 };
 
 enum action {
-	DIR_DOWN = 0,
-	DIR_LEFT = 1,
-	DIR_UP = 2,
-	DIR_RIGHT = 3,
-	ACTION_SHIFT = 4,
-	ACTION_ALPHA = 5,
-	ACTION_F1 = 6,
-	ACTION_OPTN = 7
+	DIR_DOWN,
+	DIR_LEFT,
+	DIR_UP,
+	DIR_RIGHT,
+	ACTION_SHIFT,
+	ACTION_ALPHA,
+	ACTION_OPTN,
+	ACTION_F1,
+	ACTION_F2,
 };
 
 /*get the input with a timeout*/
