@@ -313,6 +313,7 @@ def convert_items(input, output, params, target):
 			item += fxconv.u32(data["id"])
 			item += fxconv.string(data["description"])
 			item += fxconv.ptr(f"img_{data['sprite']}")
+			item += fxconv.string(";".join(data["action"]))
 			items += fxconv.ptr(item)
 		except KeyError:
 			raise Exception(f"convert_items() : L'item {data['name']} est mal configuré")

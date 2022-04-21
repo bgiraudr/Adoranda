@@ -2,5 +2,8 @@
 	"name":"Test1",
 	"id":1,
 	"sprite":"item",
-	"description":"test1"
+	"description":"Redonne 20HP",
+	"action":[
+		"xp:20"
+	]
 }

@@ -2,5 +2,9 @@
 	"name":"Obj2",
 	"id":2,
 	"sprite":"item2",
-	"description":"test2"
+	"description":"test2",
+	"action":[
+		"xp:40",
+		"move:2"
+	]
 }

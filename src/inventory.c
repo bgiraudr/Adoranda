@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <gint/display.h>
 #include <gint/keyboard.h>
 #include <stdbool.h>
@@ -6,15 +7,10 @@
 #include "util.h"
 #include "define.h"
 #include "vec2.h"
-
-extern struct Items items;
-
-struct Item *get_item_id(int id) {
-	for(int i = 0; i < items.nbItems; i++) {
-		if(items.items[i]->id == id) return items.items[i];
-	}
-	return items.items[0];
-}
+#include "talkable.h"
+#include "event.h"
+#include "item.h"
+#include "game.h"
 
 int get_first_free_space(struct Inventory *inventory) {
     for(int i = 0; i < NB_PLAYER_ITEMS; i++) {
@@ -25,24 +21,24 @@ int get_first_free_space(struct Inventory *inventory) {
 	return NB_PLAYER_ITEMS;
 }
 
-bool add_item_to_inventory(struct Inventory *inventory, struct Item *item) {
+bool add_item_to_inventory(struct Game *game, struct Inventory *inventory, struct Item *item) {
     int index = get_first_free_space(inventory);
 
     extern bopti_image_t img_dialogue;
     dimage(42,DHEIGHT-75,&img_dialogue);
 
     if(index < NB_PLAYER_ITEMS) {
-        dprint(50,DHEIGHT-47,C_BLACK,"Vous ajoutez %s à votre inventaire !", item->name);
+        format_text(50, DHEIGHT-47, C_BLACK, "Vous ajoutez %s à votre inventaire !", item->name);
         dupdate();
         wait_for_input(KEY_SHIFT);
         inventory->items[index] = item;
         inventory->nbItems++;
         return true;
     } else {
-        dprint(50,DHEIGHT-47,C_BLACK,"Plus de place pour ajouter %s à votre inventaire !", item->name);
+        format_text(50, DHEIGHT-47, C_BLACK, "Plus de place pour ajouter %s à votre inventaire !", item->name);
         dupdate();
         wait_for_input(KEY_SHIFT);
-        int pos = open_inventory(inventory, "Remplacer");
+        int pos = open_inventory(game, inventory, "Remplacer", false);
         if(pos != -1) { 
             inventory->items[pos] = item;
             inventory->nbItems++;
@@ -50,11 +46,6 @@ bool add_item_to_inventory(struct Inventory *inventory, struct Item *item) {
         }
     }
     return false;
-}
-
-void remove_item_pos(struct Inventory *inventory, int pos) {
-    inventory->items[pos] = NULL;
-	inventory->nbItems--;
 }
 
 void display_inventory(struct Inventory *inventory) {
@@ -69,7 +60,7 @@ void display_inventory(struct Inventory *inventory) {
     }
 }
 
-int open_inventory(struct Inventory *inventory, char* context) {
+int open_inventory(struct Game *game, struct Inventory *inventory, char* context, bool keep_open) {
 	int buffer = keydown(KEY_SHIFT);
 	struct Vec2 cursor = VEC2(0,0);
     int pos = 0;
@@ -103,7 +94,11 @@ int open_inventory(struct Inventory *inventory, char* context) {
 		if(keydown(KEY_SHIFT)) {
 			if(buffer) buffer = 0;
 			else if(inventory->items[pos] != NULL) {
-                if(!suppression) break;
+                if(!suppression && !keep_open) break;
+                else if(!suppression) {
+                    select_item(game, pos);
+                    remove_item_pos(inventory, pos);
+                }
                 else remove_item_pos(inventory, pos);
             }
 		}

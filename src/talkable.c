@@ -3,6 +3,9 @@
 #include <gint/cpu.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "talkable.h"
 #include "util.h"
@@ -58,17 +61,7 @@ void draw_dialog(struct Game *game) {
 			dimage(43,31,&img_dialogue);
 			dprint(50,40, C_BLACK, "%s", talk->name);
 
-			int const DIALOG_WIDTH = 295, LINE_HEIGHT = 13;
-			int y = 45 + LINE_HEIGHT;
-
-			while(*curr_line) {
-				char *end = (char *)drsize(curr_line, NULL, DIALOG_WIDTH, NULL);
-				char *last_word = word_boundary_before(curr_line, end);
-				dtext_opt(50, y, C_BLACK, C_NONE, DTEXT_LEFT, DTEXT_TOP,
-					curr_line, last_word - curr_line);
-				curr_line = skip_spaces(last_word);
-				y += LINE_HEIGHT;
-			}
+			format_text(50, 58, C_BLACK, curr_line);
 
 			dupdate();
 			wait_for_input(KEY_SHIFT);
@@ -85,4 +78,26 @@ struct Talkable* get_dialog_xy(struct Map *map, int x, int y) {
 		i++;
 	}
 	return &default_value;
+}
+
+void format_text(int x, int y, const int color, char const *format, ...) {
+	int const DIALOG_WIDTH = 295, LINE_HEIGHT = 13;
+
+	char text_arg[512];
+	va_list args;
+	va_start(args, format);
+	vsnprintf(text_arg, 512, format, args);
+	va_end(args);
+
+	char *text = (char *)malloc(strlen(text_arg)+1);
+    strcpy(text,text_arg);
+
+	while(*text) {
+		char *end = (char *)drsize(text, NULL, DIALOG_WIDTH, NULL);
+		char *last_word = word_boundary_before(text, end);
+		dtext_opt(x, y, color, C_NONE, DTEXT_LEFT, DTEXT_TOP,
+			text, last_word - text);
+		text = skip_spaces(last_word);
+		y += LINE_HEIGHT;
+	}
 }

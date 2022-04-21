@@ -6,6 +6,7 @@
 #include "player.h"
 #include "capacite.h"
 #include "inventory.h"
+#include "item.h"
 
 bool handle_event(struct Game *game, char const *event)
 {
@@ -15,7 +16,7 @@ bool handle_event(struct Game *game, char const *event)
         int len=strlen(event), qty=1;
         char *star = strchr(event, '*');
         if(star) len=star-event, qty=atoi(star+1);
-        add_item_to_inventory(&game->player->inventory,get_item_id(2));
+        add_item_to_inventory(game, &game->player->inventory, get_item_id(2));
         return true;
     }
     else if(!strncmp(event, "xp:", 3)) {

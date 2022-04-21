@@ -46,6 +46,7 @@ set(SOURCES
 	src/monster.c
 	src/event.c
 	src/inventory.c
+	src/item.c
 )
 
 set(ASSETS_cg
