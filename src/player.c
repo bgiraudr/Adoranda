@@ -96,14 +96,13 @@ int get_nb_moves(struct Player *player) {
 
 void add_move(struct Player *player, struct Move move) {
 	int index = get_nb_moves(player);
-	dimage(42,DHEIGHT-75,&img_dialogue);
 	if(index != NB_PLAYER_MOVES) {
-		dprint(50,DHEIGHT-47,C_BLACK,"Vous apprenez %s !", move.name);
+		format_text(50, DHEIGHT-47, C_BLACK, "Vous apprenez %s !", move.name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		player->moves[index] = copy_move(move);
 	} else {
-		dprint(50,DHEIGHT-47,C_BLACK,"Vous pouvez apprendre %s !", move.name);
+		format_text(50, DHEIGHT-47, C_BLACK, "Vous pouvez apprendre %s !", move.name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		replace_capacities(player, move);
@@ -128,7 +127,7 @@ void replace_capacities(struct Player *player, struct Move move) {
 		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
-		dtext(130,15,C_BLACK, "Remplacer");
+		dtext(180,15,C_BLACK, "Remplacer");
 		draw_classic_move(200,DHEIGHT/2-30, &move);
 		draw_player_moves(player);
 		
@@ -162,7 +161,7 @@ int select_capacity(struct Player *player, char* context, bool allow_back) {
 		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
-		dtext(130,10,C_BLACK,context);
+		dtext(180,10,C_BLACK,context);
 		draw_player_moves(player);
 		
 		dtext(105, 42+65*selection , C_RED, "[X]");

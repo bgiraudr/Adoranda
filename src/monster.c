@@ -31,8 +31,12 @@ struct Monster *generate_monster(struct Game *game) {
 	struct Monster *monster;
 	if(is_in_zone(game->player, game->map)) {
 		struct Zone zone = get_zone(game->player, game->map);
-		monster = copyMonster(get_monster_id(zone.monsters[rand_range(0,zone.nbMonsters)]));
-		level_zone = zone.level;
+		if(zone.nbMonsters != 0) {
+			monster = copyMonster(get_monster_id(zone.monsters[rand_range(0,zone.nbMonsters)]));
+		} else {
+			monster = copyMonster(get_monster_id(0));
+		}
+		level_zone = zone.level != -1 ? zone.level : game->player->stats.level;
 	} else {
 		monster = copyMonster(get_monster_id(0));
 		level_zone = game->player->stats.level;

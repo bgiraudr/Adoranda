@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="63">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="65">
  <editorsettings>
   <export target="testCarte.json" format="json"/>
  </editorsettings>
@@ -216,12 +216,21 @@
  <objectgroup id="13" name="zone">
   <object id="57" x="400" y="464" width="32" height="48">
    <properties>
+    <property name="event" value=""/>
     <property name="level" type="int" value="30"/>
     <property name="monsters" value="1"/>
    </properties>
   </object>
-  <object id="58" x="304" y="560" width="112" height="32">
+  <object id="58" x="256" y="464" width="112" height="32">
    <properties>
+    <property name="event" value="xp:30"/>
+    <property name="level" value=""/>
+    <property name="monsters" value=""/>
+   </properties>
+  </object>
+  <object id="64" x="304" y="560" width="112" height="32">
+   <properties>
+    <property name="event" value=""/>
     <property name="level" type="int" value="5"/>
     <property name="monsters" value="1;2"/>
    </properties>

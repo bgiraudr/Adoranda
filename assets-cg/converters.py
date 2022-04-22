@@ -189,28 +189,25 @@ def parseZone(layer):
 		zone += fxconv.u32(origin[1])
 		zone += fxconv.u32(to[0])
 		zone += fxconv.u32(to[1])
+		zone += fxconv.string(i["properties"][0]["value"]) #event
+		print(i["properties"][0]["value"])
 
 		monsters = bytes()
-		try:
-			zone += fxconv.u32(i["properties"][0]["value"])
-			monster_list_raw = i["properties"][1]["value"].split(";")
-			monster_list = []
-			#x-y notation generate an array
-			for i in monster_list_raw: 
-				if "-" in i:
-					a = i.split("-")
-					monster_list.extend(list(range(int(a[0]),int(a[1])+1)))
-				else:
-					monster_list.append(int(i))
-			zone += fxconv.u32(len(monster_list))
+		zone += fxconv.u32(int(i["properties"][1]["value"]) if i["properties"][1]["value"] != "" else -1) #level
+		monster_list_raw = []
+		if i["properties"][2]["value"] != "":  monster_list_raw = i["properties"][2]["value"].split(";") #monster list
+		monster_list = []
+		#x-y notation generate an array
+		for i in monster_list_raw: 
+			if "-" in i:
+				a = i.split("-")
+				monster_list.extend(list(range(int(a[0]),int(a[1])+1)))
+			else:
+				monster_list.append(int(i))
+		zone += fxconv.u32(len(monster_list))
 
-			for j in monster_list:
-				monsters += fxconv.u16(int(j))
-		except IndexError:
-			raise Exception(f"parseZone() : La zone {origin};{to} n'a pas de monstres associés")
-		except KeyError:
-			print(f"parseZone() : Zone {origin};{to} sans niveau de référence, passage automatique à -1")
-			zone += fxconv.u32(-1)
+		for j in monster_list:
+			monsters += fxconv.u16(int(j))
 
 		zone += fxconv.ptr(monsters)
 	return zone
