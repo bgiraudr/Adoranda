@@ -1,5 +1,6 @@
 #include <gint/keyboard.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <math.h>
 
 #include "player.h"
@@ -8,6 +9,8 @@
 #include "stats.h"
 #include "capacite.h"
 #include "util.h"
+#include "talkable.h"
+
 
 extern struct LevelUpPlayer levelupplayer;
 extern bopti_image_t img_dialogue;
@@ -125,6 +128,7 @@ void replace_capacities(struct Player *player, struct Move move) {
 		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
 		if(selection < 0) selection = 0;
 
+		dtext(130,15,C_BLACK, "Remplacer");
 		draw_classic_move(200,DHEIGHT/2-30, &move);
 		draw_player_moves(player);
 		
@@ -147,6 +151,36 @@ void replace_capacities(struct Player *player, struct Move move) {
 	}
 }
 
+int select_capacity(struct Player *player, char* context, bool allow_back) {
+	int selection = 0;
+	int buffer = keydown(KEY_SHIFT);
+	while(1) {
+		clearevents();
+		dclear(C_WHITE);
+
+		selection += keydown(KEY_DOWN) - keydown(KEY_UP);
+		if(selection > NB_PLAYER_MOVES-1) selection = NB_PLAYER_MOVES-1;
+		if(selection < 0) selection = 0;
+
+		dtext(130,10,C_BLACK,context);
+		draw_player_moves(player);
+		
+		dtext(105, 42+65*selection , C_RED, "[X]");
+		dupdate();
+
+		if(keydown(KEY_SHIFT)) {
+			if(buffer) buffer = 0;
+			else break;
+		}
+		if(keydown(KEY_EXIT) && allow_back) {
+			selection = -1;
+			break;
+		}
+		while(keydown_any(KEY_DOWN,KEY_UP, KEY_SHIFT,0)) clearevents();
+	}
+	return selection;
+}
+
 void draw_ui(struct Player *player) {
 	int index = get_nb_moves(player);
 
@@ -160,6 +194,9 @@ void reset_pp(struct Player *player) {
 	for(int i = 0; i < index; i++) {
 		player->moves[i]->pp = player->moves[i]->init_pp;
 	}
+	format_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez les PPs de l'ensemble de vos capacités");
+	dupdate();
+	wait_for_input(KEY_SHIFT);
 }
 
 void add_xp(struct Player *player, int xp) {
@@ -168,13 +205,20 @@ void add_xp(struct Player *player, int xp) {
 	//niveau suivant une progession N³
 	int calc_level = (int)pow(player->stats.xp, 0.33);
 	for(int i = player->stats.level; i < calc_level; i++) {
-		// draw_battle(game->player, monster);
-		dimage(42,DHEIGHT-75,&img_dialogue);
-		dprint(50,DHEIGHT-47,C_BLACK,"Vous passez au niveau %d !", i+1);
+		format_text(50, DHEIGHT-47, C_BLACK, "Vous passez au niveau %d !", i+1);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 	}
 	int prec = player->stats.level;
 	player->stats.level = calc_level;
 	check_level(player, prec);
+}
+
+void add_pp(struct Player *player, int amount) {
+	int selection = select_capacity(player, "Choisir une capacité", false);
+	player->moves[selection]->pp += amount;
+	if(player->moves[selection]->pp > player->moves[selection]->init_pp) player->moves[selection]->pp = player->moves[selection]->init_pp;
+	format_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez %d PPs sur %s", amount, player->moves[selection]->name);
+	dupdate();
+	wait_for_input(KEY_SHIFT);
 }

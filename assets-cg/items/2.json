@@ -4,7 +4,6 @@
 	"sprite":"item2",
 	"description":"test2",
 	"action":[
-		"xp:40",
-		"move:2"
+		"pp:3"
 	]
 }

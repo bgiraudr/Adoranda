@@ -43,7 +43,6 @@ char *skip_spaces(char *str)
 
 /*draw the dialog of a specified talkable tile*/
 void draw_dialog(struct Game *game) {
-	extern bopti_image_t img_dialogue;
 	const char *delim = ";";
 
 	int direction = game->player->direction;
@@ -58,10 +57,8 @@ void draw_dialog(struct Game *game) {
 		char *event = strchr(curr_line, '~');
 		if(event) handle_event(game, curr_line+1);
 		else {
-			dimage(43,31,&img_dialogue);
-			dprint(50,40, C_BLACK, "%s", talk->name);
-
 			format_text(50, 58, C_BLACK, curr_line);
+			dprint(50,40, C_BLACK, "%s", talk->name);
 
 			dupdate();
 			wait_for_input(KEY_SHIFT);
@@ -82,6 +79,8 @@ struct Talkable* get_dialog_xy(struct Map *map, int x, int y) {
 
 void format_text(int x, int y, const int color, char const *format, ...) {
 	int const DIALOG_WIDTH = 295, LINE_HEIGHT = 13;
+	extern bopti_image_t img_dialogue;
+    dimage(x-7,y-26,&img_dialogue);
 
 	char text_arg[512];
 	va_list args;

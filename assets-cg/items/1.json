@@ -4,6 +4,7 @@
 	"sprite":"item",
 	"description":"Redonne 20HP",
 	"action":[
-		"xp:20"
+		"pp:all",
+		"give:Obj2*3"
 	]
 }

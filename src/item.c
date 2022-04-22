@@ -29,3 +29,10 @@ void select_item(struct Game *game, int pos) {
         curr_line = strtok(NULL, delim);
     }
 }
+
+struct Item *get_item_from_name(const char *name) {
+    for(int i = 0; i < items.nbItems; i++) {
+		if(!strcmp(items.items[i]->name, name)) return items.items[i];
+	}
+	return items.items[0];
+}

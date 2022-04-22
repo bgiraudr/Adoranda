@@ -24,9 +24,6 @@ int get_first_free_space(struct Inventory *inventory) {
 bool add_item_to_inventory(struct Game *game, struct Inventory *inventory, struct Item *item) {
     int index = get_first_free_space(inventory);
 
-    extern bopti_image_t img_dialogue;
-    dimage(42,DHEIGHT-75,&img_dialogue);
-
     if(index < NB_PLAYER_ITEMS) {
         format_text(50, DHEIGHT-47, C_BLACK, "Vous ajoutez %s à votre inventaire !", item->name);
         dupdate();
