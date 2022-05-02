@@ -38,3 +38,7 @@ battle_ui.png:
 player_moves.txt:
   custom-type: player_moves
   name:levelupplayer
+  
+table_type.csv:
+  custom-type: table_type
+  name:table_type

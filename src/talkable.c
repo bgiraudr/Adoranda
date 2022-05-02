@@ -12,8 +12,6 @@
 #include "event.h"
 #include "player.h"
 
-#define LIMIT 35
-
 struct Talkable default_value = {
 	.x = 0,
 	.y = 0,
@@ -88,8 +86,20 @@ void format_text(int x, int y, const int color, char const *format, ...) {
 	vsnprintf(text_arg, 512, format, args);
 	va_end(args);
 
+	format_text_opt(x, y, DIALOG_WIDTH, LINE_HEIGHT, color, text_arg);
+}
+
+void format_text_opt(int x, int y, int width, int height, const int color, char const *format, ...) {
+	int const DIALOG_WIDTH = width, LINE_HEIGHT = height;
+
+	char text_arg[512];
+	va_list args;
+	va_start(args, format);
+	vsnprintf(text_arg, 512, format, args);
+	va_end(args);
+
 	char *text = (char *)malloc(strlen(text_arg)+1);
-    strcpy(text,text_arg);
+    strcpy(text, text_arg);
 
 	while(*text) {
 		char *end = (char *)drsize(text, NULL, DIALOG_WIDTH, NULL);

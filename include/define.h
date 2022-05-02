@@ -6,3 +6,4 @@
 
 #define NB_PLAYER_MOVES 3
 #define NB_PLAYER_ITEMS 30
+#define NB_TYPES 4

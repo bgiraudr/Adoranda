@@ -1,0 +1,5 @@
+type,Administrateur,Modérateur,Rédacteur,Labélisateur
+Administrateur,0,1,1,2
+Modérateur,0,"0,5",2,2
+Rédacteur,2,1,"0,5",1
+Labélisateur,2,"0,5",1,0

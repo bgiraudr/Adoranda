@@ -1,6 +1,7 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
 #include <string.h>
+#include <gint/std/stdlib.h>
 
 #include "engine.h"
 #include "game.h"
@@ -17,6 +18,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "event.h"
+#include "type.h"
 
 /*draw the current state of the game*/
 void engine_draw(struct Game const *game) {
@@ -30,7 +32,6 @@ void engine_draw(struct Game const *game) {
 	
 	dprint(1,1,C_WHITE,"%d:%d",game->player->pos.x, game->player->pos.y);
 	dprint(1,20,C_WHITE,"%d",game->player->sprint);
-	dprint(1,40,C_WHITE,"%d",map_get_player_tile(game));
 }
 
 void engine_draw_map(struct Game const *game) {
@@ -133,7 +134,9 @@ void engine_action(struct Game *game, int action) {
 		open_inventory(game, &game->player->inventory, "Consultation", true);
 	}
 	if(action == ACTION_F2) {
-		add_item_to_inventory(game, &game->player->inventory, get_item_id(1));
+		//add_item_to_inventory(game, &game->player->inventory, get_item_id(1));
+		srand(game->player->pos.x * game->player->pos.y);
+		drawTypeEffects(getTypeFromId(rand_range(1,5)));
 	}
 	if(action == ACTION_OPTN) {
 		draw_stats(game->player->stats);

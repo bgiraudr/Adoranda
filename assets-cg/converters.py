@@ -1,6 +1,7 @@
 import fxconv
 import json
 import pathlib
+import csv
 
 def convert(input, output, params, target):
 	if params["custom-type"] == "map":
@@ -17,6 +18,9 @@ def convert(input, output, params, target):
 		return 0
 	elif params["custom-type"] == "items":
 		convert_items(input, output, params, target)
+		return 0
+	elif params["custom-type"] == "table_type":
+		convert_table_type(input, output, params, target)
 		return 0
 	else:
 		return 1
@@ -116,9 +120,7 @@ def convert_map(input, output, params, target):
 	for x in range(w*h):
 		for i in range(nbTilelayer):
 			value = tile_value.get(data["layers"][i]["data"][x])
-			if value == TILE_SOLID:
-				maxValue = TILE_SOLID
-				break
+			#attention : priorité aux valeurs hautes : un bloc d'herbe sera prioritaire sur un bloc solide
 			if value == None: value = TILE_AIR
 			if value > maxValue: maxValue = value
 			if value == TILE_BRIDGE:
@@ -316,3 +318,31 @@ def convert_items(input, output, params, target):
 			raise Exception(f"convert_items() : L'item {data['name']} est mal configuré")
 
 	fxconv.elf(items, output, "_" + params["name"], **target)
+
+def convert_table_type(input, output, params, target):
+	data = csv.DictReader(open(input,'r'))
+
+	table_type = fxconv.Structure()
+	for i in data:
+		type = fxconv.Structure()
+		type += fxconv.string(i["type"])
+		type += fxconv.u32(list(i).index(i["type"]))
+
+		taille = len(i)
+		b,l,n = [],[],[]
+		for j in i:
+			id = list(i).index(j)
+			if(i[j]=="2"): b.append(id)
+			if(i[j]=="0,5"): l.append(id)
+			if(i[j]=="0"): n.append(id)
+		for a in range(len(b),taille):b.append(0)
+		for a in range(len(l),taille):l.append(0)
+		for a in range(len(n),taille):n.append(0)
+
+		type += b"".join(fxconv.u32(value) for value in b)
+		type += b"".join(fxconv.u32(value) for value in l)
+		type += b"".join(fxconv.u32(value) for value in n)
+
+		table_type += fxconv.ptr(type)
+
+	fxconv.elf(table_type, output, "_" + params["name"], **target)

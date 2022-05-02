@@ -47,6 +47,7 @@ set(SOURCES
 	src/event.c
 	src/inventory.c
 	src/item.c
+	src/type.c
 )
 
 set(ASSETS_cg
@@ -70,6 +71,7 @@ set(ASSETS_cg
 	assets-cg/items/items.txt
 	assets-cg/items/item.png
 	assets-cg/items/item2.png
+	assets-cg/table_type.csv
 )
 
 fxconv_declare_assets(${ASSETS} ${ASSETS_fx} ${ASSETS_cg} WITH_METADATA)
