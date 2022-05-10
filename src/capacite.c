@@ -7,6 +7,7 @@
 
 #include "capacite.h"
 #include "util.h"
+#include "type.h"
 
 extern struct Capacities capacities;
 
@@ -31,6 +32,7 @@ struct Move *get_move_id_pointer(int id) {
 struct Move *copy_move(struct Move move) {
 	struct Move *copyMove = malloc(sizeof(struct Move));
 	copyMove->name = move.name;
+	copyMove->type = move.type;
 	copyMove->init_pp = move.init_pp;
 	copyMove->id = move.id;
 	copyMove->categorie = move.categorie;
@@ -67,6 +69,7 @@ void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 		dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
 		dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
 	}
+	dtext(x+50, y+15, C_BLUE, move->type);
 }
 
 void draw_classic_move(int x, int y, struct Move *move) {
@@ -81,13 +84,19 @@ int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct
 			return MISS;
 		}
 
+		float typeEffect;
 		if(ismonster) {
 			player_stats->pv-=calc_damage(monster_stats, player_stats, move);
+			typeEffect = getTypeEffect(getTypeFromName(move->type), getTypeFromName(player_stats->type));
 		} else {
 			move->pp--;
 			monster_stats->pv-=calc_damage(player_stats, monster_stats, move);
+			typeEffect = getTypeEffect(getTypeFromName(move->type), getTypeFromName(monster_stats->type));
 		}
 
+		if(typeEffect == 2)	return SUPER_EFFECTIVE;
+		if(typeEffect == 0.5) return LESS_EFFECTIVE;
+		if(typeEffect == 0)	return NOT_EFFECTIVE;
 		if(is_crit()) return CRIT;
 	} else {
 		if(ismonster) {
@@ -102,11 +111,27 @@ int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct
 }
 
 int calc_damage(struct Stats *attacker, struct Stats *target, struct Move *move) {
-	if(move->categorie == PHYSICAL)
-		return floor((floor(((2*attacker->level / 5 + 2) * attacker->atk * move->atk / target->def) / 50) + 2)*crit(attacker));
-	if(move->categorie == SPECIAL)
-		return floor((floor(((2*attacker->level / 5 + 2) * attacker->spe_atk * move->atk / target->spe_def) / 50) + 2)*crit(attacker));
-	return 0;
+	int atk =1, def = 1;
+	if(move->categorie == PHYSICAL) {
+		atk = attacker->atk;
+		def = target->def;
+	} else if(move->categorie == SPECIAL) {
+		atk = attacker->spe_atk;
+		def = target->spe_def;
+	}
+
+	if(getTypeEffect(getTypeFromName(move->type), getTypeFromName(target->type)) == 0) return 0;
+	return floor((floor(((2*attacker->level / 5 + 2) * atk * 
+		move->atk
+			*getTypeEffect(getTypeFromName(move->type), getTypeFromName(target->type))
+			*stab(attacker->type, move->type) 
+			/ def) 
+		/ 50) + 2)*crit(attacker));
+}
+
+float stab(char *type, char *move) {
+	if(!strcmp(type, move)) return 1.5f;
+	return 1.0f;
 }
 
 int is_crit() {

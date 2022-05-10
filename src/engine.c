@@ -135,7 +135,7 @@ void engine_action(struct Game *game, int action) {
 	}
 	if(action == ACTION_F2) {
 		//add_item_to_inventory(game, &game->player->inventory, get_item_id(1));
-		srand(game->player->pos.x * game->player->pos.y);
+		// srand(game->player->pos.x * game->player->pos.y);
 		drawTypeEffects(getTypeFromId(rand_range(1,5)));
 	}
 	if(action == ACTION_OPTN) {

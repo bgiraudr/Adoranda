@@ -1,6 +1,7 @@
 #pragma once
 
 struct Stats {
+	char* type;
 	int atk;
 	int def;
 	int pv;

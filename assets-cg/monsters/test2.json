@@ -2,6 +2,7 @@
 	"name":"Citron",
 	"sprite":"test2",
 	"id":2,
+	"type":"Modérateur",
 	"stats":{
 		"atk":80,
 		"def":5,

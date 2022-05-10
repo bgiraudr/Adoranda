@@ -191,8 +191,10 @@ def parseZone(layer):
 		zone += fxconv.u32(origin[1])
 		zone += fxconv.u32(to[0])
 		zone += fxconv.u32(to[1])
-		zone += fxconv.string(i["properties"][0]["value"]) #event
-		print(i["properties"][0]["value"])
+
+		event = bytes(i["properties"][0]["value"], "utf-8")
+		event += bytes(128 - len(event))
+		zone += event #event
 
 		monsters = bytes()
 		zone += fxconv.u32(int(i["properties"][1]["value"]) if i["properties"][1]["value"] != "" else -1) #level
@@ -229,6 +231,7 @@ def convert_capa(input, output, params, target):
 			id_categorie = ["STATUT", "PHYSICAL", "SPECIAL"]
 			
 			move += fxconv.string(data["name"])
+			move += fxconv.string(data["type"])
 			move += fxconv.u32(data["id"])
 			move += fxconv.u32(id_categorie.index(categorie))
 			move += fxconv.u32(data["pp"])
@@ -261,6 +264,7 @@ def convert_monster(input, output, params, target):
 		stats = fxconv.Structure()
 
 		if len(data["stats"]) != 6: raise Exception(f"convert_monster : Les statistiques de {data['name']} sont mauvaises")
+		stats+=fxconv.string(data["type"])
 		stats+=fxconv.u32(data["stats"]["atk"])
 		stats+=fxconv.u32(data["stats"]["def"])
 		stats+=fxconv.u32(data["stats"]["pv"])

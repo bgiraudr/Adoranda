@@ -2,6 +2,7 @@
 	"name":"Test capacité",
 	"id":0,
 	"categorie":"SPECIAL",
+	"type":"Labélisateur",
 	"pp":5,
 	"atk":20,
 	"precision":100

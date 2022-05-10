@@ -2,6 +2,7 @@
 	"name":"Soin",
 	"id":1,
 	"categorie":"STATUT",
+	"type":"Rédacteur",
 	"pp":100,
 	"boost_atk":15,
 	"boost_hp":15,

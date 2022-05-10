@@ -28,7 +28,8 @@ struct Player init_player(void) {
 
 	struct Stats stats = {
 		.level = 1,
-		.xp = 0
+		.xp = 0,
+		.type = "Rédacteur"
 	};
 
 	struct Inventory inventory = {

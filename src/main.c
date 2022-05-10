@@ -42,19 +42,24 @@ int main(void) {
 	dupdate_set_hook(GINT_CALL(take_capture));
 
 	/*Main loop*/
-	while(!keydown(KEY_MENU)) {
+	while(1) {
 		while(!tick) sleep();
 		tick = 0;
 
 		engine_draw(&game);
 		dupdate();
 
-		int action = get_inputs();
-		if(action >= 0 && action <= 3)
-			engine_move(&game, action);
-		else if(action >= 4) {
-			engine_action(&game, action);
+		int action = 0;
+		while(action != -1) {
+			action = get_inputs();
+			if(action == ACTION_MENU) break;
+			if(action >= DIR_DOWN && action <= DIR_RIGHT)
+				engine_move(&game, action);
+			else if(action >= ACTION_SHIFT) {
+				engine_action(&game, action);
+			}
 		}
+		if(action == ACTION_MENU) break;
 		engine_tick(&game, ENGINE_TICK);
 	}
 

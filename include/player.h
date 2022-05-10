@@ -6,6 +6,7 @@
 #include "capacite.h"
 #include "inventory.h"
 #include "define.h"
+#include "type.h"
 
 struct Player {
 	/*current position of the player on the map - Tile*/
@@ -17,6 +18,7 @@ struct Player {
 	struct Stats stats;
 	struct Move *moves[NB_PLAYER_MOVES];
 	struct Inventory inventory;
+	struct Type type;
 	/*player mid - offset pixels*/
 	int x_mid, y_mid;
 	/*the direction the player facing to*/

@@ -2,6 +2,7 @@
 	"name":"Charge",
 	"id":2,
 	"categorie":"PHYSICAL",
+	"type":"Modérateur",
 	"pp":25,
 	"atk":15,
 	"precision":100

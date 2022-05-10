@@ -8,6 +8,7 @@
 #include "capacite.h"
 #include "player.h"
 #include "monster.h"
+#include "talkable.h"
 #include <stdlib.h>
 
 extern bopti_image_t img_dialogue;
@@ -92,6 +93,15 @@ void check_move_status(int status, struct Player *player, struct Monster *monste
 			case MULTIPLE:
 				draw_status(name, "améliore ses statistiques !");
 				break;
+			case SUPER_EFFECTIVE:
+				draw_status(name, "utilise une attaque super efficace !");
+				break;
+			case LESS_EFFECTIVE:
+				draw_status(name, "utilise une attaque peu efficace");
+				break;
+			case NOT_EFFECTIVE:
+				draw_status(name, "utilise une attaque non efficace...");
+				break;
 		}
 		
 		dupdate();
@@ -105,8 +115,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		//gain d'xp
 		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
 
-		dimage(42,DHEIGHT-75,&img_dialogue);
-		dprint(50,DHEIGHT-47, C_BLACK, "Vous remportez %d points d'experience", xp);
+		format_text(50, DHEIGHT-47, C_BLACK, "Vous remportez %d points d'experience", xp);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 
@@ -114,8 +123,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 
 	} else if(status == LOSE) {
 		draw_battle(game->player, monster);
-		dimage(42,DHEIGHT-75,&img_dialogue);
-		dprint(50,DHEIGHT-47,C_BLACK,"%s a eu raison de vous !", monster->name);
+		format_text(50, DHEIGHT-47, C_BLACK, "%s a eu raison de vous !", monster->name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		game->player->stats.pv = 0;
@@ -188,6 +196,7 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 
 	dprint(333,124,C_BLACK,"%d",player->stats.level);
 	dprint(246,124,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
+	dtext(340,115,C_BLUE, player->stats.type);
 
 	int posHPmonster = (float)monster->stats->pv / monster->stats->max_pv * WIDTH_HP;
 	dprint(2,8,C_BLACK,"%s",monster->name);
@@ -202,20 +211,19 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	drect(48,23,48+posHPmonster,27,mcolor);
 	dprint(90,9,C_BLACK,"%d",monster->stats->level);
 	dprint(127,11,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
+	dtext(92,0,C_BLUE, monster->stats->type);
 
 	dimage(265,10,monster->sprite);
 }
 
 void draw_executed_move(struct Move *move, struct Monster *monster, int is_monster) {
-	dimage(42,DHEIGHT-75,&img_dialogue);
 	if(is_monster) {
-		dprint(50,DHEIGHT-47, C_BLACK, "%s lance %s !", monster->name, move->name);
+		format_text(50, DHEIGHT-47, C_BLACK, "%s lance %s !", monster->name, move->name);
 	} else {
-		dprint(50,DHEIGHT-47, C_BLACK, "Vous lancez %s !", move->name);
+		format_text(50, DHEIGHT-47, C_BLACK, "Vous lancez %s !", move->name);
 	}
 }
 
 void draw_status(char *name, char *message) {
-	dimage(42,DHEIGHT-75,&img_dialogue);
-	dprint(50,DHEIGHT-47, C_BLACK, "%s %s", name, message);
+	format_text(50, DHEIGHT-47, C_BLACK, "%s %s", name, message);
 }

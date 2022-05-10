@@ -3,6 +3,7 @@
 
 struct Move {
 	char *name;
+	char *type;
 	int id;
 	int categorie;
 	int init_pp;
@@ -28,7 +29,10 @@ enum status {
 	HEAL,
 	ATK,
 	DEF,
-	MULTIPLE
+	MULTIPLE,
+	SUPER_EFFECTIVE,
+	LESS_EFFECTIVE,
+	NOT_EFFECTIVE
 };
 
 enum categorie {
@@ -49,3 +53,4 @@ float crit(struct Stats *attacker);
 int is_crit();
 int is_miss(struct Move *move);
 int self_effect(struct Stats *stats, struct Move *move);
+float stab(char *type, char *move);

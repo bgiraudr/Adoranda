@@ -13,6 +13,16 @@ struct Map *maps[] = {
 	&map_2,
 };
 
+struct Zone default_zone = {
+	.start_x = 0,
+	.start_y = 0,
+	.end_x = 0,
+	.end_y = 0,
+	.event = "",
+	.level = -1,
+	.nbMonsters = 0
+};
+
 /*check if a tile is walkable*/
 int map_walkable(struct Map const *map, int x, int y) {
 	int tile = map->info_map[x + map->w * y];
@@ -84,5 +94,5 @@ struct Zone get_zone(struct Player *player, struct Map *map) {
 		struct Zone zone = map->zones[i];
 		if(zone.start_x <= posx && zone.start_y <= posy && zone.end_x >= posx && zone.end_y >= posy) return zone;
 	}
-	return map->zones[0];
+	return default_zone;
 }

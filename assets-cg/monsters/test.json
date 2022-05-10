@@ -2,6 +2,7 @@
 	"name":"test",
 	"sprite":"test",
 	"id":1,
+	"type":"Labélisateur",
 	"stats":{
 		"atk":10,
 		"def":10,

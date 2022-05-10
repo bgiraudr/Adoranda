@@ -4,6 +4,7 @@
 #include "capacite.h"
 #include "game.h"
 #include <gint/display.h>
+#include "type.h"
 
 struct Monster {
 	char *name;

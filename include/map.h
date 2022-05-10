@@ -11,7 +11,7 @@ struct Teleporter {
 struct Zone {
 	int start_x, start_y;
 	int end_x, end_y;
-	char *event;
+	char event[128];
 	int level;
 	int nbMonsters;
 	short *monsters;
