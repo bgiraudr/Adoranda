@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "player.h"
 #include "define.h"
@@ -10,6 +12,7 @@
 #include "capacite.h"
 #include "util.h"
 #include "talkable.h"
+#include "draw_util.h"
 
 
 extern struct LevelUpPlayer levelupplayer;
@@ -98,12 +101,12 @@ int get_nb_moves(struct Player *player) {
 void add_move(struct Player *player, struct Move move) {
 	int index = get_nb_moves(player);
 	if(index != NB_PLAYER_MOVES) {
-		format_text(50, DHEIGHT-47, C_BLACK, "Vous apprenez %s !", move.name);
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous apprenez %s !", move.name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		player->moves[index] = copy_move(move);
 	} else {
-		format_text(50, DHEIGHT-47, C_BLACK, "Vous pouvez apprendre %s !", move.name);
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous pouvez apprendre %s !", move.name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		replace_capacities(player, move);
@@ -194,7 +197,7 @@ void reset_pp(struct Player *player) {
 	for(int i = 0; i < index; i++) {
 		player->moves[i]->pp = player->moves[i]->init_pp;
 	}
-	format_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez les PPs de l'ensemble de vos capacités");
+	draw_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez les PPs de l'ensemble de vos capacités");
 	dupdate();
 	wait_for_input(KEY_SHIFT);
 }
@@ -205,7 +208,7 @@ void add_xp(struct Player *player, int xp) {
 	//niveau suivant une progession N³
 	int calc_level = (int)pow(player->stats.xp, 0.33);
 	for(int i = player->stats.level; i < calc_level; i++) {
-		format_text(50, DHEIGHT-47, C_BLACK, "Vous passez au niveau %d !", i+1);
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous passez au niveau %d !", i+1);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 	}
@@ -218,7 +221,56 @@ void add_pp(struct Player *player, int amount) {
 	int selection = select_capacity(player, "Choisir une capacité", false);
 	player->moves[selection]->pp += amount;
 	if(player->moves[selection]->pp > player->moves[selection]->init_pp) player->moves[selection]->pp = player->moves[selection]->init_pp;
-	format_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez %d PPs sur %s", amount, player->moves[selection]->name);
+	draw_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez %d PPs sur %s", amount, player->moves[selection]->name);
 	dupdate();
 	wait_for_input(KEY_SHIFT);
+}
+
+int yes_no_question(char const *format, ...) {
+	char text_arg[512];
+	va_list args;
+	va_start(args, format);
+	vsnprintf(text_arg, 512, format, args);
+	va_end(args);
+
+	int selection = 0;
+	int buffer = keydown(KEY_SHIFT);
+	while(1) {
+		clearevents();
+		dclear(C_WHITE);
+
+		selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
+		if(selection > 1) selection = 1;
+		if(selection < 0) selection = 0;
+
+		format_text_opt(95,10, 200, 13, C_BLACK, text_arg);
+		
+		dtext(95,150,C_BLACK, "NON");
+		dtext(285,150,C_BLACK, "OUI");
+
+		dtext(95 + (selection * 190), DHEIGHT-47, C_RED, "[X]");
+		dupdate();
+
+		if(keydown(KEY_SHIFT)) {
+			if(buffer) buffer = 0;
+			else break;
+		}
+		if(keydown(KEY_EXIT)) {
+			selection = 0;
+			break;
+		}
+		while(keydown_any(KEY_LEFT,KEY_RIGHT, KEY_SHIFT,0)) clearevents();
+	}
+	return selection;
+}
+
+void change_type(struct Player *player, struct Type type) {
+	if(strcmp(player->stats.type, type.name) != 0) {
+		int selection = yes_no_question("Voulez vous changer votre type %s en %s ?", player->stats.type, type.name);
+		if(selection) player->stats.type = type.name;
+	} else {
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous êtes déjà du type %s !", type.name);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+	}
 }

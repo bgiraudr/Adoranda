@@ -33,7 +33,7 @@ categories.png:
 battle_ui.png:
   type: bopti-image
   name: img_battle
-  profile: p4  
+  profile: p8
   
 player_moves.txt:
   custom-type: player_moves

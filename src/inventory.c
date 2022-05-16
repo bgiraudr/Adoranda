@@ -10,6 +10,7 @@
 #include "talkable.h"
 #include "event.h"
 #include "item.h"
+#include "draw_util.h"
 #include "game.h"
 
 int get_first_free_space(struct Inventory *inventory) {
@@ -25,14 +26,14 @@ bool add_item_to_inventory(struct Game *game, struct Inventory *inventory, struc
     int index = get_first_free_space(inventory);
 
     if(index < NB_PLAYER_ITEMS) {
-        format_text(50, DHEIGHT-47, C_BLACK, "Vous ajoutez %s à votre inventaire !", item->name);
+        draw_text(50, DHEIGHT-47, C_BLACK, "Vous ajoutez %s à votre inventaire !", item->name);
         dupdate();
         wait_for_input(KEY_SHIFT);
         inventory->items[index] = item;
         inventory->nbItems++;
         return true;
     } else {
-        format_text(50, DHEIGHT-47, C_BLACK, "Plus de place pour ajouter %s à votre inventaire !", item->name);
+        draw_text(50, DHEIGHT-47, C_BLACK, "Plus de place pour ajouter %s à votre inventaire !", item->name);
         dupdate();
         wait_for_input(KEY_SHIFT);
         int pos = open_inventory(game, inventory, "Remplacer", false);

@@ -11,6 +11,7 @@ extern struct Types table_type;
 struct Type default_type = {
 	.name = "-",
 	.id = 0,
+	.color = 0xE6D6,
 	.buff = {},
 	.less = {},
 	.null = {}
@@ -47,23 +48,19 @@ float getTypeEffect(struct Type atk, struct Type def) {
 }
 
 void drawTypeEffects(struct Type type) {
-	while(1) {
-		dclear(C_WHITE);
-		dprint(120,10,C_RED, "Table de %s", type.name);
-		dtext(55,40,C_BLUE, "Super efficace");
-		dtext(160,40,C_BLUE, "Peu efficace");
-		dtext(260,40,C_BLUE, "Non efficace");
+	dclear(C_WHITE);
+	dprint(120,10,C_RED, "Table de %s", type.name);
+	dtext(55,40,C_BLUE, "Super efficace");
+	dtext(160,40,C_BLUE, "Peu efficace");
+	dtext(260,40,C_BLUE, "Non efficace");
 
-		for(int i = 0; i <= 3; i++) {
-			for(int j = 0; j <= NB_TYPES; j++) {
-				if(i==0) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.buff[j]).name);
-				if(i==1) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.less[j]).name);
-				if(i==2) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.null[j]).name);
-			}
+	for(int i = 0; i <= 3; i++) {
+		for(int j = 0; j <= NB_TYPES; j++) {
+			if(i==0) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.buff[j]).name);
+			if(i==1) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.less[j]).name);
+			if(i==2) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.null[j]).name);
 		}
-		dupdate();
-		pollevent();
-		if(keydown(KEY_OPTN)) break;
 	}
+	dupdate();
 	wait_for_input(KEY_SHIFT);
 }

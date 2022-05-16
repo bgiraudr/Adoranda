@@ -1,5 +1,6 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
+#include <gint/image.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
@@ -8,6 +9,7 @@
 #include "capacite.h"
 #include "util.h"
 #include "type.h"
+#include "draw_util.h"
 
 extern struct Capacities capacities;
 
@@ -52,7 +54,7 @@ void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 	extern bopti_image_t img_categories;
 
 	const int font_size = 8;
-	dimage(x, y, &img_capacite);
+	draw_change_one_color(x, y, &img_capacite, 0xE6D6, getTypeFromName(move->type).color);
 	dsubimage(x+96, y+7, &img_categories, 20*move->categorie, 0, 20, 10, DIMAGE_NONE);
 
 	int color = move->pp > 0 ? C_BLACK : C_RED;
@@ -69,7 +71,6 @@ void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 		dprint(x+15, y2-17, C_BLACK, "ATK : %d", move->atk);
 		dprint(x+70, y2-17, C_BLACK, "PRE : %d", move->precision);
 	}
-	dtext(x+50, y+15, C_BLUE, move->type);
 }
 
 void draw_classic_move(int x, int y, struct Move *move) {

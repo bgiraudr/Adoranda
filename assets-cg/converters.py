@@ -22,6 +22,8 @@ def convert(input, output, params, target):
 	elif params["custom-type"] == "table_type":
 		convert_table_type(input, output, params, target)
 		return 0
+	elif params["custom-type"] == "test":
+		test(input, output, params, target)
 	else:
 		return 1
 
@@ -331,21 +333,28 @@ def convert_table_type(input, output, params, target):
 		type = fxconv.Structure()
 		type += fxconv.string(i["type"])
 		type += fxconv.u32(list(i).index(i["type"]))
-
-		taille = len(i)
+		taille = len(i)-1 #-1 because of the "color" column
 		b,l,n = [],[],[]
 		for j in i:
 			id = list(i).index(j)
 			if(i[j]=="2"): b.append(id)
 			if(i[j]=="0,5"): l.append(id)
 			if(i[j]=="0"): n.append(id)
+			if(j=="Couleur"): color=i[j]
 		for a in range(len(b),taille):b.append(0)
 		for a in range(len(l),taille):l.append(0)
 		for a in range(len(n),taille):n.append(0)
 
+		if(color == None):
+			raise Exception(f"Pas de couleur pour le type: {i['type']}")
+		if(len(color.strip()) != 5):
+			raise Exception(f"Mauvaise couleur pour le type {i['type']} : {color}")
+		
+		color = int(color.strip()[1:], 16)
 		type += b"".join(fxconv.u32(value) for value in b)
 		type += b"".join(fxconv.u32(value) for value in l)
 		type += b"".join(fxconv.u32(value) for value in n)
+		type += fxconv.u16(color)
 
 		table_type += fxconv.ptr(type)
 

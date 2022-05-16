@@ -1,5 +1,6 @@
 #pragma once
 #include "define.h"
+#include <stdint.h>
 
 struct Type {
 	char* name;
@@ -7,6 +8,7 @@ struct Type {
 	int buff[NB_TYPES+1];
 	int less[NB_TYPES+1];
 	int null[NB_TYPES+1];
+	const uint16_t color;
 };
 
 struct Types {

@@ -7,6 +7,7 @@
 #include "capacite.h"
 #include "inventory.h"
 #include "item.h"
+#include "type.h"
 
 bool handle_event(struct Game *game, char const *event)
 {
@@ -43,6 +44,15 @@ bool handle_event(struct Game *game, char const *event)
     else if(!strncmp(event, "pp:", 3)) {
     	event += 3;
     	add_pp(game->player, atoi(event));
+    	return true;
+    }
+    else if(!strncmp(event, "type:", 5)) {
+    	event += 5;
+        int len=strlen(event);
+        char name[20];
+        strncpy(name,event,len);
+        name[len] = '\0';
+    	change_type(game->player, getTypeFromName(name));
     	return true;
     }
     else if(!strncmp(event, "move:", 5)) {

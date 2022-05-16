@@ -48,6 +48,7 @@ set(SOURCES
 	src/inventory.c
 	src/item.c
 	src/type.c
+	src/draw_util.c
 )
 
 set(ASSETS_cg

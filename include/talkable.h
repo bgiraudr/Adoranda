@@ -17,5 +17,4 @@ void draw_dialog(struct Game *game);
 struct Talkable* get_dialog_xy(struct Map *map, int x, int y);
 char *word_boundary_before(char *str, char *limit);
 char *skip_spaces(char *str);
-void format_text(int x, int y, const int color, char const *format, ...);
 void format_text_opt(int x, int y, int width, int height, const int color, char const *format, ...);

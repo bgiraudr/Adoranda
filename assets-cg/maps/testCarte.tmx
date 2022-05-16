@@ -188,7 +188,7 @@
   <object id="62" gid="267" x="448" y="432" width="16" height="16">
    <properties>
     <property name="name" value="Pancarte"/>
-    <property name="text" value="Cadeau;~give:Obj2"/>
+    <property name="text" value="Cadeau;~type:Administrateur"/>
    </properties>
   </object>
  </objectgroup>

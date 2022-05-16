@@ -1,6 +1,7 @@
 #include <gint/display.h>
 #include <gint/keyboard.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "engine.h"
 #include "battle.h"
@@ -9,7 +10,7 @@
 #include "player.h"
 #include "monster.h"
 #include "talkable.h"
-#include <stdlib.h>
+#include "draw_util.h"
 
 extern bopti_image_t img_dialogue;
 
@@ -115,7 +116,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 		//gain d'xp
 		int xp = ceil((monster->stats->xp*monster->stats->level*1.5)/7);
 
-		format_text(50, DHEIGHT-47, C_BLACK, "Vous remportez %d points d'experience", xp);
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous remportez %d points d'experience", xp);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 
@@ -123,7 +124,7 @@ void finish_battle(int status, struct Game *game, struct Monster *monster) {
 
 	} else if(status == LOSE) {
 		draw_battle(game->player, monster);
-		format_text(50, DHEIGHT-47, C_BLACK, "%s a eu raison de vous !", monster->name);
+		draw_text(50, DHEIGHT-47, C_BLACK, "%s a eu raison de vous !", monster->name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		game->player->stats.pv = 0;
@@ -218,12 +219,12 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 
 void draw_executed_move(struct Move *move, struct Monster *monster, int is_monster) {
 	if(is_monster) {
-		format_text(50, DHEIGHT-47, C_BLACK, "%s lance %s !", monster->name, move->name);
+		draw_text(50, DHEIGHT-47, C_BLACK, "%s lance %s !", monster->name, move->name);
 	} else {
-		format_text(50, DHEIGHT-47, C_BLACK, "Vous lancez %s !", move->name);
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous lancez %s !", move->name);
 	}
 }
 
 void draw_status(char *name, char *message) {
-	format_text(50, DHEIGHT-47, C_BLACK, "%s %s", name, message);
+	draw_text(50, DHEIGHT-47, C_BLACK, "%s %s", name, message);
 }

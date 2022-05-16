@@ -57,3 +57,5 @@ void check_level(struct Player *player, int prec_level);
 void add_xp(struct Player *player, int xp);
 int select_capacity(struct Player *player, char* context, bool allow_back);
 void add_pp(struct Player *player, int amount);
+void change_type(struct Player *player, struct Type type);
+int yes_no_question(char const *format, ...);
