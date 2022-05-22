@@ -96,3 +96,7 @@ struct Zone get_zone(struct Player *player, struct Map *map) {
 	}
 	return default_zone;
 }
+
+void addZoneToPlayer(struct Player *player, struct Zone zone) {
+	player->eventListZone[get_nb_eventzone(player)] = zone.id;
+}

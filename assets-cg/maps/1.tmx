@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="45">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="45">
  <editorsettings>
   <export target="interior_1.json" format="json"/>
  </editorsettings>
+ <properties>
+  <property name="id" type="int" value="2"/>
+ </properties>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="5" name="1" width="100" height="100">
   <data encoding="csv">

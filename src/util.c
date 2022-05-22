@@ -67,3 +67,41 @@ void format_text_opt(int x, int y, int width, int height, const int color, char 
 		y += LINE_HEIGHT;
 	}
 }
+
+int yes_no_question(char const *format, ...) {
+	char text_arg[512];
+	va_list args;
+	va_start(args, format);
+	vsnprintf(text_arg, 512, format, args);
+	va_end(args);
+
+	int selection = 0;
+	int buffer = keydown(KEY_SHIFT);
+	while(1) {
+		clearevents();
+		dclear(C_WHITE);
+
+		selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
+		if(selection > 1) selection = 1;
+		if(selection < 0) selection = 0;
+
+		format_text_opt(95,10, 200, 13, C_BLACK, text_arg);
+		
+		dtext(95,150,C_BLACK, "NON");
+		dtext(285,150,C_BLACK, "OUI");
+
+		dtext(95 + (selection * 190), DHEIGHT-47, C_RED, "[X]");
+		dupdate();
+
+		if(keydown(KEY_SHIFT)) {
+			if(buffer) buffer = 0;
+			else break;
+		}
+		if(keydown(KEY_EXIT)) {
+			selection = 0;
+			break;
+		}
+		while(keydown_any(KEY_LEFT,KEY_RIGHT, KEY_SHIFT,0)) clearevents();
+	}
+	return selection;
+}

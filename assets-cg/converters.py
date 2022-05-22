@@ -22,8 +22,6 @@ def convert(input, output, params, target):
 	elif params["custom-type"] == "table_type":
 		convert_table_type(input, output, params, target)
 		return 0
-	elif params["custom-type"] == "test":
-		test(input, output, params, target)
 	else:
 		return 1
 
@@ -93,6 +91,11 @@ def convert_map(input, output, params, target):
 	teleporter = fxconv.Structure()
 	zone = fxconv.Structure()
 
+	try:
+		idmap = data["properties"][0]["value"]
+	except KeyError:
+		raise Exception("La carte n'a pas d'identifiant")
+
 	for layer in objectLayers:
 		if layer.get("name") == DIALOG_LAYOUT:
 			nbDialog = len(layer["objects"])
@@ -102,7 +105,7 @@ def convert_map(input, output, params, target):
 			teleporter = parseTeleporter(layer)
 		elif layer.get("name") == ZONE_LAYOUT:
 			nbZone = len(layer["objects"])
-			zone = parseZone(layer)
+			zone = parseZone(layer, idmap)
 		else:
 			print("UNKNOWN LAYER FOUND : " + layer.get("name"))
 
@@ -183,17 +186,22 @@ def parseTeleporter(layer):
 			raise Exception("parseTeleporter() : Un téléporteur est mal configuré")
 	return teleporter
 
-def parseZone(layer):
+def parseZone(layer, idmap):
 	zone = fxconv.Structure()
+	idZone = 0
 	for i in layer["objects"]:
 		origin = (int(i['x']/16), int(i['y']/16))
 		to = (int(origin[0]+i['width']/16)-1, int(origin[1]+i['height']/16)-1)
-
+		if len(i["properties"][0]["value"]) != 0:
+			zone += fxconv.u32(int(f"{idmap}{idZone}{idmap}")) #id zone is {mapid}{idzone}{mapid}
+			idZone+=1
+		else: zone += fxconv.u32(0)
 		zone += fxconv.u32(origin[0])
 		zone += fxconv.u32(origin[1])
 		zone += fxconv.u32(to[0])
 		zone += fxconv.u32(to[1])
 
+		
 		event = bytes(i["properties"][0]["value"], "utf-8")
 		event += bytes(128 - len(event))
 		zone += event #event

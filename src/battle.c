@@ -76,9 +76,6 @@ void check_move_status(int status, struct Player *player, struct Monster *monste
 		draw_battle(player, monster);
 
 		switch(status){
-			case CRIT:
-				draw_status(name, "réalise un coup critique !");
-				break;
 			case MISS:
 				draw_status(name, "rate son attaque !");
 				break;
@@ -105,6 +102,11 @@ void check_move_status(int status, struct Player *player, struct Monster *monste
 				break;
 		}
 		
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+	}
+	if(is_crit() && (status == LESS_EFFECTIVE || status == SUPER_EFFECTIVE)) {
+		draw_status(name, "réalise un coup critique !");
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 	}
@@ -153,7 +155,7 @@ int select_move(struct Player *player, struct Monster *monster, int prec_selecte
 
 		dclear(C_RGB(25,25,25));
 		draw_battle(player, monster);
-		draw_ui(player);
+		draw_ui(player, selection);
 		dtext(58 + (selection * 130), DHEIGHT-15 , C_RED, "[X]");
 		dupdate();
 

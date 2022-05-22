@@ -9,6 +9,7 @@ struct Teleporter {
 };
 
 struct Zone {
+	int id;
 	int start_x, start_y;
 	int end_x, end_y;
 	char event[128];
@@ -59,3 +60,4 @@ struct Teleporter get_teleporter_xy(struct Map *map, struct Vec2 pos);
 
 int is_in_zone(struct Player *player, struct Map *map);
 struct Zone get_zone(struct Player *player, struct Map *map);
+void addZoneToPlayer(struct Player *player, struct Zone zone);

@@ -152,7 +152,12 @@ void engine_check_position(struct Game *game) {
 	static struct Vec2 old_pos;
 	if(is_in_zone(game->player, game->map)) {
 		struct Zone zone = get_zone(game->player, game->map);
-		if(strcmp(zone.event, "")) handle_event(game, zone.event);
+		if(!check_eventzone(game->player, zone.id)) {
+			if(strcmp(zone.event, "")) {
+				addZoneToPlayer(game->player, zone);
+				handle_event(game, zone.event);
+			}
+		}
 	}
 
 	int player_curr_tile = map_get_player_tile(game);

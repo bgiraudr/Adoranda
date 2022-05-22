@@ -98,18 +98,32 @@ int get_nb_moves(struct Player *player) {
 	return NB_PLAYER_MOVES;
 }
 
+bool has_move(struct Player *player, struct Move move) {
+	int index = get_nb_moves(player);
+	for(int i = 0; i < index; i++) {
+		if(player->moves[i]->id == move.id) return true;
+	}
+	return false;
+}
+
 void add_move(struct Player *player, struct Move move) {
 	int index = get_nb_moves(player);
-	if(index != NB_PLAYER_MOVES) {
-		draw_text(50, DHEIGHT-47, C_BLACK, "Vous apprenez %s !", move.name);
-		dupdate();
-		wait_for_input(KEY_SHIFT);
-		player->moves[index] = copy_move(move);
+	if(!has_move(player, move)) {
+		if(index != NB_PLAYER_MOVES) {
+			draw_text(50, DHEIGHT-47, C_BLACK, "Vous apprenez %s !", move.name);
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+			player->moves[index] = copy_move(move);
+		} else {
+			draw_text(50, DHEIGHT-47, C_BLACK, "Vous pouvez apprendre %s !", move.name);
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+			replace_capacities(player, move);
+		}
 	} else {
-		draw_text(50, DHEIGHT-47, C_BLACK, "Vous pouvez apprendre %s !", move.name);
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous connaissez déjà la capacité %s !", move.name);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
-		replace_capacities(player, move);
 	}
 }
 
@@ -184,11 +198,11 @@ int select_capacity(struct Player *player, char* context, bool allow_back) {
 	return selection;
 }
 
-void draw_ui(struct Player *player) {
+void draw_ui(struct Player *player, int curr_select) {
 	int index = get_nb_moves(player);
 
 	for(int i = 0; i < index; i++) {
-		draw_classic_move(2+132*i,DHEIGHT-70, player->moves[i]);
+		draw_special_move(2+132*i,DHEIGHT-70, player->moves[i], i == curr_select);
 	}
 }
 
@@ -226,44 +240,6 @@ void add_pp(struct Player *player, int amount) {
 	wait_for_input(KEY_SHIFT);
 }
 
-int yes_no_question(char const *format, ...) {
-	char text_arg[512];
-	va_list args;
-	va_start(args, format);
-	vsnprintf(text_arg, 512, format, args);
-	va_end(args);
-
-	int selection = 0;
-	int buffer = keydown(KEY_SHIFT);
-	while(1) {
-		clearevents();
-		dclear(C_WHITE);
-
-		selection += keydown(KEY_RIGHT) - keydown(KEY_LEFT);
-		if(selection > 1) selection = 1;
-		if(selection < 0) selection = 0;
-
-		format_text_opt(95,10, 200, 13, C_BLACK, text_arg);
-		
-		dtext(95,150,C_BLACK, "NON");
-		dtext(285,150,C_BLACK, "OUI");
-
-		dtext(95 + (selection * 190), DHEIGHT-47, C_RED, "[X]");
-		dupdate();
-
-		if(keydown(KEY_SHIFT)) {
-			if(buffer) buffer = 0;
-			else break;
-		}
-		if(keydown(KEY_EXIT)) {
-			selection = 0;
-			break;
-		}
-		while(keydown_any(KEY_LEFT,KEY_RIGHT, KEY_SHIFT,0)) clearevents();
-	}
-	return selection;
-}
-
 void change_type(struct Player *player, struct Type type) {
 	if(strcmp(player->stats.type, type.name) != 0) {
 		int selection = yes_no_question("Voulez vous changer votre type %s en %s ?", player->stats.type, type.name);
@@ -273,4 +249,21 @@ void change_type(struct Player *player, struct Type type) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 	}
+}
+
+int get_nb_eventzone(struct Player *player) {
+	for(int i = 0; i < 300; i++) {
+		if(player->eventListZone[i] == 0) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+bool check_eventzone(struct Player *player, int id) {
+	for(int i = 0; i < 300; i++) {
+		if(player->eventListZone[i] == id) return true;
+		if(player->eventListZone[i] == 0) return false;
+	}
+	return false;
 }

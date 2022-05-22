@@ -32,6 +32,7 @@ struct Player {
 	/*the current animation*/
 	int idle;
 	struct AnimData anim;
+	int eventListZone[NB_STO_ZONE];
 };
 
 struct LevelUp {
@@ -50,7 +51,7 @@ struct Player init_player(void);
 void add_move(struct Player *player, struct Move move);
 void draw_player_moves(struct Player *player);
 void replace_capacities(struct Player *player, struct Move move);
-void draw_ui(struct Player *player);
+void draw_ui(struct Player *player, int curr_select);
 int get_nb_moves(struct Player *player);
 void reset_pp(struct Player *player);
 void check_level(struct Player *player, int prec_level);
@@ -58,4 +59,6 @@ void add_xp(struct Player *player, int xp);
 int select_capacity(struct Player *player, char* context, bool allow_back);
 void add_pp(struct Player *player, int amount);
 void change_type(struct Player *player, struct Type type);
-int yes_no_question(char const *format, ...);
+bool has_move(struct Player *player, struct Move move);
+int get_nb_eventzone(struct Player *player);
+bool check_eventzone(struct Player *player, int id);

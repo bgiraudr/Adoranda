@@ -49,12 +49,13 @@ struct Move *copy_move(struct Move move) {
 	return copyMove;
 }
 
-void draw_move(int x, int y, int x2, int y2, struct Move *move) {
+void draw_move(int x, int y, int x2, int y2, struct Move *move, int selected) {
 	extern bopti_image_t img_capacite;
 	extern bopti_image_t img_categories;
 
 	const int font_size = 8;
-	draw_change_one_color(x, y, &img_capacite, 0xE6D6, getTypeFromName(move->type).color);
+	if(!selected) draw_change_one_color(x, y, &img_capacite, 0xE6D6, getTypeFromName(move->type).color);
+	else draw_change_one_color(x, y, &img_capacite, 0xE6D6, 0x0FE0);
 	dsubimage(x+96, y+7, &img_categories, 20*move->categorie, 0, 20, 10, DIMAGE_NONE);
 
 	int color = move->pp > 0 ? C_BLACK : C_RED;
@@ -73,8 +74,12 @@ void draw_move(int x, int y, int x2, int y2, struct Move *move) {
 	}
 }
 
+void draw_special_move(int x, int y, struct Move *move, int selected) {
+	draw_move(x, y, x+125, y+60, move, selected);
+}
+
 void draw_classic_move(int x, int y, struct Move *move) {
-	draw_move(x, y, x+125, y+60, move);
+	draw_move(x, y, x+125, y+60, move, 0);
 }
 
 int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct Move *move, int ismonster) {
@@ -98,7 +103,6 @@ int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct
 		if(typeEffect == 2)	return SUPER_EFFECTIVE;
 		if(typeEffect == 0.5) return LESS_EFFECTIVE;
 		if(typeEffect == 0)	return NOT_EFFECTIVE;
-		if(is_crit()) return CRIT;
 	} else {
 		if(ismonster) {
 			return self_effect(monster_stats, move);
@@ -137,7 +141,7 @@ float stab(char *type, char *move) {
 
 int is_crit() {
 	//une chance sur 16 d'avoir un coup critique
-	const int proba_crit = 16;
+	const int proba_crit = 2;
 	return rand_range(0,proba_crit)==0;
 }
 
