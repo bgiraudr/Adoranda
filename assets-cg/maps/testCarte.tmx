@@ -190,8 +190,10 @@
   </object>
   <object id="62" gid="267" x="448" y="432" width="16" height="16">
    <properties>
+    <property name="exclusive" type="bool" value="false"/>
     <property name="name" value="Pancarte"/>
     <property name="text" value="Cadeau;~type:Administrateur"/>
+    <property name="text2" value="Hop hop hop, tu as déjà reçu mon cadeau"/>
    </properties>
   </object>
  </objectgroup>

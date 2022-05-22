@@ -33,6 +33,7 @@ struct Player {
 	int idle;
 	struct AnimData anim;
 	int eventListZone[NB_STO_ZONE];
+	int eventListDialog[NB_STO_DIALOG];
 };
 
 struct LevelUp {
@@ -62,3 +63,5 @@ void change_type(struct Player *player, struct Type type);
 bool has_move(struct Player *player, struct Move move);
 int get_nb_eventzone(struct Player *player);
 bool check_eventzone(struct Player *player, int id);
+int get_nb_eventdialog(struct Player *player);
+bool check_eventdialog(struct Player *player, int id);

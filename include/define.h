@@ -6,3 +6,4 @@
 #define NB_PLAYER_ITEMS 30
 #define NB_TYPES 4
 #define NB_STO_ZONE 300
+#define NB_STO_DIALOG 300

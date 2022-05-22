@@ -1,3 +1,4 @@
+from random import randint
 import fxconv
 import json
 import pathlib
@@ -99,7 +100,7 @@ def convert_map(input, output, params, target):
 	for layer in objectLayers:
 		if layer.get("name") == DIALOG_LAYOUT:
 			nbDialog = len(layer["objects"])
-			dialogs = parseDialog(layer)
+			dialogs = parseDialog(layer, idmap)
 		elif layer.get("name") == TELEPORTER_LAYOUT:
 			nbTelep = len(layer["objects"])
 			teleporter = parseTeleporter(layer)
@@ -151,20 +152,59 @@ def convert_map(input, output, params, target):
 	#generate !
 	fxconv.elf(structMap, output, "_" + params["name"], **target)
 
-def parseDialog(layer):
+def parseDialog(layer, idmap):
 	dialogs = fxconv.Structure()
+	idDialog = 0
+
+	base_dialog = [
+		"Encore toi ? Tu n'as pas quelque chose d'autre à faire ?",
+		"Mais... Tu vas me lacher oui ?",
+		"re-bonjour, comment vas-tu depuis la dernière fois ?",
+		"Tu reviens me voir après tout ce temps ?",
+		"Toujours un plaisir de te revoir.",
+		"La vie est pleine de surprise, je ne m'attendais pas à te revoir !",
+		"Salut ! Belle journée n'est-ce pas ?",
+		"Il faut savoir apprécier les bonnes choses de la vie.",
+		"La dernière fois je suis tombé sur une horde de monstre, quelle panique !",
+		"As-tu visité notre belle région depuis la dernière fois ?",
+		"Prend le temps, on n'a qu'une seule vie n'est-ce pas !",
+		"Pour être honnête, je ne t'apprécie pas beaucoup."
+	]
+
+
 	for i in layer["objects"]:
 		dialogs += fxconv.u32(int(i["x"]/i["width"]))
 		#Tiled seem to start at the bottom y of the object
 		dialogs += fxconv.u32(int(i["y"]/i["width"])-1)
 
 		try:
+			dialogs += fxconv.u32(int(f"{idmap}{idDialog}{idmap}"))
+			listProper = set((a['name']) for a in i["properties"])
+			idDialog += 1
+			stoText = ""
 			for j in i["properties"]:
-				if(j["value"] == ""): j["value"] = " "
-				dialogs += fxconv.string(j["value"])
+				if(j["name"] == "name"): dialogs += fxconv.string(j["value"])
+				if(j["name"] == "text"): 
+					dialogs += fxconv.string(j["value"])
+					stoText = j["value"]
+				if(j["name"] == "text2"): dialogs += fxconv.string(j["value"])
+			if not "text2" in listProper:
+				if "~" in stoText: dialogs += fxconv.string(base_dialog[randint(0, len(base_dialog)-1)])
+				else: dialogs += fxconv.string("")
+			if("exclusive" in listProper):
+				for j in i["properties"]:
+					if(j["name"] == "exclusive"): 
+						if j["value"]: dialogs += fxconv.u32(1)
+						else: dialogs += fxconv.u32(0)
+			else:
+				if "~" in stoText: dialogs += fxconv.u32(1)
+				else: dialogs += fxconv.u32(0)
 		except KeyError:
 			dialogs += fxconv.string("default name")
 			dialogs += fxconv.string("default text")
+			dialogs += fxconv.string("default text2")
+			dialogs += fxconv.u32(0)
+
 	return dialogs
 
 def parseTeleporter(layer):

@@ -17,7 +17,9 @@ struct Talkable default_value = {
 	.x = 0,
 	.y = 0,
 	.name = "default name",
-	.text = "default dialog"
+	.text = "default dialog",
+	.text_after = "",
+	.exclusive = 0
 };
 
 /*draw the dialog of a specified talkable tile*/
@@ -30,6 +32,13 @@ void draw_dialog(struct Game *game) {
 	struct Talkable *talk = get_dialog_xy(game->map, game->player->pos.x + dx, game->player->pos.y + dy);
 
 	char *str = strdup(talk->text);
+	if(talk->exclusive) {
+		if(check_eventdialog(game->player, talk->id)) {
+			str = strdup(talk->text_after);
+		} else {
+			addDialogToPlayer(game->player, talk->id);
+		}
+	}
 	char *curr_line = strtok(str, delim);
 
 	while(curr_line != NULL) {
@@ -54,4 +63,8 @@ struct Talkable* get_dialog_xy(struct Map *map, int x, int y) {
 		i++;
 	}
 	return &default_value;
+}
+
+void addDialogToPlayer(struct Player *player, int id) {
+	player->eventListDialog[get_nb_eventdialog(player)] = id;
 }

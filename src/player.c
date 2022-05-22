@@ -252,7 +252,7 @@ void change_type(struct Player *player, struct Type type) {
 }
 
 int get_nb_eventzone(struct Player *player) {
-	for(int i = 0; i < 300; i++) {
+	for(int i = 0; i < NB_STO_ZONE; i++) {
 		if(player->eventListZone[i] == 0) {
 			return i;
 		}
@@ -260,10 +260,27 @@ int get_nb_eventzone(struct Player *player) {
 	return 0;
 }
 
+int get_nb_eventdialog(struct Player *player) {
+	for(int i = 0; i < NB_STO_DIALOG; i++) {
+		if(player->eventListDialog[i] == 0) {
+			return i;
+		}
+	}
+	return 0;
+}
+
 bool check_eventzone(struct Player *player, int id) {
-	for(int i = 0; i < 300; i++) {
+	for(int i = 0; i < NB_STO_ZONE; i++) {
 		if(player->eventListZone[i] == id) return true;
 		if(player->eventListZone[i] == 0) return false;
+	}
+	return false;
+}
+
+bool check_eventdialog(struct Player *player, int id) {
+	for(int i = 0; i < NB_STO_DIALOG; i++) {
+		if(player->eventListDialog[i] == id) return true;
+		if(player->eventListDialog[i] == 0) return false;
 	}
 	return false;
 }

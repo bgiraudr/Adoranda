@@ -32,6 +32,8 @@ void engine_draw(struct Game const *game) {
 	
 	dprint(1,1,C_WHITE,"%d:%d",game->player->pos.x, game->player->pos.y);
 	dprint(1,20,C_WHITE,"%d",game->player->sprint);
+	dprint(1,40,C_WHITE,"%d",get_nb_eventdialog(game->player));
+	dprint(1,60,C_WHITE,"%d",game->player->eventListDialog[get_nb_eventdialog(game->player)-1 > 0 ? get_nb_eventdialog(game->player)-1 : 0]);
 }
 
 void engine_draw_map(struct Game const *game) {
@@ -154,8 +156,9 @@ void engine_check_position(struct Game *game) {
 		struct Zone zone = get_zone(game->player, game->map);
 		if(!check_eventzone(game->player, zone.id)) {
 			if(strcmp(zone.event, "")) {
-				addZoneToPlayer(game->player, zone);
-				handle_event(game, zone.event);
+				if(handle_event(game, zone.event)) {
+					addZoneToPlayer(game->player, zone);
+				}
 			}
 		}
 	}
