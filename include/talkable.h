@@ -21,3 +21,4 @@ void draw_dialog(struct Game *game);
 /*find the talkable tile using the player's position*/
 struct Talkable* get_dialog_xy(struct Map *map, int x, int y);
 void addDialogToPlayer(struct Player *player, int id);
+void draw_dialog_text(struct Game *game, char *text);

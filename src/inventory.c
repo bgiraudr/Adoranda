@@ -112,8 +112,12 @@ int open_inventory(struct Game *game, struct Inventory *inventory, char* context
 			else if(inventory->items[pos] != NULL) {
                 if(!suppression && !keep_open) break;
                 else if(!suppression) {
-                    select_item(game, pos);
-                    remove_item_pos(inventory, pos);
+                    if(select_item(game, pos)) remove_item_pos(inventory, pos);
+                    else {
+                        draw_text(50, DHEIGHT-47, C_BLACK, "Ça n'aura aucun effet.");
+                        dupdate();
+                        wait_for_input(KEY_SHIFT);
+                    }
                 }
                 else remove_item_pos(inventory, pos);
             }

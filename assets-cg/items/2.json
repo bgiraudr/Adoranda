@@ -1,8 +1,8 @@
 {
-	"name":"Obj2",
+	"name":"Extra PP",
 	"id":2,
 	"sprite":"item2",
-	"description":"test2",
+	"description":"Redonne 3PPs à une capacité",
 	"action":[
 		"pp:3"
 	]

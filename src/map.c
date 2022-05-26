@@ -5,12 +5,14 @@
 #include "define.h"
 #include "util.h"
 
-extern struct Map map_1;
+// extern struct Map map_1;
 extern struct Map map_2;
+extern struct Map map_labo;
 
 struct Map *maps[] = {
-	&map_1,
+	// &map_1,
 	&map_2,
+	&map_labo,
 };
 
 struct Zone default_zone = {

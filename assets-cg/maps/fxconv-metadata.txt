@@ -4,3 +4,6 @@ testCarte.json:
 1.json:
   custom-type: map
   name: map_2
+2.json:
+  custom-type: map
+  name: map_labo

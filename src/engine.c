@@ -2,6 +2,7 @@
 #include <gint/keyboard.h>
 #include <string.h>
 #include <gint/std/stdlib.h>
+#include <gint/rtc.h>
 
 #include "engine.h"
 #include "game.h"
@@ -81,6 +82,7 @@ void engine_draw_player(struct Game const *g) {
 
 /*move the player to the direction*/
 int engine_move(struct Game *game, int direction) {
+	srand(rtc_ticks());
 	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
 	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
 
@@ -187,7 +189,7 @@ void engine_check_position(struct Game *game) {
 		engine_center_camera(game);
 	}
 	if(player_curr_tile == TILE_GRASS) {
-		create_battle(game);
+		if(rand_range(0, PROBA_WILD) == 0) create_battle(game);
 	}
 	if(player_curr_tile == TILE_ICE) {
 		int direction = game->player->direction;

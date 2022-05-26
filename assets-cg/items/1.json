@@ -1,10 +1,9 @@
 {
-	"name":"Test1",
+	"name":"HP+",
 	"id":1,
 	"sprite":"item",
 	"description":"Redonne 20HP",
 	"action":[
-		"pp:all",
-		"give:Obj2*3"
+		"hp:20"
 	]
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.2" name="tileset" tilewidth="16" tileheight="16" tilecount="464" columns="29">
+<tileset version="1.8" tiledversion="1.8.5" name="tileset" tilewidth="16" tileheight="16" tilecount="464" columns="29">
  <editorsettings>
   <export target="tileset.json" format="json"/>
  </editorsettings>
@@ -99,6 +99,7 @@
    <property name="text" value=""/>
   </properties>
  </tile>
+ <tile id="267" type="teleporter"/>
  <tile id="268" type="solid"/>
  <tile id="269" type="solid"/>
  <tile id="270" type="solid"/>

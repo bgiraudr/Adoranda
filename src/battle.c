@@ -18,8 +18,8 @@ extern bopti_image_t img_dialogue;
  * create a new battle
  */
 void create_battle(struct Game *game) {
-	game->player->stats.pv = game->player->stats.max_pv;
-	reset_pp(game->player);
+	// game->player->stats.pv = game->player->stats.max_pv;
+	// reset_pp(game->player);
 	struct Monster *monster = generate_monster(game);
 	int status = battle(game->player, monster);
 

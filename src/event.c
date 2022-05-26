@@ -8,6 +8,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "type.h"
+#include "draw_util.h"
+#include "talkable.h"
 
 bool handle_event(struct Game *game, char const *event)
 {
@@ -33,9 +35,12 @@ bool handle_event(struct Game *game, char const *event)
     }
     else if(!strncmp(event, "hp:", 3)) {
     	event += 3;
-    	game->player->stats.pv += atoi(event);
-        if(game->player->stats.pv > game->player->stats.max_pv) game->player->stats.pv = game->player->stats.max_pv;
-    	return true;
+        if(game->player->stats.pv != game->player->stats.max_pv) {
+            game->player->stats.pv += atoi(event);
+            if(game->player->stats.pv > game->player->stats.max_pv) game->player->stats.pv = game->player->stats.max_pv;
+            return true;
+        }
+        return false;
     }
     else if(!strcmp(event, "pp:all")) {
         reset_pp(game->player);
@@ -60,5 +65,19 @@ bool handle_event(struct Game *game, char const *event)
     	add_move(game->player, get_move_id(atoi(event)));
     	return true;
     }
+    else if(!strcmp(event, "zone:begin")) {
+        draw_dialog_text(game, "Bienvenue dans ce projet de RPG grandeur nature !;Voici une courte preview de ce qui est possible.");
+        return true;
+    }
+    else if(!strcmp(event, "zone:musthave5")) {
+        if(game->player->stats.level < 5) {
+            draw_dialog_text(game, "Tu dois avoir au moins 5 niveaux pour passer.");
+            player_step_back(game->player);
+            return false;
+        }
+        draw_dialog_text(game, "Tu possèdes au moins 5 niveaux, bravo.");
+        return true;
+    }
+
     return false;
 }

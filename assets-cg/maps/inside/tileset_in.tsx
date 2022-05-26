@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.5" tiledversion="1.7.2" name="tileset_in" tilewidth="16" tileheight="16" tilecount="119" columns="17">
+<tileset version="1.8" tiledversion="1.8.5" name="tileset_in" tilewidth="16" tileheight="16" tilecount="119" columns="17">
  <image source="tileset_in.png" width="272" height="112"/>
  <tile id="27" type="solid"/>
  <tile id="42" type="text"/>
@@ -18,6 +18,8 @@
  <tile id="82" type="solid"/>
  <tile id="83" type="solid"/>
  <tile id="84" type="solid"/>
+ <tile id="87" type="teleporter"/>
+ <tile id="88" type="teleporter"/>
  <tile id="89" type="solid"/>
  <tile id="90" type="solid"/>
  <tile id="91" type="solid"/>

@@ -141,7 +141,7 @@ float stab(char *type, char *move) {
 
 int is_crit() {
 	//une chance sur 16 d'avoir un coup critique
-	const int proba_crit = 2;
+	const int proba_crit = PROBA_CRIT;
 	return rand_range(0,proba_crit)==0;
 }
 

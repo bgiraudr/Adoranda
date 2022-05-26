@@ -22,6 +22,25 @@ struct Talkable default_value = {
 	.exclusive = 0
 };
 
+void draw_dialog_text(struct Game *game, char *text) {
+	const char *delim = ";";
+
+	char *str = strdup(text);
+	char *curr_line = strtok(str, delim);
+
+	while(curr_line != NULL) {
+		char *event = strchr(curr_line, '~');
+		if(event) handle_event(game, curr_line+1);
+		else {
+			draw_text(50, 58, C_BLACK, curr_line);
+
+			dupdate();
+			wait_for_input(KEY_SHIFT);
+		}
+		curr_line = strtok(NULL, delim);
+	}
+}
+
 /*draw the dialog of a specified talkable tile*/
 void draw_dialog(struct Game *game) {
 	const char *delim = ";";

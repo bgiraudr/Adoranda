@@ -45,12 +45,13 @@ def convert_map(input, output, params, target):
 
 	#find the tileset in use. it's a relative path (like ../tileset.tsx)
 	nameTileset = data["tilesets"][0]["source"].replace(".tsx","")
+	print(nameTileset)
 	#the name of the tileset without the .something
 	nameTilesetFree = nameTileset.split("/")[-1]
 	#count the number of "back" (cd ..) to locate the tileset on the computer
 	nbRetour = nameTileset.count("..")+1
 	#create the tileset absolute path 
-	tilesetPath = "/".join(input.split("/")[:-nbRetour]) + "/" + nameTileset.split("/")[-1] + ".json"
+	tilesetPath = "/".join(input.split("/")[:-nbRetour]) + "/" + nameTileset + ".json"
 
 	tileset = open(tilesetPath, "r")
 	data_tileset = json.load(tileset)

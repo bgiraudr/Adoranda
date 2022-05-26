@@ -17,6 +17,6 @@ struct Items {
 };
 
 struct Item *get_item_id(int id);
-void select_item(struct Game *game, int pos);
+bool select_item(struct Game *game, int pos);
 void remove_item_pos(struct Inventory *inventory, int pos);
 struct Item *get_item_from_name(const char *name);

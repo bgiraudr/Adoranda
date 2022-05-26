@@ -65,3 +65,4 @@ int get_nb_eventzone(struct Player *player);
 bool check_eventzone(struct Player *player, int id);
 int get_nb_eventdialog(struct Player *player);
 bool check_eventdialog(struct Player *player, int id);
+void player_step_back(struct Player *player);

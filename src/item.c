@@ -3,6 +3,7 @@
 #include "util.h"
 #include <gint/keyboard.h>
 #include <gint/display.h>
+#include <stdbool.h>
 #include <string.h>
 #include "event.h"
 
@@ -20,14 +21,16 @@ void remove_item_pos(struct Inventory *inventory, int pos) {
 	inventory->nbItems--;
 }
 
-void select_item(struct Game *game, int pos) {
+bool select_item(struct Game *game, int pos) {
     const char *delim = ";";
     char *str = strdup(game->player->inventory.items[pos]->action);
 	char *curr_line = strtok(str, delim);
+	bool ret = false;
     while(curr_line != NULL) {
-        handle_event(game, curr_line);
+        if(handle_event(game, curr_line)) ret = true;
         curr_line = strtok(NULL, delim);
     }
+	return ret;
 }
 
 struct Item *get_item_from_name(const char *name) {

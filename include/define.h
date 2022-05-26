@@ -7,3 +7,5 @@
 #define NB_TYPES 4
 #define NB_STO_ZONE 300
 #define NB_STO_DIALOG 300
+#define PROBA_WILD 16
+#define PROBA_CRIT 16

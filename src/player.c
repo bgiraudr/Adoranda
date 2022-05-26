@@ -13,7 +13,7 @@
 #include "util.h"
 #include "talkable.h"
 #include "draw_util.h"
-
+#include "animation.h"
 
 extern struct LevelUpPlayer levelupplayer;
 extern bopti_image_t img_dialogue;
@@ -32,7 +32,7 @@ struct Player init_player(void) {
 	struct Stats stats = {
 		.level = 1,
 		.xp = 0,
-		.type = "Rédacteur"
+		.type = "Rédacteur",
 	};
 
 	struct Inventory inventory = {
@@ -40,8 +40,8 @@ struct Player init_player(void) {
 	};
 
 	struct Player player = {
-		.pos = VEC2(32, 30),
-		.pos_visual = VEC2F(32*TILE_SIZE, 30*TILE_SIZE),
+		.pos = VEC2(7, 8),
+		.pos_visual = VEC2F(7*TILE_SIZE, 8*TILE_SIZE),
 		.base_stats = bstats,
 		.stats = stats,
 		.inventory = inventory,
@@ -58,6 +58,7 @@ struct Player init_player(void) {
 	player.moves[1] = copy_move(get_move_id(4));
 
 	set_stats_level_from(&player.base_stats, &player.stats);
+	player.stats.pv = player.stats.max_pv;
 	return player;
 }
 
@@ -222,6 +223,7 @@ void add_xp(struct Player *player, int xp) {
 	//niveau suivant une progession N³
 	int calc_level = (int)pow(player->stats.xp, 0.33);
 	for(int i = player->stats.level; i < calc_level; i++) {
+		player->stats.pv = player->stats.pv + player->stats.max_pv * 0.2;
 		draw_text(50, DHEIGHT-47, C_BLACK, "Vous passez au niveau %d !", i+1);
 		dupdate();
 		wait_for_input(KEY_SHIFT);
@@ -283,4 +285,13 @@ bool check_eventdialog(struct Player *player, int id) {
 		if(player->eventListDialog[i] == 0) return false;
 	}
 	return false;
+}
+
+void player_step_back(struct Player *player) {
+	int direction = player->direction;
+	int dx = (direction == DIR_RIGHT) - (direction == DIR_LEFT);
+	int dy = (direction == DIR_DOWN) - (direction == DIR_UP);
+	player->pos.x = player->pos.x - dx;
+	player->pos.y = player->pos.y - dy;
+	player->idle = !anim_player_idle(&player->anim, 1);
 }
