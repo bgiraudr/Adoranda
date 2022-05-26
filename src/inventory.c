@@ -22,6 +22,16 @@ int get_first_free_space(struct Inventory *inventory) {
 	return NB_PLAYER_ITEMS;
 }
 
+int get_nb_items(struct Inventory *inventory) {
+    int ret = 0;
+    for(int i = 0; i < NB_PLAYER_ITEMS; i++) {
+		if(inventory->items[i] != NULL) {
+			ret++;
+		}
+	}
+	return ret;
+}
+
 bool add_item_to_inventory(struct Game *game, struct Inventory *inventory, struct Item *item) {
     int index = get_first_free_space(inventory);
 
@@ -47,22 +57,28 @@ bool add_item_to_inventory(struct Game *game, struct Inventory *inventory, struc
 }
 
 void display_inventory(struct Inventory *inventory) {
+    const int x_inventory = 30;
+    const int y_inventory = 56;
     for(int i = 0 ; i < NB_PLAYER_ITEMS ; i++) {
         int x = i%10;
         int y = i/10;
         if(inventory->items[i] != NULL) {
-            dimage(18*x+50,25*y+50,inventory->items[i]->sprite);
+            dimage(34*x+x_inventory, 41*y+y_inventory, inventory->items[i]->sprite);
         } else {
-            drect(18*x+50,25*y+50,18*x+65,25*y+65,C_BLACK);
+            drect(34*x+x_inventory, 41*y+y_inventory, 34*x+x_inventory+31, 41*y+y_inventory+31, C_BLACK);
         }
     }
 }
 
 int open_inventory(struct Game *game, struct Inventory *inventory, char* context, bool keep_open) {
+    extern bopti_image_t img_inventory;
 	int buffer = keydown(KEY_SHIFT);
 	struct Vec2 cursor = VEC2(0,0);
     int pos = 0;
     int suppression = 0;
+
+    const int x_inventory = 30;
+    const int y_inventory = 56;
 
 	while(1) {
 		clearevents();
@@ -77,15 +93,17 @@ int open_inventory(struct Game *game, struct Inventory *inventory, char* context
 
         pos = cursor.x + cursor.y*10;
 
-		dclear(C_WHITE);
-        dtext(130,15,C_BLACK,context);
-        drect(18*cursor.x+48, 25*cursor.y+48, 18*cursor.x+67, 25*cursor.y+67,suppression ? C_RED : C_GREEN);
-        if(suppression) dtext(130,35,C_RED,"Suppression");
+		dclear(C_RGB(25,25,25));
+        dimage(0, 0, &img_inventory);
+        dtext(5,2,C_BLACK,context);
+        drect(34*cursor.x+x_inventory-2, 41*cursor.y+y_inventory-2, 34*cursor.x+x_inventory+33, 41*cursor.y+y_inventory+33, suppression ? C_RED : C_GREEN);
+        if(suppression) dtext(5,16,C_RED,"Suppression");
+        dprint(5, 185, C_BLACK, "%d/%d", get_nb_items(inventory), NB_PLAYER_ITEMS);
 		display_inventory(inventory);
         
         if(inventory->items[pos] != NULL) {
-            dprint(10, DHEIGHT-30, C_BLACK, "nom : %s", inventory->items[pos]->name);
-		    dprint(10, DHEIGHT-15, C_BLACK, "desc : %s", inventory->items[pos]->description);
+            dtext(5, 30, C_BLACK, inventory->items[pos]->name);
+		    dtext(104, 30, C_BLACK, inventory->items[pos]->description);
         }
 		dupdate();
 

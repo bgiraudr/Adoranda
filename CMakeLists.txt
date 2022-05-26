@@ -22,6 +22,7 @@ add_custom_command(
 	WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/
 	DEPENDS assets-cg/maps/testCarte.tmx 
 	assets-cg/maps/1.tmx 
+	assets-cg/maps/2.tmx 
 	assets-cg/tileset.png 
 	assets-cg/maps/tileset.tsx 
 	assets-cg/maps/inside/tileset_in.tsx 
@@ -53,6 +54,7 @@ set(SOURCES
 
 set(ASSETS_cg
 	assets-cg/tileset.png
+	assets-cg/inventory.png
 	assets-cg/categories.png
 	assets-cg/dialogue.png
 	assets-cg/capacite.png
@@ -60,6 +62,7 @@ set(ASSETS_cg
 	assets-cg/maps/inside/tileset_in.png
 	assets-cg/maps/testCarte.json
 	assets-cg/maps/1.json
+	assets-cg/maps/2.json
 	assets-cg/maps/inside/1.json
 	assets-cg/maps/inside/2.json
 	assets-cg/spritesheet.png

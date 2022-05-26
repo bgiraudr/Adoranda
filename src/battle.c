@@ -185,6 +185,7 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	if(monster->stats->pv < 0) monster->stats->pv = 0;
 
 	dclear(C_RGB(25,25,25));
+	drect(323, 120, DWIDTH, 125, getTypeFromName(player->stats.type).color);
 	dimage(0,0,&img_battle);
 	int posHP = (float)player->stats.pv / player->stats.max_pv * WIDTH_HP;
 	drect(290,138,290+WIDTH_HP,142,C_WHITE);
@@ -198,8 +199,7 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	drect(290,138,290+posHP,142,pcolor);
 
 	dprint(333,124,C_BLACK,"%d",player->stats.level);
-	dprint(246,124,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
-	dtext(340,115,C_BLUE, player->stats.type);
+	dprint(256,122,C_BLACK,"%d/%d", player->stats.pv, player->stats.max_pv);
 
 	int posHPmonster = (float)monster->stats->pv / monster->stats->max_pv * WIDTH_HP;
 	dprint(2,8,C_BLACK,"%s",monster->name);
@@ -214,7 +214,7 @@ void draw_battle(struct Player *player, struct Monster *monster) {
 	drect(48,23,48+posHPmonster,27,mcolor);
 	dprint(90,9,C_BLACK,"%d",monster->stats->level);
 	dprint(127,11,C_BLACK,"%d/%d", monster->stats->pv, monster->stats->max_pv);
-	dtext(92,0,C_BLUE, monster->stats->type);
+	drect(0,0,84,4,getTypeFromName(monster->stats->type).color);
 
 	dimage(265,10,monster->sprite);
 }
