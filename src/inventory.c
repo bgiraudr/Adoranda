@@ -32,6 +32,29 @@ int get_nb_items(struct Inventory *inventory) {
 	return ret;
 }
 
+void sort_inventory(struct Inventory *inventory) {
+    const int n = NB_PLAYER_ITEMS;
+    int i = 0, j = 0;
+    struct Item *tmp;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n - i - 1; j++) {
+        	if (inventory->items[j+1] != NULL) {
+        		if (inventory->items[j] != NULL) {
+		            if (compare(inventory->items[j], inventory->items[j+1]) > 0) {
+		                tmp = inventory->items[j];
+		                inventory->items[j] = inventory->items[j + 1];
+		                inventory->items[j + 1] = tmp;
+		            }
+		       	} else {
+		        	tmp = inventory->items[j];
+	                inventory->items[j] = inventory->items[j + 1];
+	                inventory->items[j + 1] = tmp;
+	        	}
+        	}
+	    }
+	}
+}
+
 bool add_item_to_inventory(struct Game *game, struct Inventory *inventory, struct Item *item) {
     int index = get_first_free_space(inventory);
 
@@ -125,11 +148,14 @@ int open_inventory(struct Game *game, struct Inventory *inventory, char* context
         if(keydown(KEY_OPTN)) {
             suppression = suppression ? 0 : 1;
 		}
+        if(keydown(KEY_F6)) {
+            sort_inventory(inventory);
+		}
 		if(keydown(KEY_EXIT)) {
             pos = -1;
 			break;
 		}
-		while(keydown_any(KEY_RIGHT, KEY_LEFT, KEY_DOWN, KEY_UP, KEY_SHIFT, KEY_OPTN, 0)) clearevents();
+		while(keydown_any(KEY_RIGHT, KEY_LEFT, KEY_DOWN, KEY_UP, KEY_SHIFT, KEY_OPTN, KEY_F6, 0)) clearevents();
 	}
 	return pos;
 }

@@ -20,3 +20,4 @@ struct Item *get_item_id(int id);
 bool select_item(struct Game *game, int pos);
 void remove_item_pos(struct Inventory *inventory, int pos);
 struct Item *get_item_from_name(const char *name);
+int compare(struct Item *item1, struct Item *item2);

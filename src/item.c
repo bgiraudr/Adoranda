@@ -39,3 +39,7 @@ struct Item *get_item_from_name(const char *name) {
 	}
 	return items.items[0];
 }
+
+int compare(struct Item *item1, struct Item *item2) {
+	return strcmp(item1->name, item2->name);
+}
