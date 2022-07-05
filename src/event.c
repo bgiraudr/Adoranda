@@ -48,8 +48,7 @@ bool handle_event(struct Game *game, char const *event)
     }
     else if(!strncmp(event, "pp:", 3)) {
     	event += 3;
-    	add_pp(game->player, atoi(event));
-    	return true;
+    	return add_pp(game->player, atoi(event));
     }
     else if(!strncmp(event, "type:", 5)) {
     	event += 5;

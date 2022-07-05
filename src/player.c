@@ -233,13 +233,25 @@ void add_xp(struct Player *player, int xp) {
 	check_level(player, prec);
 }
 
-void add_pp(struct Player *player, int amount) {
-	int selection = select_capacity(player, "Choisir une capacité", false);
-	player->moves[selection]->pp += amount;
-	if(player->moves[selection]->pp > player->moves[selection]->init_pp) player->moves[selection]->pp = player->moves[selection]->init_pp;
-	draw_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez %d PPs sur %s", amount, player->moves[selection]->name);
-	dupdate();
-	wait_for_input(KEY_SHIFT);
+bool has_pp_left(struct Player *player) {
+	int index = get_nb_moves(player);
+	for(int i = 0; i < index; i++) {
+		if(player->moves[i]->pp < player->moves[i]->init_pp) return true;
+	}
+	return false;
+}
+
+bool add_pp(struct Player *player, int amount) {
+	if(has_pp_left(player)) {
+		int selection = select_capacity(player, "Choisir une capacité", false);
+		player->moves[selection]->pp += amount;
+		if(player->moves[selection]->pp > player->moves[selection]->init_pp) player->moves[selection]->pp = player->moves[selection]->init_pp;
+		draw_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez %d PPs sur %s", amount, player->moves[selection]->name);
+		dupdate();
+		wait_for_input(KEY_SHIFT);
+		return true;
+	}
+	return false;
 }
 
 void change_type(struct Player *player, struct Type type) {
