@@ -73,7 +73,7 @@ def convert_map(input, output, params, target):
 	#create a dictionnary {tile id:type}
 	for i in data_tileset["tiles"]:
 		id = i["id"]+1
-		type = i["type"]
+		type = i["class"] if "class" in i else i["type"]
 
 		value = tile_type.get(type) if type in tile_type else TILE_AIR
 		tile_value[id] = value
