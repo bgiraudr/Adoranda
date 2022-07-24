@@ -13,6 +13,8 @@ fxconv_declare_converters(assets-cg/converters.py)
 
 add_custom_command(
 	OUTPUT "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/testCarte.json"
+	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/1.json"
+	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/2.json"
 	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/1.json"
 	       "${CMAKE_CURRENT_LIST_DIR}/assets-cg/maps/inside/2.json"
 	COMMENT "Convert tmx map to json"
