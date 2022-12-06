@@ -29,12 +29,16 @@ bool handle_event(struct Game *game, char const *event)
         return true;
     }
     else if(!strncmp(event, "xp:", 3)) {
-    	event += 3;
-    	add_xp(game->player, atoi(event));
-    	return true;
+        event += 3;
+        add_xp(game->player, atoi(event));
+        return true;
+    }
+    else if(!strcmp(event, "hp:all")) {
+        reset_hp(game->player);
+        return true;
     }
     else if(!strncmp(event, "hp:", 3)) {
-    	event += 3;
+        event += 3;
         if(game->player->stats.pv != game->player->stats.max_pv) {
             game->player->stats.pv += atoi(event);
             if(game->player->stats.pv > game->player->stats.max_pv) game->player->stats.pv = game->player->stats.max_pv;
@@ -47,22 +51,31 @@ bool handle_event(struct Game *game, char const *event)
         return true;
     }
     else if(!strncmp(event, "pp:", 3)) {
-    	event += 3;
-    	return add_pp(game->player, atoi(event));
+        event += 3;
+        return add_pp(game->player, atoi(event));
     }
     else if(!strncmp(event, "type:", 5)) {
-    	event += 5;
+        event += 5;
         int len=strlen(event);
         char name[20];
         strncpy(name,event,len);
         name[len] = '\0';
-    	change_type(game->player, getTypeFromName(name));
-    	return true;
+        change_type(game->player, getTypeFromName(name));
+        return true;
     }
     else if(!strncmp(event, "move:", 5)) {
-    	event += 5;
-    	add_move(game->player, get_move_id(atoi(event)));
-    	return true;
+        event += 5;
+        add_move(game->player, get_move_id(atoi(event)));
+        return true;
+    }
+    else if(!strncmp(event, "infotype:", 9)) {
+        event += 9;
+        int len=strlen(event);
+        char name[20];
+        strncpy(name,event,len);
+        name[len] = '\0';
+        drawTypeEffects(getTypeFromName(name));
+        return true;
     }
     else if(!strcmp(event, "zone:begin")) {
         draw_dialog_text(game, "Bienvenue dans ce projet de RPG grandeur nature !;Voici une courte preview de ce qui est possible.");

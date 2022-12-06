@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="71">
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="77">
  <editorsettings>
   <export target="interior_1.json" format="json"/>
  </editorsettings>
@@ -45,21 +45,21 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,320,321,322,0,0,0,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,0,
 0,0,320,321,322,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,349,350,351,0,0,0,0,0,0,0,323,324,325,0,0,58,0,0,0,0,0,0,0,0,0,0,
-0,0,349,350,351,0,0,0,0,0,0,0,0,22,23,0,0,0,0,0,0,0,0,58,378,379,380,0,0,0,0,0,0,0,352,353,354,0,0,0,323,324,325,0,0,0,0,0,0,0,
+0,0,349,350,351,0,0,0,0,0,0,0,0,22,23,346,0,0,0,0,0,0,0,58,378,379,380,0,0,0,0,0,0,0,352,353,354,0,0,0,323,324,325,0,0,0,0,0,0,0,
 0,0,378,379,380,0,0,0,0,0,0,0,0,51,52,0,0,0,0,0,0,0,0,0,0,0,294,294,0,0,0,0,0,0,381,382,383,0,0,0,352,353,354,0,0,0,0,0,0,0,
-0,0,0,0,0,0,326,327,328,329,0,0,0,0,0,0,323,324,325,0,0,0,0,0,0,0,294,294,294,0,0,0,0,0,0,0,0,0,0,0,381,382,383,294,294,0,0,0,0,0,
+0,0,0,0,346,0,326,327,328,329,0,0,0,0,0,0,323,324,325,0,0,0,0,0,0,0,294,294,294,0,0,0,0,0,0,0,0,0,0,0,381,382,383,294,294,0,0,0,0,0,
 0,0,0,0,0,0,355,356,357,358,245,0,0,0,0,0,352,353,354,0,0,0,0,0,0,0,0,294,294,294,0,0,0,0,0,0,0,0,0,0,0,0,0,294,294,294,0,0,0,0,
 0,0,0,0,0,0,384,385,386,387,274,28,24,25,0,0,381,382,383,0,0,0,0,0,0,0,0,0,0,294,294,0,12,13,0,0,0,0,0,0,0,0,294,294,294,294,294,0,0,0,
 0,0,0,0,0,0,413,414,415,416,303,57,53,54,0,334,335,336,337,248,249,250,251,0,0,0,31,323,324,325,0,0,41,42,0,0,0,0,0,0,294,294,295,295,294,294,294,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,363,364,365,366,309,0,0,280,0,0,0,39,352,353,354,0,0,0,0,0,0,0,0,0,294,294,295,295,294,294,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,392,393,394,395,0,0,0,280,24,25,0,0,381,382,383,0,0,0,0,0,0,0,0,0,294,294,295,295,0,323,324,325,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,323,324,325,421,422,423,424,249,250,249,309,53,54,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,294,295,295,0,352,353,354,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,323,324,325,421,422,423,424,249,250,249,309,53,54,0,0,0,346,0,0,0,0,0,0,0,0,0,0,0,294,295,295,0,352,353,354,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,352,353,354,450,451,452,453,0,0,0,0,0,0,0,0,0,0,0,0,252,253,253,254,0,0,0,0,294,294,294,294,0,381,382,383,0,0,0,
 0,0,0,0,0,0,37,0,0,0,0,0,381,382,383,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,281,282,282,283,0,0,0,0,294,294,0,294,294,0,0,0,0,0,0,
 0,0,0,0,0,0,35,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,310,311,311,312,0,0,0,294,295,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,29,0,326,327,328,329,0,0,0,0,0,0,339,340,340,341,0,0,0,294,295,0,0,330,331,332,333,0,0,0,0,
 0,0,0,0,0,0,0,294,294,0,0,0,0,0,0,0,0,0,0,58,0,355,356,357,358,40,39,0,0,0,0,0,0,0,0,0,0,0,294,295,0,0,359,360,361,362,0,0,0,0,
-0,0,0,0,0,0,294,294,294,0,0,0,0,0,0,0,0,0,0,0,0,384,385,386,387,0,0,0,0,0,0,0,0,0,0,0,294,294,294,0,0,0,388,389,390,391,0,0,0,0,
+0,0,0,0,0,0,294,294,294,0,0,346,0,0,0,0,0,0,0,0,0,384,385,386,387,0,0,0,0,0,0,0,0,0,0,0,294,294,294,0,0,0,388,389,390,391,0,0,0,0,
 0,0,0,0,0,0,294,294,294,294,0,0,0,0,0,0,0,0,0,0,0,413,414,415,416,0,0,294,0,0,0,0,0,0,0,0,0,294,295,295,0,0,413,268,415,416,0,0,0,0,
 0,0,0,0,0,0,294,294,294,294,0,0,0,0,295,295,0,0,0,0,0,0,0,0,0,0,0,294,294,0,0,0,0,0,0,0,0,0,294,295,294,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,294,294,294,294,0,0,0,295,295,295,0,0,0,0,0,0,0,0,20,21,0,0,294,294,0,0,0,0,0,0,0,0,0,294,294,294,0,0,0,0,0,0,0,0,
@@ -113,32 +113,60 @@
   <object id="65" gid="267" x="256" y="368" width="16" height="16">
    <properties>
     <property name="name" value="Pancarte"/>
-    <property name="text" value="Ici le niveau est fixé et tu tombes que sur un monstre"/>
+    <property name="text" value="Ici le niveau est fixé et tu peux tomber sur un seul type de monstre"/>
    </properties>
   </object>
   <object id="66" gid="267" x="272" y="368" width="16" height="16">
    <properties>
     <property name="name" value="Pancarte"/>
-    <property name="text" value="Ici le niveau est fixé et tu tombes que sur un monstre"/>
+    <property name="text" value="Ici le niveau est fixé et tu peux tomber sur un seul type de monstre"/>
    </properties>
   </object>
   <object id="67" gid="267" x="384" y="336" width="16" height="16">
    <properties>
     <property name="name" value="Pancarte"/>
-    <property name="text" value="Le niveau est fixé mais tu tombes plus souvent sur un monstre"/>
+    <property name="text" value="Le niveau est fixé et tu tombes plus souvent sur un monstre"/>
    </properties>
   </object>
   <object id="68" gid="267" x="400" y="336" width="16" height="16">
    <properties>
     <property name="name" value="Pancarte"/>
-    <property name="text" value="Le niveau est fixé mais tu tombes plus souvent sur un monstre"/>
+    <property name="text" value="Le niveau est fixé et tu tombes plus souvent sur un monstre"/>
    </properties>
   </object>
   <object id="70" gid="267" x="304" y="256" width="16" height="16">
    <properties>
     <property name="exclusive" type="bool" value="false"/>
     <property name="name" value="Tituya"/>
-    <property name="text" value="Repose toi.;~pp:all"/>
+    <property name="text" value="Repose toi.;~pp:all;~hp:all"/>
+   </properties>
+  </object>
+  <object id="73" gid="267" x="176" y="272" width="16" height="16">
+   <properties>
+    <property name="exclusive" type="bool" value="false"/>
+    <property name="name" value="Information"/>
+    <property name="text" value="Regarde un peu la table du type Rédacteur !;~infotype:Rédacteur"/>
+   </properties>
+  </object>
+  <object id="74" gid="267" x="240" y="48" width="16" height="16">
+   <properties>
+    <property name="exclusive" type="bool" value="false"/>
+    <property name="name" value="Information"/>
+    <property name="text" value="Regarde un peu la table du type Modérateur !;~infotype:Modérateur"/>
+   </properties>
+  </object>
+  <object id="75" gid="267" x="448" y="176" width="16" height="16">
+   <properties>
+    <property name="exclusive" type="bool" value="false"/>
+    <property name="name" value="Information"/>
+    <property name="text" value="Regarde un peu la table du type Labélisateur !;~infotype:Labélisateur"/>
+   </properties>
+  </object>
+  <object id="76" gid="267" x="64" y="80" width="16" height="16">
+   <properties>
+    <property name="exclusive" type="bool" value="false"/>
+    <property name="name" value="Information"/>
+    <property name="text" value="Regarde un peu la table du type Administrateur !;~infotype:Administrateur"/>
    </properties>
   </object>
  </objectgroup>

@@ -217,6 +217,13 @@ void reset_pp(struct Player *player) {
 	wait_for_input(KEY_SHIFT);
 }
 
+void reset_hp(struct Player *player) {
+	player->stats.pv = player->stats.max_pv;
+	draw_text(50, DHEIGHT-47, C_BLACK, "Vous regagnez l'ensemble de vos PVs");
+	dupdate();
+	wait_for_input(KEY_SHIFT);
+}
+
 void add_xp(struct Player *player, int xp) {
 	player->stats.xp += xp;
 

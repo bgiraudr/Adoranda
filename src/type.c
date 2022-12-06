@@ -61,6 +61,7 @@ void drawTypeEffects(struct Type type) {
 			if(i==2) dprint(70+100*i, 60+20*j, C_BLACK, "%s", getTypeFromId(type.null[j]).name);
 		}
 	}
+	drect(0, DHEIGHT-20, DWIDTH, DHEIGHT, type.color);
 	dupdate();
-	wait_for_input(KEY_SHIFT);
+	wait_for_input(KEY_EXIT);
 }

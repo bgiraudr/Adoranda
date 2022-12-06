@@ -42,8 +42,8 @@ void engine_draw_map(struct Game const *game) {
 	const int y_offset = (game->camera.offset.y - DHEIGHT/2);
 	const int tileset_size = game->map->tileset_size;
 
-	for (int y = 1 ; y <= DHEIGHT / TILE_SIZE-1; y++) {
-		for (int x = 1 ; x <= DWIDTH / TILE_SIZE; x++) {
+	for (int y = 0 ; y <= DHEIGHT / TILE_SIZE; y++) {
+		for (int x = 0 ; x <= DWIDTH / TILE_SIZE; x++) {
 			for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
 				unsigned int tile_id = 0;
 				//detect if the map is oob
@@ -137,11 +137,11 @@ void engine_action(struct Game *game, int action) {
 		add_move(game->player, get_move_id(3));*/
 		open_inventory(game, &game->player->inventory, "Consultation", true);
 	}
-	if(action == ACTION_F2) {
-		//add_item_to_inventory(game, &game->player->inventory, get_item_id(1));
-		// srand(game->player->pos.x * game->player->pos.y);
-		drawTypeEffects(getTypeFromId(rand_range(1,5)));
-	}
+	// if(action == ACTION_F2) {
+	// 	//add_item_to_inventory(game, &game->player->inventory, get_item_id(1));
+	// 	// srand(game->player->pos.x * game->player->pos.y);
+	// 	drawTypeEffects(getTypeFromId(rand_range(1,5)));
+	// }
 	if(action == ACTION_OPTN) {
 		draw_stats(game->player->stats);
 		draw_player_moves(game->player);

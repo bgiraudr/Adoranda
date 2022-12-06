@@ -67,3 +67,4 @@ int get_nb_eventdialog(struct Player *player);
 bool check_eventdialog(struct Player *player, int id);
 void player_step_back(struct Player *player);
 bool has_pp_left(struct Player *player);
+void reset_hp(struct Player *player);
