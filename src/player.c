@@ -203,7 +203,7 @@ void draw_ui(struct Player *player, int curr_select) {
 	int index = get_nb_moves(player);
 
 	for(int i = 0; i < index; i++) {
-		draw_special_move(2+132*i,DHEIGHT-70, player->moves[i], i == curr_select);
+		draw_special_move(2+132*i,DHEIGHT-65, player->moves[i], i == curr_select);
 	}
 }
 

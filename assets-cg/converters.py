@@ -332,6 +332,8 @@ def convert_monster(input, output, params, target):
 		monster = fxconv.Structure()
 		monster += fxconv.string(data["name"])
 		monster += fxconv.ptr(f"img_{data['sprite']}")
+		monster += fxconv.u32(data["sprite_x"])
+		monster += fxconv.u32(data["sprite_y"])
 		monster += fxconv.u32(data["id"])
 		monster += fxconv.u32(len(data["moves"]))
 		monster += fxconv.ptr(stats)

@@ -1,6 +1,9 @@
 {
-	"name":"Citron",
+	"name":"Banane",
 	"sprite":"test2",
+	"sprite_x":109,
+	"sprite_y":111,
+
 	"id":2,
 	"type":"Modérateur",
 	"stats":{

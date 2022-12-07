@@ -1,6 +1,9 @@
 {
 	"name":"test",
 	"sprite":"test",
+	"sprite_x":100,
+	"sprite_y":85,
+
 	"id":1,
 	"type":"Labélisateur",
 	"stats":{

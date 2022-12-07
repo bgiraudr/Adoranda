@@ -9,6 +9,8 @@
 struct Monster {
 	char *name;
 	bopti_image_t *sprite;
+	int sprite_x;
+	int sprite_y;
 	int id;
 	int nbMoves;
 	struct Stats *stats;

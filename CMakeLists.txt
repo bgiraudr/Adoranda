@@ -58,9 +58,11 @@ set(ASSETS_cg
 	assets-cg/tileset.png
 	assets-cg/inventory.png
 	assets-cg/categories.png
+	assets-cg/contours.png
 	assets-cg/dialogue.png
 	assets-cg/capacite.png
 	assets-cg/battle_ui.png
+	assets-cg/battle_env_1.png
 	assets-cg/maps/inside/tileset_in.png
 	assets-cg/maps/testCarte.json
 	assets-cg/maps/1.json

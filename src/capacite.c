@@ -52,10 +52,11 @@ struct Move *copy_move(struct Move move) {
 void draw_move(int x, int y, int x2, int y2, struct Move *move, int selected) {
 	extern bopti_image_t img_capacite;
 	extern bopti_image_t img_categories;
+	extern bopti_image_t img_contours;
 
 	const int font_size = 8;
-	if(!selected) draw_change_one_color(x, y, &img_capacite, 0xE6D6, getTypeFromName(move->type).color);
-	else draw_change_one_color(x, y, &img_capacite, 0xE6D6, 0x0FE0);
+	draw_change_one_color(x, y, &img_capacite, 0xE6D6, getTypeFromName(move->type).color);
+	if(selected) dimage(x, y, &img_contours);
 	dsubimage(x+96, y+7, &img_categories, 20*move->categorie, 0, 20, 10, DIMAGE_NONE);
 
 	int color = move->pp > 0 ? C_BLACK : C_RED;

@@ -82,6 +82,9 @@ struct Monster *copyMonster(struct Monster *source) {
 	dest->name = source->name;
 	dest->nbMoves = source->nbMoves;
 	dest->sprite = source->sprite;
+	dest->sprite_x = source->sprite_x;
+	dest->sprite_y = source->sprite_y;
+	
 	dest->id = source->id;
 	
 	dest->moves = malloc(dest->nbMoves * sizeof *source->moves);

@@ -26,10 +26,10 @@ void engine_draw(struct Game const *game) {
 	dclear(game->background);
 	engine_draw_map(game);
 	engine_draw_player(game);
-	drect(0,0,DWIDTH,20,C_BLACK);
+	/*drect(0,0,DWIDTH,20,C_BLACK);
 	drect(0,DHEIGHT-20,DWIDTH,DHEIGHT,C_BLACK);
 	drect(0,0,20,DHEIGHT,C_BLACK);
-	drect(DWIDTH-20,0,DWIDTH,DHEIGHT,C_BLACK);
+	drect(DWIDTH-20,0,DWIDTH,DHEIGHT,C_BLACK);*/
 	
 	dprint(1,1,C_WHITE,"%d:%d",game->player->pos.x, game->player->pos.y);
 	dprint(1,20,C_WHITE,"%d",game->player->sprint);
@@ -43,7 +43,7 @@ void engine_draw_map(struct Game const *game) {
 	const int tileset_size = game->map->tileset_size;
 
 	for (int y = 0 ; y <= DHEIGHT / TILE_SIZE; y++) {
-		for (int x = 0 ; x <= DWIDTH / TILE_SIZE; x++) {
+		for (int x = 0 ; x <= DWIDTH / TILE_SIZE+1; x++) {
 			for (int layer = 0 ; layer < game->map->nb_layers; layer++) {
 				unsigned int tile_id = 0;
 				//detect if the map is oob
