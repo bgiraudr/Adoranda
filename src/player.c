@@ -54,7 +54,7 @@ struct Player init_player(void) {
 		.anim.dir = DIR_DOWN
 	};
 	player.idle = !anim_player_idle(&player.anim, 1);
-	player.moves[0] = copy_move(get_move_id(0));
+	player.moves[0] = copy_move(get_move_id(1));
 	player.moves[1] = copy_move(get_move_id(4));
 
 	set_stats_level_from(&player.base_stats, &player.stats);

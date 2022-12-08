@@ -14,6 +14,8 @@ struct Move {
 	//self effect (%)
 	int boost_atk;
 	int boost_def;
+    int boost_spe_atk;
+    int boost_spe_def;
 	int boost_hp;
 };
 
@@ -25,10 +27,7 @@ struct Capacities {
 enum status {
 	MISS,
 	SUCCESS,
-	HEAL,
-	ATK,
-	DEF,
-	MULTIPLE,
+    EFFECT,
 	SUPER_EFFECTIVE,
 	LESS_EFFECTIVE,
 	NOT_EFFECTIVE
@@ -51,6 +50,6 @@ struct Move *get_move_id_pointer(int id);
 float crit(struct Stats *attacker);
 int is_crit();
 int is_miss(struct Move *move);
-int self_effect(struct Stats *stats, struct Move *move);
+void self_effect(struct Stats *stats, struct Move *move);
 float stab(char *type, char *move);
 void draw_special_move(int x, int y, struct Move *move, int selected);

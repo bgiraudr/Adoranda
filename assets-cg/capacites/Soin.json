@@ -5,6 +5,8 @@
 	"type":"Rédacteur",
 	"pp":100,
 	"boost_atk":15,
-	"boost_hp":15,
-	"boost_def":15
+	"boost_spe_atk":0,
+	"boost_spe_def":0,
+	"boost_def":15,
+	"boost_hp":15
 }

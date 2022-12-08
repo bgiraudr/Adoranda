@@ -44,6 +44,8 @@ struct Move *copy_move(struct Move move) {
 	copyMove->precision = move.precision;
 	copyMove->boost_atk = move.boost_atk;
 	copyMove->boost_def = move.boost_def;
+    copyMove->boost_spe_atk = move.boost_spe_atk;
+    copyMove->boost_spe_def = move.boost_spe_def;
 	copyMove->boost_hp = move.boost_hp;
 
 	return copyMove;
@@ -91,27 +93,29 @@ int execute_move(struct Stats *player_stats, struct Stats *monster_stats, struct
 			return MISS;
 		}
 
-		float typeEffect;
+		float typeEffect = ismonster ?
+                           getTypeEffect(getTypeFromName(move->type), getTypeFromName(player_stats->type)) :
+                           getTypeEffect(getTypeFromName(move->type), getTypeFromName(monster_stats->type));
+
 		if(ismonster) {
 			player_stats->pv-=calc_damage(monster_stats, player_stats, move);
-			typeEffect = getTypeEffect(getTypeFromName(move->type), getTypeFromName(player_stats->type));
 		} else {
 			move->pp--;
 			monster_stats->pv-=calc_damage(player_stats, monster_stats, move);
-			typeEffect = getTypeEffect(getTypeFromName(move->type), getTypeFromName(monster_stats->type));
 		}
 
 		if(typeEffect == 2)	return SUPER_EFFECTIVE;
 		if(typeEffect == 0.5) return LESS_EFFECTIVE;
 		if(typeEffect == 0)	return NOT_EFFECTIVE;
 	} else {
-		if(ismonster) {
+        return EFFECT;
+		/*if(ismonster) {
 			return self_effect(monster_stats, move);
 		} else {
 			move->pp--;
 			return self_effect(player_stats, move);	
 		}
-		return HEAL;
+		return HEAL;*/
 	}
 	return SUCCESS;
 }
@@ -159,15 +163,12 @@ int is_miss(struct Move *move) {
 	return rand_range(0, 101) > move->precision;
 }
 
-int self_effect(struct Stats *stats, struct Move *move) {
+void self_effect(struct Stats *stats, struct Move *move) {
 	stats->pv += stats->max_pv * move->boost_hp/100;
 	stats->atk *= (float)(100+move->boost_atk)/100;
 	stats->def *= (float)(100+move->boost_def)/100;
+    stats->spe_atk *= (float)(100+move->boost_spe_atk)/100;
+    stats->spe_def *= (float)(100+move->boost_spe_def)/100;
 
 	if(stats->pv > stats->max_pv) stats->pv = stats->max_pv;
-
-	if((move->boost_hp > 0 && move->boost_atk > 0) ||
-	(move->boost_hp > 0 && move->boost_def > 0) ||
-	(move->boost_atk > 0 && move->boost_def > 0)) return MULTIPLE;
-	return move->boost_hp > 0 ? HEAL : move->boost_atk > 0 ? ATK : DEF;
 }

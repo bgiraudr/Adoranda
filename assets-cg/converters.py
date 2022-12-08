@@ -296,6 +296,8 @@ def convert_capa(input, output, params, target):
 				move += fxconv.u32(0) + fxconv.u32(100)
 				move += fxconv.u32(data["boost_atk"])
 				move += fxconv.u32(data["boost_def"])
+				move += fxconv.u32(data["boost_spe_atk"])
+				move += fxconv.u32(data["boost_spe_def"])
 				move += fxconv.u32(data["boost_hp"])
 		except KeyError:
 			raise Exception(f"convert_capa() : La capacité {data['name']} est mal configurée")

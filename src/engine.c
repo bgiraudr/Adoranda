@@ -58,8 +58,8 @@ void engine_draw_map(struct Game const *game) {
 					unsigned int tile_x = TILE_SIZE * (tile_id % tileset_size);
 					unsigned int tile_y = TILE_SIZE * (tile_id / tileset_size);
 
-					dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE, 
-						y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset, 
+					dsubimage(x * TILE_SIZE - x_offset%TILE_SIZE,
+						y * TILE_SIZE - y_offset%TILE_SIZE, game->map->tileset,
 						tile_x, tile_y, TILE_SIZE, TILE_SIZE, DIMAGE_NONE);
 				}
 			}

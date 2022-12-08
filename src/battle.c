@@ -2,6 +2,8 @@
 #include <gint/keyboard.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 #include "engine.h"
 #include "battle.h"
@@ -41,7 +43,7 @@ int battle(struct Player *player, struct Monster *monster) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		status = execute_move(&player->stats, monster->stats, player->moves[selection], 0);
-		check_move_status(status, player, monster, 0);
+		check_move_status(status, player, monster, player->moves[selection], 0);
 
 		draw_battle(player, monster);
 
@@ -57,7 +59,7 @@ int battle(struct Player *player, struct Monster *monster) {
 		dupdate();
 		wait_for_input(KEY_SHIFT);
 		status = execute_move(&player->stats, monster->stats, monster_move, 1);
-		check_move_status(status, player, monster, 1);
+		check_move_status(status, player, monster, monster_move, 1);
 
 		if(player->stats.pv <= 0) {
 			return LOSE;
@@ -70,37 +72,49 @@ int battle(struct Player *player, struct Monster *monster) {
 	return LOSE;
 }
 
-void check_move_status(int status, struct Player *player, struct Monster *monster, int is_monster) {
+void check_move_status(int status, struct Player *player, struct Monster *monster, struct Move *move, int is_monster) {
 	char *name = is_monster ? monster->name : "Player";
 	if(status != SUCCESS) {
 		draw_battle(player, monster);
 
-		switch(status){
-			case MISS:
-				draw_status(name, "rate son attaque !");
-				break;
-			case HEAL:
-				draw_status(name, "regagne des PVs !");
-				break;
-			case ATK:
-				draw_status(name, "améliore son attaque !");
-				break;
-			case DEF:
-				draw_status(name, "améliore sa défense !");
-				break;
-			case MULTIPLE:
-				draw_status(name, "améliore ses statistiques !");
-				break;
-			case SUPER_EFFECTIVE:
-				draw_status(name, "utilise une attaque super efficace !");
-				break;
-			case LESS_EFFECTIVE:
-				draw_status(name, "utilise une attaque peu efficace");
-				break;
-			case NOT_EFFECTIVE:
-				draw_status(name, "utilise une attaque non efficace...");
-				break;
-		}
+        if(status == EFFECT) {
+            char *boost_strings[5] = {"", "", "", "", ""};
+            int boost_count = 0;
+
+            if(move->boost_spe_atk > 0) boost_strings[boost_count++] = "son attaque spéciale";
+            if(move->boost_spe_def > 0) boost_strings[boost_count++] = "sa défense spéciale";
+            if(move->boost_atk > 0) boost_strings[boost_count++] = "son attaque";
+            if(move->boost_def > 0) boost_strings[boost_count++] = "sa défense";
+            if(move->boost_hp > 0) boost_strings[boost_count++] = "ses points de vie";
+
+            if(boost_count > 0) {
+                char boost_message[128] = "augmente ";
+                for(int i = 0; i < boost_count; i++) {
+                    if(i > 0) sprintf(boost_message + strlen(boost_message), (i == boost_count - 1) ? " et " : ", ");
+                    sprintf(boost_message + strlen(boost_message), "%s", boost_strings[i]);
+                }
+                sprintf(boost_message + strlen(boost_message), " !");
+                draw_status(name, boost_message);
+
+                if(is_monster) self_effect(monster->stats, move);
+                else self_effect(&player->stats, move);
+            }
+        } else {
+            switch (status) {
+                case MISS:
+                    draw_status(name, "rate son attaque !");
+                    break;
+                case SUPER_EFFECTIVE:
+                    draw_status(name, "utilise une attaque super efficace !");
+                    break;
+                case LESS_EFFECTIVE:
+                    draw_status(name, "utilise une attaque peu efficace");
+                    break;
+                case NOT_EFFECTIVE:
+                    draw_status(name, "utilise une attaque inefficace sur le type adverse !");
+                    break;
+            }
+        }
 		
 		dupdate();
 		wait_for_input(KEY_SHIFT);
